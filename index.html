@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HÓOL | Ingeniería de la Voluntad</title>
+    <link href="https://fonts.googleapis.com/css2?family=Anton&family=Arimo:wght@400;700&family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        hoolYellow: '#fed852',
+                        hoolGreen: '#7ed957',
+                        hoolGrey: '#e1e1e1',
+                    },
+                    fontFamily: {
+                        anton: ['Anton', 'sans-serif'],
+                        arimo: ['Arimo', 'sans-serif'],
+                        roboto: ['Roboto', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .parallax { background-attachment: fixed; background-position: center; background-size: cover; }
+        .glass { background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.2); }
+        .horizontal-plane { height: 2px; background: #7ed957; width: 0; transition: width 1s ease-out; }
+    </style>
+</head>
+<body class="bg-black text-white font-roboto overflow-x-hidden">
+
+    <nav class="fixed w-full z-50 glass py-4 px-8 flex justify-between items-center">
+        <div class="flex items-center gap-2">
+            <img src="HÓOL_SOL_ACT2_1P Cartel.png" alt="Logo" class="h-10 w-auto">
+            <span class="font-anton text-2xl tracking-widest">HÓOL</span>
+        </div>
+        <div class="hidden md:flex gap-8 font-arimo uppercase text-sm tracking-tighter">
+            <a href="#inicio" class="hover:text-hoolGreen transition">Inicio</a>
+            <a href="#sobre-nosotros" class="hover:text-hoolGreen transition">Nosotros</a>
+            <a href="#servicios" class="hover:text-hoolGreen transition">Impacto</a>
+            <a href="#contacto" class="hover:text-hoolGreen transition">Contacto</a>
+        </div>
+        <div id="auth-section" class="font-arimo">
+            <button onclick="toggleModal('login-modal')" class="bg-hoolYellow text-black px-6 py-2 rounded-full font-bold hover:scale-105 transition">Entrar</button>
+        </div>
+    </nav>
+
+    <section id="inicio" class="relative h-screen flex items-center justify-center overflow-hidden">
+        <div class="absolute inset-0 z-0 parallax" style="background-image: url('HÓOL_SOL_ACT2_1P Cartel (1).jpg'); opacity: 0.4;"></div>
+        <div class="z-10 text-center px-4" data-aos="zoom-out" data-aos-duration="2000">
+            <h1 class="font-anton text-7xl md:text-9xl mb-4 tracking-wider text-hoolYellow">HÓOL</h1>
+            <p class="font-arimo text-xl md:text-2xl uppercase tracking-[0.5em] text-hoolGreen">Tú como el centro del cambio</p>
+            <div class="mt-8 flex justify-center">
+                <div class="horizontal-plane" id="plane-trigger"></div>
+            </div>
+        </div>
+    </section>
+
+    <section class="py-24 px-8 bg-white text-black relative">
+        <div class="max-w-7xl mx-auto grid md:grid-cols-2 gap-12 items-center">
+            <div data-aos="fade-right">
+                <h2 class="font-anton text-5xl mb-6">INGENIERÍA DE LA <br><span class="text-hoolGreen">VOLUNTAD</span></h2>
+                <p class="text-lg leading-relaxed text-gray-700">
+                    No somos una red de apoyo; somos una central de recursos técnicos. Transformamos la pasión tecnológica de jóvenes entre 17 y 29 años en infraestructura urbana y soluciones socioambientales reales.
+                </p>
+            </div>
+            <div class="grid grid-cols-2 gap-4" data-aos="fade-left">
+                <div class="p-6 bg-hoolGrey border-l-4 border-hoolYellow">
+                    <h3 class="font-bold text-3xl">75%</h3>
+                    <p class="text-xs uppercase font-arimo">Eficiencia técnica</p>
+                </div>
+                <div class="p-6 bg-black text-white">
+                    <h3 class="font-bold text-3xl text-hoolGreen">+1k</h3>
+                    <p class="text-xs uppercase font-arimo">Mentes brillantes</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="sobre-nosotros" class="py-24 bg-hoolGrey text-black overflow-hidden">
+        <div class="container mx-auto px-8 flex flex-col md:flex-row gap-16 items-center">
+            <div class="md:w-1/2 relative" data-aos="fade-up">
+                <div class="absolute -top-4 -left-4 w-full h-full border-2 border-hoolGreen z-0"></div>
+                <img src="HÓOL_SOL_ACT2_1P Cartel (1).jpg" alt="Innovación" class="relative z-10 grayscale hover:grayscale-0 transition duration-700">
+            </div>
+            <div class="md:w-1/2" data-aos="fade-left">
+                <span class="text-hoolGreen font-bold tracking-widest uppercase text-sm">Nuestra Esencia</span>
+                <h2 class="font-anton text-5xl mt-2 mb-8 uppercase">El puente entre la apatía y el código</h2>
+                <p class="mb-6 font-roboto font-light text-xl">
+                    Inspirados en la soberanía tecnológica, <strong>HOOL</strong> (Hope + Óol) es el ecosistema donde el 3D, el desarrollo en Unity y el urbanismo táctico convergen para hackear el futuro de nuestras ciudades.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <section id="servicios" class="py-24 bg-black">
+        <div class="container mx-auto px-8">
+            <h2 class="font-anton text-4xl mb-16 text-center tracking-widest">EJES DE ACCIÓN</h2>
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="group p-8 border border-white/10 hover:border-hoolGreen transition-all duration-500" data-aos="flip-left">
+                    <div class="w-12 h-12 bg-hoolGreen mb-6 group-hover:rotate-45 transition"></div>
+                    <h3 class="font-anton text-2xl mb-4">URBANISMO TÁCTICO</h3>
+                    <p class="text-gray-400 font-light">Diseño y prototipado de espacios públicos resilientes mediante entornos virtuales de alta fidelidad.</p>
+                </div>
+                <div class="group p-8 border border-white/10 hover:border-hoolYellow transition-all duration-500" data-aos="flip-left" data-aos-delay="200">
+                    <div class="w-12 h-12 bg-hoolYellow mb-6 group-hover:scale-110 transition"></div>
+                    <h3 class="font-anton text-2xl mb-4">ACCION SOCIOAMBIENTAL</h3>
+                    <p class="text-gray-400 font-light">Implementación de tecnologías limpias y regeneración de ecosistemas urbanos mediante ingeniería avanzada.</p>
+                </div>
+                <div class="group p-8 border border-white/10 hover:border-white transition-all duration-500" data-aos="flip-left" data-aos-delay="400">
+                    <div class="w-12 h-12 bg-white mb-6 group-hover:-translate-y-2 transition"></div>
+                    <h3 class="font-anton text-2xl mb-4">SOBERANÍA TECH</h3>
+                    <p class="text-gray-400 font-light">Empoderamiento de la élite creativa juvenil para el desarrollo de software de impacto social.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="contacto" class="py-24 bg-white text-black">
+        <div class="max-w-4xl mx-auto px-8">
+            <div class="text-center mb-12">
+                <h2 class="font-anton text-5xl">¿ERES UNA MENTE CREATIVA?</h2>
+                <p class="text-hoolGreen font-bold mt-4">Únete a la cadena de asociados de HÓOL</p>
+            </div>
+            <form class="space-y-6" onsubmit="event.preventDefault(); alert('Mensaje enviado a la red HÓOL');">
+                <div class="grid md:grid-cols-2 gap-6">
+                    <input type="text" placeholder="NOMBRE" class="w-full border-b-2 border-black p-3 focus:outline-none focus:border-hoolGreen uppercase font-arimo">
+                    <input type="email" placeholder="EMAIL" class="w-full border-b-2 border-black p-3 focus:outline-none focus:border-hoolGreen uppercase font-arimo">
+                </div>
+                <textarea rows="4" placeholder="IDEA O PROYECTO" class="w-full border-b-2 border-black p-3 focus:outline-none focus:border-hoolGreen uppercase font-arimo"></textarea>
+                <button class="w-full bg-black text-white py-4 font-anton text-xl hover:bg-hoolGreen transition">ENVIAR PROPUESTA</button>
+            </form>
+        </div>
+    </section>
+
+    <div id="login-modal" class="fixed inset-0 z-[60] hidden flex items-center justify-center bg-black/90 px-4">
+        <div class="glass p-8 max-w-md w-full border-t-4 border-hoolYellow">
+            <h2 class="font-anton text-3xl mb-6 text-center">ACCESO HÓOL</h2>
+            <div class="space-y-4">
+                <input id="user-input" type="text" placeholder="USUARIO" class="w-full bg-transparent border-b border-white p-3 focus:outline-none text-white">
+                <input id="pass-input" type="password" placeholder="CONTRASEÑA" class="w-full bg-transparent border-b border-white p-3 focus:outline-none text-white">
+                <div class="flex gap-4 mt-6">
+                    <button onclick="handleAuth('login')" class="flex-1 bg-hoolYellow text-black font-bold py-2">LOG IN</button>
+                    <button onclick="handleAuth('register')" class="flex-1 border border-white text-white font-bold py-2">REGISTRO</button>
+                </div>
+                <button onclick="toggleModal('login-modal')" class="w-full text-xs text-gray-500 mt-4 underline">CANCELAR</button>
+            </div>
+        </div>
+    </div>
+
+    <footer class="py-12 bg-black border-t border-white/10 text-center">
+        <img src="HÓOL_SOL_ACT2_1P Cartel.png" class="h-8 mx-auto mb-4" alt="">
+        <p class="text-gray-600 text-xs tracking-widest font-arimo uppercase">HÓOL © 2026 | Ingeniería para la voluntad</p>
+    </footer>
+
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
