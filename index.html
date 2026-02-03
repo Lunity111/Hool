@@ -4,9 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>HÓOL | Ingeniería de la Voluntad</title>
+    
     <link href="https://fonts.googleapis.com/css2?family=Anton&family=Arimo:wght@400;700&family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+    
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    
     <script>
         tailwind.config = {
             theme: {
@@ -25,10 +28,16 @@
             }
         }
     </script>
+
     <style>
         body { background-color: #000; color: #fff; overflow-x: hidden; }
         
-        /* Intro Layers Styling */
+        /* Efectos Parallax y Estilo Antiguo */
+        .parallax { background-attachment: fixed; background-position: center; background-size: cover; }
+        .glass { background: rgba(0, 0, 0, 0.6); backdrop-filter: blur(15px); border-bottom: 1px solid rgba(255, 255, 255, 0.1); }
+        .horizontal-plane { height: 2px; background: #7ed957; width: 0; transition: width 1.5s ease-out; }
+
+        /* Capas de Bienvenida (Intro Nueva) */
         #intro-viewport {
             height: 100vh;
             width: 100vw;
@@ -52,166 +61,196 @@
 
         #scroll-hint {
             position: absolute;
-            bottom: 30px;
+            bottom: 40px;
             opacity: 0;
             transition: opacity 1s ease;
-            text-transform: uppercase;
-            letter-spacing: 0.3em;
-            font-size: 0.7rem;
             color: #fed852;
-            z-index: 50;
+            z-index: 60;
+            text-align: center;
         }
-
-        .glass { background: rgba(0, 0, 0, 0.4); backdrop-filter: blur(10px); border-bottom: 1px solid rgba(255, 255, 255, 0.1); }
-        
-        /* Typography adjust */
-        .text-outline { -webkit-text-stroke: 1px #7ed957; color: transparent; }
     </style>
 </head>
 <body class="font-roboto">
 
     <nav class="fixed w-full z-[100] glass py-4 px-8 flex justify-between items-center">
         <div class="flex items-center gap-2">
-            <img src="HÓOL_SOL_ACT2_1P Cartel.png" alt="Logo" class="h-8 w-auto">
-            <span class="font-anton text-xl tracking-widest text-white">HÓOL</span>
+            <img src="HÓOL_SOL_ACT2_1P Cartel.png" alt="Logo" class="h-10 w-auto">
+            <span class="font-anton text-2xl tracking-widest text-white">HÓOL</span>
+        </div>
+        <div class="hidden md:flex gap-8 font-arimo uppercase text-sm tracking-tighter">
+            <a href="#inicio" class="hover:text-hoolGreen transition">Inicio</a>
+            <a href="#narrativa" class="hover:text-hoolGreen transition">Propuesta</a>
+            <a href="#servicios" class="hover:text-hoolGreen transition">Ejes</a>
+            <a href="#contacto" class="hover:text-hoolGreen transition">Unirse</a>
         </div>
         <div id="auth-section" class="font-arimo">
-            <button onclick="toggleModal('login-modal')" class="border border-hoolYellow text-hoolYellow px-6 py-1 rounded-full text-xs hover:bg-hoolYellow hover:text-black transition uppercase">Acceso</button>
+            <button onclick="toggleModal('login-modal')" class="bg-hoolYellow text-black px-6 py-2 rounded-full font-bold hover:scale-105 transition uppercase text-xs">Entrar</button>
         </div>
     </nav>
 
-    <section id="intro-viewport">
-        <div class="layer z-0" style="background-image: url('Capa 0.png');"></div>
-        <div class="layer z-10" style="background-image: url('Capa 2.png');"></div>
-        <div class="layer z-20" style="background-image: url('Capa 1.png');"></div>
-        <div class="layer z-30" style="background-image: url('Capa 3.png');"></div>
-        <div class="layer z-40" style="background-image: url('Capa 4.png');"></div>
+    <section id="inicio">
+        <div id="intro-viewport">
+            <div class="layer z-0" style="background-image: url('Capa 0.png');"></div>
+            <div class="layer z-10" style="background-image: url('Capa 2.png');"></div>
+            <div class="layer z-20" style="background-image: url('Capa 1.png');"></div>
+            <div class="layer z-30" style="background-image: url('Capa 3.png');"></div>
+            <div class="layer z-40" style="background-image: url('Capa 4.png');"></div>
 
-        <div id="scroll-hint" class="font-arimo text-center w-full">
-            <div class="mb-2 animate-bounce">↓</div>
-            Desliza hacia abajo para continuar
+            <div id="scroll-hint" class="font-arimo uppercase tracking-[0.3em] text-xs">
+                <div class="mb-2 animate-bounce">↓</div>
+                Desliza para descubrir el futuro
+            </div>
         </div>
     </section>
 
     <main class="relative z-50 bg-black">
-        
-        <section class="py-32 px-8 max-w-6xl mx-auto">
+
+        <div class="flex justify-center py-10 bg-black">
+            <div class="horizontal-plane" id="plane-trigger"></div>
+        </div>
+
+        <section id="narrativa" class="py-24 px-8 max-w-6xl mx-auto">
             <div class="grid md:grid-cols-2 gap-16 items-center">
                 <div data-aos="fade-right">
                     <span class="text-hoolGreen font-bold tracking-widest text-sm uppercase">De la Voluntad al Territorio</span>
-                    <h2 class="font-anton text-5xl md:text-6xl mt-4 leading-none">LA PREGUNTA <br><span class="text-hoolYellow uppercase">INCÓMODA.</span></h2>
+                    <h2 class="font-anton text-5xl md:text-7xl mt-4 leading-none">LA PREGUNTA <br><span class="text-hoolYellow uppercase italic">INCÓMODA.</span></h2>
                 </div>
-                <div data-aos="fade-left" class="border-l border-hoolGreen pl-8">
+                <div data-aos="fade-left" class="border-l-2 border-hoolGreen pl-8 space-y-4">
                     <p class="text-gray-400 text-lg">
-                        ¿Por qué las ciudades mexicanas más productivas siguen exportando talento en lugar de retenerlo? ¿Por qué nuestros ingenieros resuelven problemas de Silicon Valley y no los de nuestras calles?
+                        ¿Por qué las ciudades mexicanas más productivas siguen exportando talento en lugar de retenerlo? ¿Por qué nuestros ingenieros más brillantes resuelven problemas ajenos y no los de nuestras propias calles?
                     </p>
-                    <p class="mt-4 text-white font-bold">León es el punto de partida.</p>
+                    <p class="text-white font-bold text-xl uppercase tracking-tighter">León es el punto de partida.</p>
                 </div>
             </div>
         </section>
 
-        <section class="bg-hoolGrey py-24 text-black px-8">
-            <div class="max-w-6xl mx-auto grid md:grid-cols-3 gap-8">
-                <div class="bg-black text-white p-10 flex flex-col justify-between" data-aos="zoom-in">
-                    <h3 class="font-anton text-4xl text-hoolGreen">75%</h3>
-                    <p class="font-arimo text-sm uppercase mt-4">Jóvenes sufren de eco-ansiedad y apatía política.</p>
+        <section class="bg-white py-24 text-black px-8">
+            <div class="max-w-7xl mx-auto grid md:grid-cols-3 gap-8">
+                <div class="bg-black text-white p-12 flex flex-col justify-between" data-aos="zoom-in">
+                    <h3 class="font-anton text-6xl text-hoolGreen">75%</h3>
+                    <p class="font-arimo text-xs uppercase mt-6 tracking-widest">Jóvenes sufren de eco-ansiedad y apatía política.</p>
                 </div>
-                <div class="col-span-2 p-10" data-aos="fade-up">
-                    <h2 class="font-anton text-4xl mb-6">DESCONEXIÓN SISTÉMICA</h2>
-                    <p class="text-xl leading-relaxed">
-                        México tiene 12 millones de jóvenes con formación técnica. El problema no es la falta de ideas, es la ausencia de plataformas que conviertan la inquietud en **acción tangible**.
+                <div class="col-span-2 p-12 bg-hoolGrey" data-aos="fade-up">
+                    <h2 class="font-anton text-5xl mb-6 uppercase">Desconexión Sistémica</h2>
+                    <p class="text-xl leading-relaxed text-gray-800">
+                        México tiene 12 millones de jóvenes con formación técnica. HOOL nace para eliminar la sensación de impotencia. Somos la plataforma que convierte la inquietud en **acción tangible**.
                     </p>
+                    <div class="mt-8 grid grid-cols-2 gap-4">
+                        <div class="border-l-4 border-hoolGreen pl-4">
+                            <span class="block font-anton text-2xl">+1K</span>
+                            <span class="text-xs uppercase">Mentes Inquietas</span>
+                        </div>
+                        <div class="border-l-4 border-hoolYellow pl-4">
+                            <span class="block font-anton text-2xl">I+D</span>
+                            <span class="text-xs uppercase">Soberanía Tech</span>
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>
 
-        <section class="py-32 px-8">
-            <h2 class="font-anton text-center text-5xl mb-20 tracking-tighter">INFRAESTRUCTURA DE LA <span class="text-hoolYellow">VOLUNTAD</span></h2>
-            <div class="grid md:grid-cols-3 gap-12 max-w-7xl mx-auto">
-                <div class="border-t border-hoolGreen pt-8" data-aos="fade-up" data-aos-delay="100">
-                    <h4 class="font-anton text-2xl mb-4">I+D APLICADA</h4>
-                    <p class="text-gray-400 text-sm">Desde TI hasta ingeniería urbana y desarrollo sostenible. Eliminamos la sensación de impertinencia con la realidad.</p>
-                </div>
-                <div class="border-t border-hoolGreen pt-8" data-aos="fade-up" data-aos-delay="200">
-                    <h4 class="font-anton text-2xl mb-4">CAPITAL CONVERGENTE</h4>
-                    <p class="text-gray-400 text-sm">Modelo híbrido: Gobierno local + Capital Privado + Fondos de Impacto. Garantizamos ejecución, no intención.</p>
-                </div>
-                <div class="border-t border-hoolGreen pt-8" data-aos="fade-up" data-aos-delay="300">
-                    <h4 class="font-anton text-2xl mb-4">ACCIÓN TERRITORIAL</h4>
-                    <p class="text-gray-400 text-sm">Lo que se diseña aquí, se implementa aquí. Conectamos talento inquieto con problemas inmediatos.</p>
+        <section id="servicios" class="py-32 px-8 bg-black">
+            <div class="container mx-auto">
+                <h2 class="font-anton text-5xl mb-20 text-center tracking-[0.2em]">RED DE ACCIÓN TERRITORIAL</h2>
+                <div class="grid md:grid-cols-3 gap-10">
+                    <div class="group p-10 border border-white/10 hover:border-hoolGreen transition-all duration-500 bg-zinc-900/50" data-aos="flip-left">
+                        <div class="w-14 h-14 bg-hoolGreen mb-8 group-hover:rotate-45 transition-transform duration-500"></div>
+                        <h3 class="font-anton text-2xl mb-4">URBANISMO TÁCTICO</h3>
+                        <p class="text-gray-400 font-light text-sm">Diseño de espacios públicos resilientes. Lo que diseñamos aquí se implementa aquí.</p>
+                    </div>
+                    <div class="group p-10 border border-white/10 hover:border-hoolYellow transition-all duration-500 bg-zinc-900/50" data-aos="flip-left" data-aos-delay="200">
+                        <div class="w-14 h-14 bg-hoolYellow mb-8 group-hover:scale-110 transition-transform duration-500"></div>
+                        <h3 class="font-anton text-2xl mb-4">CAPITAL CONVERGENTE</h3>
+                        <p class="text-gray-400 font-light text-sm">Modelo híbrido entre gobierno, capital privado y fondos de impacto.</p>
+                    </div>
+                    <div class="group p-10 border border-white/10 hover:border-white transition-all duration-500 bg-zinc-900/50" data-aos="flip-left" data-aos-delay="400">
+                        <div class="w-14 h-14 bg-white mb-8 group-hover:-translate-y-2 transition-transform duration-500"></div>
+                        <h3 class="font-anton text-2xl mb-4">SOBERANÍA TECH</h3>
+                        <p class="text-gray-400 font-light text-sm">Eliminamos la impertinencia con la realidad a través del desarrollo de software social.</p>
+                    </div>
                 </div>
             </div>
         </section>
 
-        <section class="py-32 bg-white text-black px-8">
-            <div class="max-w-6xl mx-auto grid md:grid-cols-2 gap-24">
+        <section class="py-32 bg-hoolGrey text-black px-8 border-y border-black/5">
+            <div class="max-w-6xl mx-auto grid md:grid-cols-2 gap-20">
                 <div data-aos="fade-right">
-                    <h2 class="font-anton text-6xl mb-6">MISIÓN</h2>
-                    <p class="text-2xl font-light italic border-l-8 border-hoolYellow pl-6">
-                        "Consolidar una red de soberanía tecnológica que transforme la voluntad de las mentes brillantes en infraestructura urbana resiliente, erradicando la apatía generacional a través de la ejecución inmediata."
+                    <h2 class="font-anton text-6xl mb-8 outline-text">MISIÓN</h2>
+                    <p class="text-2xl font-light italic border-l-8 border-hoolGreen pl-6 py-2">
+                        "Consolidar una red de soberanía tecnológica que transforme la voluntad en infraestructura urbana resiliente, erradicando la apatía generacional."
                     </p>
                 </div>
                 <div data-aos="fade-left" class="flex flex-col justify-end text-right">
-                    <h2 class="font-anton text-6xl mb-6">VISIÓN</h2>
-                    <p class="text-2xl font-light uppercase tracking-tighter">
-                        Ser el estándar de innovación sistémica en México para 2030, replicando nuestro modelo territorial en cada polo industrial del país.
+                    <h2 class="font-anton text-6xl mb-8">VISIÓN</h2>
+                    <p class="text-2xl font-light uppercase tracking-tighter leading-tight">
+                        Ser el estándar de innovación sistémica en México para 2030, replicando el modelo territorial en cada polo industrial.
                     </p>
-                    <div class="h-1 bg-hoolGreen mt-8 w-24 self-end"></div>
                 </div>
             </div>
         </section>
 
-        <section id="contacto" class="py-24 bg-black text-white border-t border-white/10">
-            <div class="max-w-4xl mx-auto px-8 text-center">
-                <h2 class="font-anton text-5xl mb-4 uppercase">¿Eres una mente inquieta e incómoda?</h2>
-                <p class="text-hoolYellow mb-12 uppercase tracking-widest font-arimo">HOOL es tu plataforma.</p>
-                <form class="space-y-6 text-left" onsubmit="event.preventDefault(); alert('Propuesta registrada en HÓOL');">
-                    <input type="text" placeholder="TU ESPECIALIDAD TECH" class="w-full bg-transparent border-b border-hoolGreen p-4 focus:outline-none">
-                    <button class="w-full bg-hoolYellow text-black py-4 font-anton text-2xl hover:bg-hoolGreen transition">CONSTRUYE EL FUTURO</button>
+        <section id="contacto" class="py-32 bg-white text-black">
+            <div class="max-w-4xl mx-auto px-8">
+                <div class="text-center mb-16">
+                    <h2 class="font-anton text-6xl">¿ERES UNA MENTE INQUIETA?</h2>
+                    <p class="text-hoolGreen font-bold mt-4 tracking-widest uppercase">Únete a la ingeniería de la voluntad.</p>
+                </div>
+                <form class="space-y-8" onsubmit="event.preventDefault(); alert('Propuesta enviada a la red HÓOL');">
+                    <div class="grid md:grid-cols-2 gap-8">
+                        <input type="text" placeholder="NOMBRE" class="w-full border-b-2 border-black p-4 focus:outline-none focus:border-hoolGreen uppercase font-arimo text-lg bg-transparent">
+                        <input type="email" placeholder="EMAIL INSTITUCIONAL" class="w-full border-b-2 border-black p-4 focus:outline-none focus:border-hoolGreen uppercase font-arimo text-lg bg-transparent">
+                    </div>
+                    <textarea rows="4" placeholder="DESCRIBE TU VISIÓN O PROYECTO" class="w-full border-b-2 border-black p-4 focus:outline-none focus:border-hoolGreen uppercase font-arimo text-lg bg-transparent"></textarea>
+                    <button class="w-full bg-black text-white py-6 font-anton text-2xl hover:bg-hoolGreen transition-colors duration-500 shadow-xl">ENVIAR A HÓOL</button>
                 </form>
             </div>
         </section>
+
     </main>
 
     <div id="login-modal" class="fixed inset-0 z-[200] hidden flex items-center justify-center bg-black/95 px-4">
-        <div class="bg-zinc-900 p-8 max-w-md w-full border-t-4 border-hoolGreen">
-            <h2 class="font-anton text-3xl mb-6 text-center text-white">RED HÓOL</h2>
-            <div class="space-y-4">
-                <input id="user-input" type="text" placeholder="USUARIO" class="w-full bg-transparent border-b border-gray-700 p-3 text-white focus:outline-none focus:border-hoolYellow">
-                <input id="pass-input" type="password" placeholder="CLAVE" class="w-full bg-transparent border-b border-gray-700 p-3 text-white focus:outline-none focus:border-hoolYellow">
-                <div class="flex gap-4 pt-4">
-                    <button onclick="handleAuth('login')" class="flex-1 bg-hoolYellow font-bold py-2">LOG IN</button>
-                    <button onclick="handleAuth('register')" class="flex-1 border border-white text-white font-bold py-2">REGISTRO</button>
+        <div class="bg-zinc-900 p-10 max-w-md w-full border-t-4 border-hoolYellow shadow-2xl">
+            <div class="flex justify-center mb-8">
+                <img src="HÓOL_SOL_ACT2_1P Cartel.png" class="h-12" alt="">
+            </div>
+            <h2 class="font-anton text-3xl mb-8 text-center text-white tracking-widest">ACCESO ASOCIADO</h2>
+            <div class="space-y-6">
+                <input id="user-input" type="text" placeholder="USUARIO" class="w-full bg-transparent border-b border-gray-700 p-3 text-white focus:outline-none focus:border-hoolYellow uppercase text-sm">
+                <input id="pass-input" type="password" placeholder="CONTRASEÑA" class="w-full bg-transparent border-b border-gray-700 p-3 text-white focus:outline-none focus:border-hoolYellow uppercase text-sm">
+                <div class="flex gap-4 pt-6">
+                    <button onclick="handleAuth('login')" class="flex-1 bg-hoolYellow text-black font-bold py-3 hover:bg-white transition uppercase text-xs">Entrar</button>
+                    <button onclick="handleAuth('register')" class="flex-1 border border-white text-white font-bold py-3 hover:bg-hoolGreen hover:border-hoolGreen transition uppercase text-xs">Registro</button>
                 </div>
-                <button onclick="toggleModal('login-modal')" class="w-full text-[10px] text-gray-500 mt-4 uppercase tracking-widest">Cerrar</button>
+                <button onclick="toggleModal('login-modal')" class="w-full text-[10px] text-gray-500 mt-6 uppercase tracking-widest hover:text-white transition">Cerrar Ventana</button>
             </div>
         </div>
     </div>
 
+    <footer class="py-16 bg-black border-t border-white/5 text-center">
+        <img src="HÓOL_SOL_ACT2_1P Cartel.png" class="h-8 mx-auto mb-6 opacity-50" alt="">
+        <p class="text-gray-600 text-[10px] tracking-[0.5em] font-arimo uppercase">HÓOL © 2026 | Ingeniería para la voluntad</p>
+    </footer>
+
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
-    
+
     <script>
-        // Inicializar AOS
-        AOS.init();
+        // Inicialización
+        AOS.init({ duration: 1200, once: false });
         gsap.registerPlugin(ScrollTrigger);
 
-        // ANIMACIÓN DE CAPAS (INTRO)
-        const tl = gsap.timeline();
-
-        // Zoom Inicial (3 segundos)
-        tl.from(".layer", {
-            scale: 1.5,
+        // 1. ANIMACIÓN DE INTRO (ZOOM 3S)
+        const introTl = gsap.timeline();
+        introTl.from(".layer", {
+            scale: 1.4,
             duration: 3,
-            ease: "power2.out",
+            ease: "expo.out",
             stagger: 0.1
         });
+        introTl.to("#scroll-hint", { opacity: 1, duration: 1 }, "-=1");
 
-        // Mostrar el mensaje de scroll después del zoom
-        tl.to("#scroll-hint", { opacity: 1, duration: 1 }, "-=1");
-
-        // EFECTO PARALLAX AL SCROLLEAR
+        // 2. PARALLAX DE CAPAS AL SCROLLEAR
         gsap.to(".layer", {
             scrollTrigger: {
                 trigger: "#intro-viewport",
@@ -219,33 +258,66 @@
                 end: "bottom top",
                 scrub: true
             },
-            y: (i) => i * 100, // Cada capa se mueve a distinta velocidad
-            scale: (i) => 1 + (i * 0.05),
+            y: (i) => i * 80, 
+            scale: (i) => 1 + (i * 0.03),
             ease: "none"
         });
 
-        // AUTH LOGIC (Mantenida)
+        // 3. LÍNEA DE CRECIMIENTO (STARK STYLE)
+        gsap.to("#plane-trigger", {
+            width: "300px",
+            scrollTrigger: {
+                trigger: "#plane-trigger",
+                start: "top 80%",
+                toggleActions: "play none none reverse"
+            }
+        });
+
+        // 4. LÓGICA DE USUARIOS (Mantenida de Versión Antigua)
         function toggleModal(id) { document.getElementById(id).classList.toggle('hidden'); }
+
         function handleAuth(type) {
             const user = document.getElementById('user-input').value;
             const pass = document.getElementById('pass-input').value;
-            if (!user || !pass) return alert("Completa los datos");
+            if (!user || !pass) return alert("Ingresa credenciales.");
+
             let users = JSON.parse(localStorage.getItem('hool_users')) || [];
+
             if (type === 'register') {
+                if(users.find(u => u.username === user)) return alert("Usuario ya registrado.");
                 users.push({ username: user, password: pass });
                 localStorage.setItem('hool_users', JSON.stringify(users));
-                alert("Mente creativa registrada.");
+                alert("Mente creativa vinculada con éxito.");
             } else {
                 const valid = users.find(u => u.username === user && u.password === pass);
                 if (valid) {
                     sessionStorage.setItem('active_hool_user', user);
-                    location.reload();
-                } else alert("Error de acceso");
+                    updateUI(user);
+                    toggleModal('login-modal');
+                } else alert("Error de autenticación.");
             }
         }
+
+        function updateUI(username) {
+            const authSection = document.getElementById('auth-section');
+            if (username) {
+                authSection.innerHTML = `
+                    <div class="flex items-center gap-4">
+                        <span class="text-hoolGreen font-bold uppercase text-[10px] tracking-widest">${username}</span>
+                        <button onclick="logout()" class="text-white text-[10px] underline uppercase tracking-tighter opacity-50 hover:opacity-100">Salir</button>
+                    </div>
+                `;
+            }
+        }
+
+        function logout() {
+            sessionStorage.removeItem('active_hool_user');
+            location.reload();
+        }
+
         window.onload = () => {
-            const user = sessionStorage.getItem('active_hool_user');
-            if (user) document.getElementById('auth-section').innerHTML = `<span class="text-hoolGreen text-[10px] font-bold uppercase tracking-widest">${user} (ASOCIADO)</span>`;
+            const activeUser = sessionStorage.getItem('active_hool_user');
+            if (activeUser) updateUI(activeUser);
         };
     </script>
 </body>
