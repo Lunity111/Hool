@@ -60,6 +60,11 @@
             z-index: 60;
             text-align: center;
         }
+        #main-nav { 
+            opacity: 0; 
+            pointer-events: none; 
+            transition: opacity 1.5s ease; 
+        }
     </style>
 </head>
 <body class="font-roboto">
@@ -284,19 +289,20 @@
         const introTl = gsap.timeline();
         introTl.from(".layer", {
             scale: 1.5,
-            duration: 6,
+            duration: 5,
             ease: "expo.out",
             stagger: 0.1
         });
         introTl.to("#scroll-hint", { opacity: 1, duration: 1 }, "-=1");
 
-        //Animación de Nav 
-        / 2. Control Temporizado de la Nav Bar (5 segundos)
+        // Control de aparición de la Nav Bar a los 5 segundos
         setTimeout(() => {
             const nav = document.getElementById('main-nav');
-            nav.style.opacity = '1';
-            nav.style.pointerEvents = 'auto';
-        }, 5000); // 5 segundos exactos
+            if (nav) {
+                nav.style.opacity = '1';
+                nav.style.pointerEvents = 'auto';
+            }
+        }, 5000); // 5000 milisegundos = 5 segundos
 
         // Parallax al Scroll
         gsap.to(".layer", {
