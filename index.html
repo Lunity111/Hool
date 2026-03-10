@@ -31,7 +31,6 @@
         .glass { background: rgba(0, 0, 0, 0.6); backdrop-filter: blur(15px); border-bottom: 1px solid rgba(255, 255, 255, 0.1); }
         .horizontal-plane { height: 2px; background: #7ed957; width: 0; transition: width 1.5s ease-out; }
 
-        /* Estilos Intro de Capas */
         #intro-viewport {
             height: 100vh;
             width: 100vw;
@@ -43,10 +42,8 @@
         }
         .layer {
             position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
             background-size: cover;
             background-position: center;
             will-change: transform;
@@ -60,301 +57,678 @@
             z-index: 60;
             text-align: center;
         }
-        #main-nav { 
-            opacity: 0; 
-            pointer-events: none; 
-            transition: opacity 1.5s ease; 
+        #main-nav { opacity: 0; pointer-events: none; transition: opacity 1.5s ease; }
+
+        /* ── ADMIN PANEL ── */
+        .admin-panel-overlay {
+            position: fixed; inset: 0; z-index: 300;
+            background: rgba(0,0,0,0.97);
+            display: none;
+            overflow-y: auto;
         }
+        .admin-panel-overlay.visible { display: block; }
+
+        .msg-card {
+            border-left: 3px solid #7ed957;
+            background: #111;
+            padding: 1.25rem 1.5rem;
+            margin-bottom: 1rem;
+            transition: border-color .3s;
+        }
+        .msg-card:hover { border-color: #fed852; }
+        .msg-card .msg-date { font-size: 10px; color: #555; letter-spacing: .1em; }
+        .msg-card .msg-name { font-weight: 700; color: #fff; font-size: .9rem; text-transform: uppercase; }
+        .msg-card .msg-email { font-size: .75rem; color: #7ed957; }
+        .msg-card .msg-body { font-size: .85rem; color: #bbb; margin-top: .5rem; line-height: 1.5; }
+
+        /* estado vacío */
+        .empty-state { text-align: center; padding: 4rem 0; color: #444; }
+
+        /* Combinación de teclas indicador visual */
+        #key-hint {
+            position: fixed; bottom: 16px; right: 16px;
+            background: rgba(0,0,0,0.7);
+            border: 1px solid rgba(255,255,255,0.08);
+            color: #333;
+            font-size: 9px;
+            letter-spacing: .15em;
+            padding: 6px 10px;
+            font-family: monospace;
+            z-index: 50;
+            border-radius: 4px;
+            pointer-events: none;
+            user-select: none;
+        }
+
+        /* Toast */
+        #toast {
+            position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(80px);
+            background: #7ed957; color: #000;
+            padding: 12px 28px; font-weight: 700; font-size: .8rem;
+            letter-spacing: .15em; text-transform: uppercase;
+            transition: transform .4s ease, opacity .4s ease;
+            opacity: 0; z-index: 400; pointer-events: none;
+            border-radius: 2px;
+        }
+        #toast.show { transform: translateX(-50%) translateY(0); opacity: 1; }
+        #toast.error { background: #ff4444; color: #fff; }
+
+        /* spinner */
+        .spinner {
+            display: inline-block; width: 16px; height: 16px;
+            border: 2px solid rgba(0,0,0,0.2);
+            border-top-color: #000;
+            border-radius: 50%;
+            animation: spin .6s linear infinite;
+            vertical-align: middle; margin-right: 6px;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
     </style>
 </head>
 <body class="font-roboto">
 
-    <nav id="main-nav" class="fixed w-full z-[100] glass py-4 px-8 flex justify-between items-center">
-        <div class="flex items-center gap-2">
-            <img src="HÓOL_SOL_ACT2_1P Cartel.png" alt="Logo" class="h-10 w-auto">
-            <span class="font-anton text-2xl tracking-widest text-white">HÓOL</span>
-        </div>
-        <div class="hidden md:flex gap-8 font-arimo uppercase text-sm tracking-tighter">
-            <a href="#inicio" class="hover:text-hoolGreen transition">Inicio</a>
-            <a href="#sobre-nosotros" class="hover:text-hoolGreen transition">Nosotros</a>
-            <a href="#servicios" class="hover:text-hoolGreen transition">Impacto</a>
-            <a href="#contacto" class="hover:text-hoolGreen transition">Contacto</a>
-        </div>
-        <div id="auth-section" class="font-arimo">
-            <button onclick="toggleModal('login-modal')" class="bg-hoolYellow text-black px-6 py-2 rounded-full font-bold hover:scale-105 transition uppercase text-xs">Entrar</button>
-        </div>
-    </nav>
+<!-- ═══════════════════════════════════════════════
+     TOAST
+════════════════════════════════════════════════ -->
+<div id="toast"></div>
 
-    <section id="inicio">
-        <div id="intro-viewport">
-            <div class="layer z-0" style="background-image: url('Capa 0.png');"></div>
-            <div class="layer z-10" style="background-image: url('Capa 1.png');"></div>
-            <div class="layer z-20" style="background-image: url('Capa 2.png');"></div>
-            <div class="layer z-30" style="background-image: url('Capa 3.png');"></div>
-            <div class="layer z-40" style="background-image: url('Capa 4.png');"></div>
+<!-- ═══════════════════════════════════════════════
+     INDICADOR TECLAS (solo visible en modo dev)
+════════════════════════════════════════════════ -->
+<div id="key-hint">ADMIN: Ctrl + Shift + H</div>
 
-            <div id="scroll-hint" class="font-arimo uppercase tracking-[0.3em] text-xs">
-                <div class="mb-2 animate-bounce">↓</div>
-                Desliza hacia abajo para continuar
+<!-- ═══════════════════════════════════════════════
+     NAV
+════════════════════════════════════════════════ -->
+<nav id="main-nav" class="fixed w-full z-[100] glass py-4 px-8 flex justify-between items-center">
+    <div class="flex items-center gap-2">
+        <img src="HÓOL_SOL_ACT2_1P Cartel.png" alt="Logo" class="h-10 w-auto">
+        <span class="font-anton text-2xl tracking-widest text-white">HÓOL</span>
+    </div>
+    <div class="hidden md:flex gap-8 font-arimo uppercase text-sm tracking-tighter">
+        <a href="#inicio"         class="hover:text-hoolGreen transition">Inicio</a>
+        <a href="#sobre-nosotros" class="hover:text-hoolGreen transition">Nosotros</a>
+        <a href="#servicios"      class="hover:text-hoolGreen transition">Impacto</a>
+        <a href="#contacto"       class="hover:text-hoolGreen transition">Contacto</a>
+    </div>
+    <div id="auth-section" class="font-arimo">
+        <button onclick="toggleModal('login-modal')"
+            class="bg-hoolYellow text-black px-6 py-2 rounded-full font-bold hover:scale-105 transition uppercase text-xs">
+            Entrar
+        </button>
+    </div>
+</nav>
+
+<!-- ═══════════════════════════════════════════════
+     HERO
+════════════════════════════════════════════════ -->
+<section id="inicio">
+    <div id="intro-viewport">
+        <div class="layer z-0"  style="background-image: url('Capa 0.png');"></div>
+        <div class="layer z-10" style="background-image: url('Capa 1.png');"></div>
+        <div class="layer z-20" style="background-image: url('Capa 2.png');"></div>
+        <div class="layer z-30" style="background-image: url('Capa 3.png');"></div>
+        <div class="layer z-40" style="background-image: url('Capa 4.png');"></div>
+        <div id="scroll-hint" class="font-arimo uppercase tracking-[0.3em] text-xs">
+            <div class="mb-2 animate-bounce">↓</div>
+            Desliza hacia abajo para continuar
+        </div>
+    </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════
+     MAIN CONTENT
+════════════════════════════════════════════════ -->
+<main class="relative z-50 bg-black">
+
+    <section class="py-24 px-8 bg-white text-black relative">
+        <div class="max-w-7xl mx-auto grid md:grid-cols-2 gap-12 items-center">
+            <div data-aos="fade-right">
+                <h2 class="font-anton text-5xl mb-6 uppercase">Ingeniería de la <br><span class="text-hoolGreen">Voluntad</span></h2>
+                <p class="text-lg leading-relaxed text-gray-700">No somos una red de apoyo; somos una central de recursos técnicos. Transformamos la pasión tecnológica de jóvenes entre 17 y 29 años en infraestructura urbana y soluciones socioambientales reales.</p>
+                <div class="mt-8 flex justify-start">
+                    <div class="horizontal-plane" id="plane-trigger"></div>
+                </div>
+            </div>
+            <div class="grid grid-cols-2 gap-4" data-aos="fade-left">
+                <div class="p-8 bg-hoolGrey border-l-4 border-hoolYellow">
+                    <h3 class="font-bold text-4xl">95%</h3>
+                    <p class="text-xs uppercase font-arimo tracking-widest mt-2">Eficiencia Técnica</p>
+                </div>
+                <div class="p-8 bg-black text-white">
+                    <h3 class="font-bold text-4xl text-hoolGreen">+1k</h3>
+                    <p class="text-xs uppercase font-arimo tracking-widest mt-2">Mentes Brillantes</p>
+                </div>
             </div>
         </div>
     </section>
 
-    <main class="relative z-50 bg-black">
-        
-        <section class="py-24 px-8 bg-white text-black relative">
-            <div class="max-w-7xl mx-auto grid md:grid-cols-2 gap-12 items-center">
-                <div data-aos="fade-right">
-                    <h2 class="font-anton text-5xl mb-6 uppercase">Ingeniería de la <br><span class="text-hoolGreen">Voluntad</span></h2>
-                    <p class="text-lg leading-relaxed text-gray-700">
-                        No somos una red de apoyo; somos una central de recursos técnicos. Transformamos la pasión tecnológica de jóvenes entre 17 y 29 años en infraestructura urbana y soluciones socioambientales reales.
-                    </p>
-                    <div class="mt-8 flex justify-start">
-                        <div class="horizontal-plane" id="plane-trigger"></div>
-                    </div>
-                </div>
-                <div class="grid grid-cols-2 gap-4" data-aos="fade-left">
-                    <div class="p-8 bg-hoolGrey border-l-4 border-hoolYellow">
-                        <h3 class="font-bold text-4xl">95%</h3>
-                        <p class="text-xs uppercase font-arimo tracking-widest mt-2">Eficiencia Técnica</p>
-                    </div>
-                    <div class="p-8 bg-black text-white">
-                        <h3 class="font-bold text-4xl text-hoolGreen">+1k</h3>
-                        <p class="text-xs uppercase font-arimo tracking-widest mt-2">Mentes Brillantes</p>
-                    </div>
-                </div>
+    <section class="py-32 px-8 max-w-6xl mx-auto">
+        <div class="grid md:grid-cols-2 gap-16 items-center">
+            <div data-aos="fade-right">
+                <span class="text-hoolGreen font-bold tracking-widest text-sm uppercase">De la Voluntad al Territorio</span>
+                <h2 class="font-anton text-5xl md:text-7xl mt-4 leading-none">LA PREGUNTA <br><span class="text-hoolYellow uppercase italic">INCÓMODA.</span></h2>
             </div>
-        </section>
-
-        <section class="py-32 px-8 max-w-6xl mx-auto">
-            <div class="grid md:grid-cols-2 gap-16 items-center">
-                <div data-aos="fade-right">
-                    <span class="text-hoolGreen font-bold tracking-widest text-sm uppercase">De la Voluntad al Territorio</span>
-                    <h2 class="font-anton text-5xl md:text-7xl mt-4 leading-none">LA PREGUNTA <br><span class="text-hoolYellow uppercase italic">INCÓMODA.</span></h2>
-                </div>
-                <div data-aos="fade-left" class="border-l-2 border-hoolGreen pl-8 space-y-4">
-                    <p class="text-gray-400 text-lg">
-                        ¿Por qué las ciudades mexicanas más productivas siguen exportando talento en lugar de retenerlo? ¿Por qué nuestros ingenieros resuelven problemas de Silicon Valley y no los de nuestras calles?
-                    </p>
-                    <p class="text-white font-bold text-xl uppercase tracking-tighter">León es el punto de partida.</p>
-                </div>
+            <div data-aos="fade-left" class="border-l-2 border-hoolGreen pl-8 space-y-4">
+                <p class="text-gray-400 text-lg">¿Por qué las ciudades mexicanas más productivas siguen exportando talento en lugar de retenerlo? ¿Por qué nuestros ingenieros resuelven problemas de Silicon Valley y no los de nuestras calles?</p>
+                <p class="text-white font-bold text-xl uppercase tracking-tighter">León es el punto de partida.</p>
             </div>
-        </section>
+        </div>
+    </section>
 
-        <section class="bg-white py-24 text-black px-8">
-            <div class="max-w-7xl mx-auto grid md:grid-cols-3 gap-8">
-                <div class="bg-black text-white p-12 flex flex-col justify-between" data-aos="zoom-in">
-                    <h3 class="font-anton text-6xl text-hoolGreen">75%</h3>
-                    <p class="font-arimo text-xs uppercase mt-6 tracking-widest">Jóvenes sufren de eco-ansiedad y apatía política.</p>
-                </div>
-                <div class="col-span-2 p-12 bg-hoolGrey" data-aos="fade-up">
-                    <h2 class="font-anton text-5xl mb-6 uppercase">Desconexión Sistémica</h2>
-                    <p class="text-xl leading-relaxed text-gray-800">
-                        México tiene 12 millones de jóvenes con formación técnica. HOOL nace para eliminar la sensación de impotencia. Somos la plataforma que convierte la inquietud en **acción tangible**.
-                    </p>
-                    <div class="mt-8 grid grid-cols-2 gap-4">
-                        <div class="border-l-4 border-hoolGreen pl-4">
-                            <span class="block font-anton text-2xl">+1K</span>
-                            <span class="text-xs uppercase">Mentes Inquietas</span>
-                        </div>
-                        <div class="border-l-4 border-hoolYellow pl-4">
-                            <span class="block font-anton text-2xl">I+D</span>
-                            <span class="text-xs uppercase">Soberanía Tech</span>
-                        </div>
+    <section class="bg-white py-24 text-black px-8">
+        <div class="max-w-7xl mx-auto grid md:grid-cols-3 gap-8">
+            <div class="bg-black text-white p-12 flex flex-col justify-between" data-aos="zoom-in">
+                <h3 class="font-anton text-6xl text-hoolGreen">75%</h3>
+                <p class="font-arimo text-xs uppercase mt-6 tracking-widest">Jóvenes sufren de eco-ansiedad y apatía política.</p>
+            </div>
+            <div class="col-span-2 p-12 bg-hoolGrey" data-aos="fade-up">
+                <h2 class="font-anton text-5xl mb-6 uppercase">Desconexión Sistémica</h2>
+                <p class="text-xl leading-relaxed text-gray-800">México tiene 12 millones de jóvenes con formación técnica. HOOL nace para eliminar la sensación de impotencia. Somos la plataforma que convierte la inquietud en acción tangible.</p>
+                <div class="mt-8 grid grid-cols-2 gap-4">
+                    <div class="border-l-4 border-hoolGreen pl-4">
+                        <span class="block font-anton text-2xl">+1K</span>
+                        <span class="text-xs uppercase">Mentes Inquietas</span>
+                    </div>
+                    <div class="border-l-4 border-hoolYellow pl-4">
+                        <span class="block font-anton text-2xl">I+D</span>
+                        <span class="text-xs uppercase">Soberanía Tech</span>
                     </div>
                 </div>
             </div>
-        </section>
+        </div>
+    </section>
 
-        <section class="py-32 px-8">
-            <h2 class="font-anton text-center text-5xl mb-20 tracking-tighter">INFRAESTRUCTURA DE LA <span class="text-hoolYellow">VOLUNTAD</span></h2>
-            <div class="grid md:grid-cols-3 gap-12 max-w-7xl mx-auto">
-                <div class="border-t border-hoolGreen pt-8" data-aos="fade-up" data-aos-delay="100">
-                    <h4 class="font-anton text-2xl mb-4">I+D APLICADA</h4>
-                    <p class="text-gray-400 text-sm">Desde TI hasta ingeniería urbana y desarrollo sostenible. Eliminamos la sensación de impertinencia con la realidad.</p>
+    <section class="py-32 px-8">
+        <h2 class="font-anton text-center text-5xl mb-20 tracking-tighter">INFRAESTRUCTURA DE LA <span class="text-hoolYellow">VOLUNTAD</span></h2>
+        <div class="grid md:grid-cols-3 gap-12 max-w-7xl mx-auto">
+            <div class="border-t border-hoolGreen pt-8" data-aos="fade-up" data-aos-delay="100">
+                <h4 class="font-anton text-2xl mb-4">I+D APLICADA</h4>
+                <p class="text-gray-400 text-sm">Desde TI hasta ingeniería urbana y desarrollo sostenible. Eliminamos la sensación de impertinencia con la realidad.</p>
+            </div>
+            <div class="border-t border-hoolGreen pt-8" data-aos="fade-up" data-aos-delay="200">
+                <h4 class="font-anton text-2xl mb-4">CAPITAL CONVERGENTE</h4>
+                <p class="text-gray-400 text-sm">Modelo híbrido: Gobierno local + Capital Privado + Fondos de Impacto. Garantizamos ejecución, no intención.</p>
+            </div>
+            <div class="border-t border-hoolGreen pt-8" data-aos="fade-up" data-aos-delay="300">
+                <h4 class="font-anton text-2xl mb-4">ACCIÓN TERRITORIAL</h4>
+                <p class="text-gray-400 text-sm">Lo que se diseña aquí, se implementa aquí. Conectamos talento inquieto con problemas inmediatos.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="sobre-nosotros" class="py-24 bg-hoolGrey text-black overflow-hidden">
+        <div class="container mx-auto px-8 flex flex-col md:flex-row gap-16 items-center">
+            <div class="md:w-1/2 relative" data-aos="fade-up">
+                <div class="absolute -top-4 -left-4 w-full h-full border-2 border-hoolGreen z-0"></div>
+                <img src="HÓOL_SOL_ACT2_1P Cartel (1).jpg" alt="Innovación" class="relative z-10 grayscale hover:grayscale-0 transition duration-700 shadow-2xl">
+            </div>
+            <div class="md:w-1/2" data-aos="fade-left">
+                <span class="text-hoolGreen font-bold tracking-widest uppercase text-sm">Nuestra Esencia</span>
+                <h2 class="font-anton text-5xl mt-2 mb-8 uppercase leading-tight">El puente entre la apatía y el código</h2>
+                <p class="mb-6 font-roboto font-light text-xl">Inspirados en la soberanía tecnológica, <strong>HOOL</strong> (Hope + Óol) es el ecosistema donde el 3D, el desarrollo en Unity y el urbanismo táctico convergen para hackear el futuro de nuestras ciudades.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="py-32 bg-white text-black px-8">
+        <div class="max-w-6xl mx-auto grid md:grid-cols-2 gap-20">
+            <div data-aos="fade-right">
+                <h2 class="font-anton text-6xl mb-8">MISIÓN</h2>
+                <p class="text-2xl font-light italic border-l-8 border-hoolYellow pl-6 py-2">"Consolidar una red de soberanía tecnológica que transforme la voluntad de las mentes brillantes en infraestructura urbana resiliente, erradicando la apatía generacional a través de la ejecución inmediata."</p>
+            </div>
+            <div data-aos="fade-left" class="text-right">
+                <h2 class="font-anton text-6xl mb-8">VISIÓN</h2>
+                <p class="text-2xl font-light uppercase tracking-tighter leading-tight">Ser el estándar de innovación sistémica en México para 2030, replicando nuestro modelo territorial en cada polo industrial del país.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="servicios" class="py-32 bg-black">
+        <div class="container mx-auto px-8">
+            <h2 class="font-anton text-5xl mb-20 text-center tracking-widest uppercase">Ejes de Acción Territorial</h2>
+            <div class="grid md:grid-cols-3 gap-10">
+                <div class="group p-10 border border-white/10 hover:border-hoolGreen transition-all duration-500 bg-zinc-900/40" data-aos="flip-left">
+                    <div class="w-14 h-14 bg-hoolGreen mb-8 group-hover:rotate-45 transition duration-500"></div>
+                    <h3 class="font-anton text-2xl mb-4 uppercase">URBANISMO TÁCTICO</h3>
+                    <p class="text-gray-400 font-light text-sm">Diseño y prototipado de espacios públicos resilientes mediante entornos virtuales de alta fidelidad.</p>
                 </div>
-                <div class="border-t border-hoolGreen pt-8" data-aos="fade-up" data-aos-delay="200">
-                    <h4 class="font-anton text-2xl mb-4">CAPITAL CONVERGENTE</h4>
-                    <p class="text-gray-400 text-sm">Modelo híbrido: Gobierno local + Capital Privado + Fondos de Impacto. Garantizamos ejecución, no intención.</p>
+                <div class="group p-10 border border-white/10 hover:border-hoolYellow transition-all duration-500 bg-zinc-900/40" data-aos="flip-left" data-aos-delay="200">
+                    <div class="w-14 h-14 bg-hoolYellow mb-8 group-hover:scale-110 transition duration-500"></div>
+                    <h3 class="font-anton text-2xl mb-4 uppercase">ACCION SOCIOAMBIENTAL</h3>
+                    <p class="text-gray-400 font-light text-sm">Implementación de tecnologías limpias y regeneración de ecosistemas urbanos mediante ingeniería avanzada.</p>
                 </div>
-                <div class="border-t border-hoolGreen pt-8" data-aos="fade-up" data-aos-delay="300">
-                    <h4 class="font-anton text-2xl mb-4">ACCIÓN TERRITORIAL</h4>
-                    <p class="text-gray-400 text-sm">Lo que se diseña aquí, se implementa aquí. Conectamos talento inquieto con problemas inmediatos.</p>
+                <div class="group p-10 border border-white/10 hover:border-white transition-all duration-500 bg-zinc-900/40" data-aos="flip-left" data-aos-delay="400">
+                    <div class="w-14 h-14 bg-white mb-8 group-hover:-translate-y-2 transition duration-500"></div>
+                    <h3 class="font-anton text-2xl mb-4 uppercase">SOBERANÍA TECH</h3>
+                    <p class="text-gray-400 font-light text-sm">Empoderamiento de la élite creativa juvenil para el desarrollo de software de impacto social.</p>
                 </div>
             </div>
-        </section>
+        </div>
+    </section>
 
-        <section id="sobre-nosotros" class="py-24 bg-hoolGrey text-black overflow-hidden">
-            <div class="container mx-auto px-8 flex flex-col md:flex-row gap-16 items-center">
-                <div class="md:w-1/2 relative" data-aos="fade-up">
-                    <div class="absolute -top-4 -left-4 w-full h-full border-2 border-hoolGreen z-0"></div>
-                    <img src="HÓOL_SOL_ACT2_1P Cartel (1).jpg" alt="Innovación" class="relative z-10 grayscale hover:grayscale-0 transition duration-700 shadow-2xl">
+    <!-- ── FORMULARIO DE CONTACTO (guarda en Firebase) ── -->
+    <section id="contacto" class="py-32 bg-white text-black">
+        <div class="max-w-4xl mx-auto px-8 text-center">
+            <h2 class="font-anton text-6xl mb-4">¿ERES UNA MENTE CREATIVA?</h2>
+            <p class="text-hoolGreen font-bold mb-12 uppercase tracking-widest">Únete a la ingeniería de la voluntad.</p>
+            <form id="contact-form" class="space-y-8 text-left">
+                <div class="grid md:grid-cols-2 gap-8">
+                    <input id="cf-nombre" type="text" placeholder="NOMBRE"
+                        class="w-full border-b-2 border-black p-4 focus:outline-none focus:border-hoolGreen bg-transparent uppercase" required>
+                    <input id="cf-email" type="email" placeholder="EMAIL"
+                        class="w-full border-b-2 border-black p-4 focus:outline-none focus:border-hoolGreen bg-transparent uppercase" required>
                 </div>
-                <div class="md:w-1/2" data-aos="fade-left">
-                    <span class="text-hoolGreen font-bold tracking-widest uppercase text-sm">Nuestra Esencia</span>
-                    <h2 class="font-anton text-5xl mt-2 mb-8 uppercase leading-tight">El puente entre la apatía y el código</h2>
-                    <p class="mb-6 font-roboto font-light text-xl">
-                        Inspirados en la soberanía tecnológica, <strong>HOOL</strong> (Hope + Óol) es el ecosistema donde el 3D, el desarrollo en Unity y el urbanismo táctico convergen para hackear el futuro de nuestras ciudades.
-                    </p>
-                </div>
+                <textarea id="cf-mensaje" rows="4" placeholder="DESCRIBE TU VISIÓN"
+                    class="w-full border-b-2 border-black p-4 focus:outline-none focus:border-hoolGreen bg-transparent uppercase" required></textarea>
+                <button id="cf-submit" type="submit"
+                    class="w-full bg-black text-white py-6 font-anton text-2xl hover:bg-hoolGreen transition shadow-2xl">
+                    ENVIAR A HÓOL
+                </button>
+            </form>
+        </div>
+    </section>
+
+</main>
+
+<!-- ═══════════════════════════════════════════════
+     FOOTER
+════════════════════════════════════════════════ -->
+<footer class="py-16 bg-black border-t border-white/5 text-center">
+    <img src="HÓOL_SOL_ACT2_1P Cartel.png" class="h-10 mx-auto mb-6 opacity-60" alt="">
+    <p class="text-gray-600 text-[10px] tracking-[0.6em] font-arimo uppercase">HÓOL © 2026 | Ingeniería para la voluntad</p>
+</footer>
+
+<!-- ═══════════════════════════════════════════════
+     MODAL SOCIOS (original, sin cambios)
+════════════════════════════════════════════════ -->
+<div id="login-modal" class="fixed inset-0 z-[200] hidden flex items-center justify-center bg-black/95 px-4">
+    <div class="bg-zinc-900 p-10 max-w-md w-full border-t-4 border-hoolYellow shadow-2xl">
+        <h2 class="font-anton text-3xl mb-8 text-center text-white tracking-widest uppercase">Acceso Asociado</h2>
+        <div class="space-y-6">
+            <input id="user-input" type="text" placeholder="USUARIO"
+                class="w-full bg-transparent border-b border-gray-700 p-3 text-white focus:outline-none focus:border-hoolYellow">
+            <input id="pass-input" type="password" placeholder="CLAVE"
+                class="w-full bg-transparent border-b border-gray-700 p-3 text-white focus:outline-none focus:border-hoolYellow">
+            <div class="flex gap-4 pt-4">
+                <button onclick="handleAuth('login')"    class="flex-1 bg-hoolYellow text-black font-bold py-3 uppercase text-xs">Entrar</button>
+                <button onclick="handleAuth('register')" class="flex-1 border border-white text-white font-bold py-3 uppercase text-xs">Registro</button>
             </div>
-        </section>
+            <button onclick="toggleModal('login-modal')" class="w-full text-[10px] text-gray-500 mt-6 uppercase hover:text-white transition">Cerrar</button>
+        </div>
+    </div>
+</div>
 
-        <section class="py-32 bg-white text-black px-8">
-            <div class="max-w-6xl mx-auto grid md:grid-cols-2 gap-20">
-                <div data-aos="fade-right">
-                    <h2 class="font-anton text-6xl mb-8">MISIÓN</h2>
-                    <p class="text-2xl font-light italic border-l-8 border-hoolYellow pl-6 py-2">
-                        "Consolidar una red de soberanía tecnológica que transforme la voluntad de las mentes brillantes en infraestructura urbana resiliente, erradicando la apatía generacional a través de la ejecución inmediata."
-                    </p>
-                </div>
-                <div data-aos="fade-left" class="text-right">
-                    <h2 class="font-anton text-6xl mb-8">VISIÓN</h2>
-                    <p class="text-2xl font-light uppercase tracking-tighter leading-tight">
-                        Ser el estándar de innovación sistémica en México para 2030, replicando nuestro modelo territorial en cada polo industrial del país.
-                    </p>
-                </div>
-            </div>
-        </section>
-
-        <section id="servicios" class="py-32 bg-black">
-            <div class="container mx-auto px-8">
-                <h2 class="font-anton text-5xl mb-20 text-center tracking-widest uppercase">Ejes de Acción Territorial</h2>
-                <div class="grid md:grid-cols-3 gap-10">
-                    <div class="group p-10 border border-white/10 hover:border-hoolGreen transition-all duration-500 bg-zinc-900/40" data-aos="flip-left">
-                        <div class="w-14 h-14 bg-hoolGreen mb-8 group-hover:rotate-45 transition duration-500"></div>
-                        <h3 class="font-anton text-2xl mb-4 uppercase">URBANISMO TÁCTICO</h3>
-                        <p class="text-gray-400 font-light text-sm">Diseño y prototipado de espacios públicos resilientes mediante entornos virtuales de alta fidelidad.</p>
-                    </div>
-                    <div class="group p-10 border border-white/10 hover:border-hoolYellow transition-all duration-500 bg-zinc-900/40" data-aos="flip-left" data-aos-delay="200">
-                        <div class="w-14 h-14 bg-hoolYellow mb-8 group-hover:scale-110 transition duration-500"></div>
-                        <h3 class="font-anton text-2xl mb-4 uppercase">ACCION SOCIOAMBIENTAL</h3>
-                        <p class="text-gray-400 font-light text-sm">Implementación de tecnologías limpias y regeneración de ecosistemas urbanos mediante ingeniería avanzada.</p>
-                    </div>
-                    <div class="group p-10 border border-white/10 hover:border-white transition-all duration-500 bg-zinc-900/40" data-aos="flip-left" data-aos-delay="400">
-                        <div class="w-14 h-14 bg-white mb-8 group-hover:-translate-y-2 transition duration-500"></div>
-                        <h3 class="font-anton text-2xl mb-4 uppercase">SOBERANÍA TECH</h3>
-                        <p class="text-gray-400 font-light text-sm">Empoderamiento de la élite creativa juvenil para el desarrollo de software de impacto social.</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <section id="contacto" class="py-32 bg-white text-black">
-            <div class="max-w-4xl mx-auto px-8 text-center">
-                <h2 class="font-anton text-6xl mb-4">¿ERES UNA MENTE CREATIVA?</h2>
-                <p class="text-hoolGreen font-bold mb-12 uppercase tracking-widest">Únete a la ingeniería de la voluntad.</p>
-                <form class="space-y-8 text-left" onsubmit="event.preventDefault(); alert('Propuesta registrada en HÓOL');">
-                    <div class="grid md:grid-cols-2 gap-8">
-                        <input type="text" placeholder="NOMBRE" class="w-full border-b-2 border-black p-4 focus:outline-none focus:border-hoolGreen bg-transparent uppercase">
-                        <input type="email" placeholder="EMAIL" class="w-full border-b-2 border-black p-4 focus:outline-none focus:border-hoolGreen bg-transparent uppercase">
-                    </div>
-                    <textarea rows="4" placeholder="DESCRIBE TU VISIÓN" class="w-full border-b-2 border-black p-4 focus:outline-none focus:border-hoolGreen bg-transparent uppercase"></textarea>
-                    <button class="w-full bg-black text-white py-6 font-anton text-2xl hover:bg-hoolGreen transition shadow-2xl">ENVIAR A HÓOL</button>
-                </form>
-            </div>
-        </section>
-
-    </main>
-
-    <div id="login-modal" class="fixed inset-0 z-[200] hidden flex items-center justify-center bg-black/95 px-4">
-        <div class="bg-zinc-900 p-10 max-w-md w-full border-t-4 border-hoolYellow shadow-2xl">
-            <h2 class="font-anton text-3xl mb-8 text-center text-white tracking-widest uppercase">Acceso Asociado</h2>
-            <div class="space-y-6">
-                <input id="user-input" type="text" placeholder="USUARIO" class="w-full bg-transparent border-b border-gray-700 p-3 text-white focus:outline-none focus:border-hoolYellow">
-                <input id="pass-input" type="password" placeholder="CLAVE" class="w-full bg-transparent border-b border-gray-700 p-3 text-white focus:outline-none focus:border-hoolYellow">
-                <div class="flex gap-4 pt-4">
-                    <button onclick="handleAuth('login')" class="flex-1 bg-hoolYellow text-black font-bold py-3 uppercase text-xs">Entrar</button>
-                    <button onclick="handleAuth('register')" class="flex-1 border border-white text-white font-bold py-3 uppercase text-xs">Registro</button>
-                </div>
-                <button onclick="toggleModal('login-modal')" class="w-full text-[10px] text-gray-500 mt-6 uppercase hover:text-white transition">Cerrar</button>
+<!-- ═══════════════════════════════════════════════
+     MODAL ADMIN — se abre con Ctrl+Shift+H
+════════════════════════════════════════════════ -->
+<div id="admin-modal" class="fixed inset-0 z-[250] hidden flex items-center justify-center bg-black/98 px-4">
+    <div class="bg-zinc-900 p-10 max-w-md w-full border-t-4 border-hoolGreen shadow-2xl relative">
+        <!-- Indicador secreto -->
+        <div class="absolute top-4 right-4 w-2 h-2 rounded-full bg-hoolGreen animate-pulse"></div>
+        <h2 class="font-anton text-3xl mb-2 text-white tracking-widest uppercase">Panel <span class="text-hoolGreen">Admin</span></h2>
+        <p class="text-gray-600 text-[10px] uppercase tracking-[.2em] mb-8">Acceso restringido · HÓOL</p>
+        <div id="admin-auth-form" class="space-y-6">
+            <input id="admin-email" type="email" placeholder="EMAIL ADMIN"
+                class="w-full bg-transparent border-b border-gray-700 p-3 text-white focus:outline-none focus:border-hoolGreen">
+            <input id="admin-pass" type="password" placeholder="CONTRASEÑA"
+                class="w-full bg-transparent border-b border-gray-700 p-3 text-white focus:outline-none focus:border-hoolGreen">
+            <div id="admin-error" class="text-red-400 text-xs uppercase tracking-widest hidden"></div>
+            <div class="flex gap-4 pt-2">
+                <button onclick="adminLogin()"
+                    id="admin-login-btn"
+                    class="flex-1 bg-hoolGreen text-black font-bold py-3 uppercase text-xs hover:bg-white transition">
+                    Ingresar
+                </button>
+                <button onclick="toggleModal('admin-modal')"
+                    class="flex-1 border border-gray-700 text-gray-500 font-bold py-3 uppercase text-xs hover:text-white transition">
+                    Cancelar
+                </button>
             </div>
         </div>
     </div>
+</div>
 
-    <footer class="py-16 bg-black border-t border-white/5 text-center">
-        <img src="HÓOL_SOL_ACT2_1P Cartel.png" class="h-10 mx-auto mb-6 opacity-60" alt="">
-        <p class="text-gray-600 text-[10px] tracking-[0.6em] font-arimo uppercase">HÓOL © 2026 | Ingeniería para la voluntad</p>
-    </footer>
+<!-- ═══════════════════════════════════════════════
+     PANEL ADMIN — DASHBOARD (post login)
+════════════════════════════════════════════════ -->
+<div id="admin-dashboard" class="admin-panel-overlay">
+    <div class="max-w-5xl mx-auto px-6 py-16">
 
-    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+        <!-- Header dashboard -->
+        <div class="flex items-center justify-between mb-16 border-b border-white/10 pb-8">
+            <div>
+                <h1 class="font-anton text-5xl tracking-widest">PANEL <span class="text-hoolGreen">ADMIN</span></h1>
+                <p id="admin-user-label" class="text-gray-500 text-xs uppercase tracking-[.2em] mt-1"></p>
+            </div>
+            <button onclick="adminLogout()"
+                class="border border-hoolGreen text-hoolGreen px-6 py-2 font-arimo text-xs uppercase tracking-widest hover:bg-hoolGreen hover:text-black transition">
+                Cerrar Sesión
+            </button>
+        </div>
 
-    <script>
-        AOS.init({ duration: 1200 });
-        gsap.registerPlugin(ScrollTrigger);
+        <!-- Stats row -->
+        <div class="grid grid-cols-3 gap-6 mb-16">
+            <div class="bg-zinc-900 p-6 border-l-2 border-hoolGreen">
+                <div id="stat-total" class="font-anton text-5xl text-hoolGreen">—</div>
+                <div class="text-xs uppercase tracking-widest text-gray-500 mt-1">Mensajes Totales</div>
+            </div>
+            <div class="bg-zinc-900 p-6 border-l-2 border-hoolYellow">
+                <div id="stat-today" class="font-anton text-5xl text-hoolYellow">—</div>
+                <div class="text-xs uppercase tracking-widest text-gray-500 mt-1">Hoy</div>
+            </div>
+            <div class="bg-zinc-900 p-6 border-l-2 border-white/30">
+                <div id="stat-week" class="font-anton text-5xl">—</div>
+                <div class="text-xs uppercase tracking-widest text-gray-500 mt-1">Esta Semana</div>
+            </div>
+        </div>
 
-        // Animación Intro Zoom
-        const introTl = gsap.timeline();
-        introTl.from(".layer", {
-            scale: 1.5,
-            duration: 5,
-            ease: "expo.out",
-            stagger: 0.1
-        });
-        introTl.to("#scroll-hint", { opacity: 1, duration: 1 }, "-=1");
+        <!-- Mensajes -->
+        <div class="flex items-center justify-between mb-8">
+            <h2 class="font-anton text-2xl uppercase tracking-widest">Mensajes de Contacto</h2>
+            <button onclick="loadMessages()"
+                class="text-xs uppercase tracking-widest text-hoolGreen border border-hoolGreen px-4 py-2 hover:bg-hoolGreen hover:text-black transition">
+                ↻ Actualizar
+            </button>
+        </div>
 
-        // Control de aparición de la Nav Bar a los 5 segundos
-        setTimeout(() => {
-            const nav = document.getElementById('main-nav');
-            if (nav) {
-                nav.style.opacity = '1';
-                nav.style.pointerEvents = 'auto';
-            }
-        }, 5000); // 5000 milisegundos = 5 segundos
+        <div id="messages-container">
+            <div class="empty-state font-arimo text-sm uppercase tracking-widest">
+                <div class="text-4xl mb-4">⟳</div>
+                Cargando mensajes...
+            </div>
+        </div>
 
-        // Parallax al Scroll
-        gsap.to(".layer", {
-            scrollTrigger: {
-                trigger: "#intro-viewport",
-                start: "top top",
-                end: "bottom top",
-                scrub: true
-            },
-            y: (i) => i * 70,
-            scale: (i) => 1 + (i * 0.04),
-            ease: "none"
-        });
+    </div>
+</div>
 
-        // Línea de Crecimiento
-        gsap.to("#plane-trigger", {
-            width: "300px",
-            scrollTrigger: {
-                trigger: "#plane-trigger",
-                start: "top 85%",
-                toggleActions: "play none none reverse"
-            }
-        });
 
-        // Lógica de Autenticación
-        function toggleModal(id) { document.getElementById(id).classList.toggle('hidden'); }
+<!-- ═══════════════════════════════════════════════
+     SCRIPTS
+════════════════════════════════════════════════ -->
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
 
-        function handleAuth(type) {
-            const user = document.getElementById('user-input').value;
-            const pass = document.getElementById('pass-input').value;
-            if (!user || !pass) return alert("Completa los campos.");
+<!-- Firebase SDK (módulos ESM via CDN) -->
+<script type="module">
+// ─────────────────────────────────────────────────────────────
+//  ⚠️  REEMPLAZA ESTOS VALORES CON LOS DE TU PROYECTO FIREBASE
+// ─────────────────────────────────────────────────────────────
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import {
+    getAuth,
+    signInWithEmailAndPassword,
+    signOut,
+    onAuthStateChanged
+} from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+import {
+    getFirestore,
+    collection,
+    addDoc,
+    getDocs,
+    orderBy,
+    query,
+    serverTimestamp,
+    Timestamp
+} from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
-            let users = JSON.parse(localStorage.getItem('hool_users')) || [];
+// ── CONFIG FIREBASE ──────────────────────────────────────────
+const firebaseConfig = {
+    apiKey:            "PEGA_TU_API_KEY_AQUÍ",
+    authDomain:        "PEGA_TU_AUTH_DOMAIN_AQUÍ",
+    projectId:         "PEGA_TU_PROJECT_ID_AQUÍ",
+    storageBucket:     "PEGA_TU_STORAGE_BUCKET_AQUÍ",
+    messagingSenderId: "PEGA_TU_MESSAGING_SENDER_ID_AQUÍ",
+    appId:             "PEGA_TU_APP_ID_AQUÍ"
+};
+// ─────────────────────────────────────────────────────────────
 
-            if (type === 'register') {
-                if(users.find(u => u.username === user)) return alert("Usuario existente.");
-                users.push({ username: user, password: pass });
-                localStorage.setItem('hool_users', JSON.stringify(users));
-                alert("Mente vinculada.");
-            } else {
-                const valid = users.find(u => u.username === user && u.password === pass);
-                if (valid) {
-                    sessionStorage.setItem('active_hool_user', user);
-                    location.reload();
-                } else alert("Credenciales inválidas.");
-            }
+const app  = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db   = getFirestore(app);
+
+// ── TOAST ────────────────────────────────────────────────────
+function showToast(msg, isError = false) {
+    const t = document.getElementById('toast');
+    t.textContent = msg;
+    t.className = 'show' + (isError ? ' error' : '');
+    setTimeout(() => t.className = '', 3000);
+}
+
+// ── MODALES ──────────────────────────────────────────────────
+window.toggleModal = (id) => {
+    document.getElementById(id).classList.toggle('hidden');
+};
+
+// ── COMBO SECRETA: Ctrl + Shift + H ──────────────────────────
+document.addEventListener('keydown', (e) => {
+    if (e.ctrlKey && e.shiftKey && e.key === 'H') {
+        e.preventDefault();
+        // Si ya hay sesión admin activa, abrir directo el dashboard
+        if (auth.currentUser) {
+            document.getElementById('admin-dashboard').classList.add('visible');
+        } else {
+            document.getElementById('admin-modal').classList.remove('hidden');
+            document.getElementById('admin-modal').classList.add('flex');
+        }
+    }
+});
+
+// ── LOGIN ADMIN (Firebase Auth) ──────────────────────────────
+window.adminLogin = async () => {
+    const email = document.getElementById('admin-email').value.trim();
+    const pass  = document.getElementById('admin-pass').value;
+    const btn   = document.getElementById('admin-login-btn');
+    const errEl = document.getElementById('admin-error');
+
+    if (!email || !pass) {
+        errEl.textContent = 'Completa ambos campos';
+        errEl.classList.remove('hidden');
+        return;
+    }
+
+    btn.innerHTML = '<span class="spinner"></span>Verificando...';
+    btn.disabled = true;
+    errEl.classList.add('hidden');
+
+    try {
+        await signInWithEmailAndPassword(auth, email, pass);
+        // onAuthStateChanged se encargará del resto
+    } catch (err) {
+        let msg = 'Credenciales inválidas';
+        if (err.code === 'auth/user-not-found')    msg = 'Usuario no encontrado';
+        if (err.code === 'auth/wrong-password')    msg = 'Contraseña incorrecta';
+        if (err.code === 'auth/too-many-requests') msg = 'Demasiados intentos. Espera un momento';
+        errEl.textContent = msg;
+        errEl.classList.remove('hidden');
+        btn.innerHTML = 'Ingresar';
+        btn.disabled  = false;
+    }
+};
+
+// ── AUTH STATE LISTENER ──────────────────────────────────────
+onAuthStateChanged(auth, (user) => {
+    if (user) {
+        // Ocultar modal de login admin
+        document.getElementById('admin-modal').classList.add('hidden');
+        document.getElementById('admin-modal').classList.remove('flex');
+        // Limpiar form
+        document.getElementById('admin-email').value = '';
+        document.getElementById('admin-pass').value  = '';
+        document.getElementById('admin-login-btn').innerHTML = 'Ingresar';
+        document.getElementById('admin-login-btn').disabled  = false;
+        // Mostrar dashboard
+        document.getElementById('admin-user-label').textContent = `Sesión activa: ${user.email}`;
+        document.getElementById('admin-dashboard').classList.add('visible');
+        loadMessages();
+    } else {
+        document.getElementById('admin-dashboard').classList.remove('visible');
+    }
+});
+
+// ── LOGOUT ADMIN ─────────────────────────────────────────────
+window.adminLogout = async () => {
+    await signOut(auth);
+    showToast('Sesión cerrada correctamente');
+};
+
+// ── CARGAR MENSAJES DESDE FIRESTORE ──────────────────────────
+window.loadMessages = async () => {
+    const container = document.getElementById('messages-container');
+    container.innerHTML = `<div class="empty-state font-arimo text-sm uppercase tracking-widest"><div class="text-4xl mb-4">⟳</div>Cargando mensajes...</div>`;
+
+    try {
+        const q = query(collection(db, 'contactos'), orderBy('fecha', 'desc'));
+        const snap = await getDocs(q);
+
+        if (snap.empty) {
+            container.innerHTML = `<div class="empty-state font-arimo text-sm uppercase tracking-widest"><div class="text-4xl mb-4">✉</div>Sin mensajes aún.</div>`;
+            document.getElementById('stat-total').textContent = '0';
+            document.getElementById('stat-today').textContent = '0';
+            document.getElementById('stat-week').textContent  = '0';
+            return;
         }
 
-        window.onload = () => {
-            const user = sessionStorage.getItem('active_hool_user');
-            if (user) document.getElementById('auth-section').innerHTML = `<span class="text-hoolGreen text-[10px] font-bold uppercase tracking-widest">${user} (ASOCIADO)</span>`;
-        };
-    </script>
+        const now    = new Date();
+        const todayStart = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+        const weekStart  = new Date(todayStart); weekStart.setDate(weekStart.getDate() - 7);
+
+        let total = 0, hoy = 0, semana = 0;
+        let html = '';
+
+        snap.forEach(doc => {
+            const d = doc.data();
+            total++;
+            const fecha = d.fecha?.toDate ? d.fecha.toDate() : new Date(d.fecha);
+            if (fecha >= todayStart) hoy++;
+            if (fecha >= weekStart)  semana++;
+
+            const fechaStr = fecha.toLocaleString('es-MX', {
+                day:'2-digit', month:'short', year:'numeric',
+                hour:'2-digit', minute:'2-digit'
+            });
+
+            html += `
+            <div class="msg-card">
+                <div class="flex items-start justify-between">
+                    <div>
+                        <div class="msg-name">${escHtml(d.nombre)}</div>
+                        <div class="msg-email">${escHtml(d.email)}</div>
+                    </div>
+                    <div class="msg-date">${fechaStr}</div>
+                </div>
+                <div class="msg-body">${escHtml(d.mensaje)}</div>
+            </div>`;
+        });
+
+        container.innerHTML = html;
+        document.getElementById('stat-total').textContent = total;
+        document.getElementById('stat-today').textContent = hoy;
+        document.getElementById('stat-week').textContent  = semana;
+
+    } catch (err) {
+        console.error(err);
+        container.innerHTML = `<div class="empty-state font-arimo text-sm uppercase tracking-widest text-red-400">Error al cargar mensajes.<br>Verifica las reglas de Firestore.</div>`;
+    }
+};
+
+function escHtml(str = '') {
+    return String(str)
+        .replace(/&/g,'&amp;').replace(/</g,'&lt;')
+        .replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+// ── FORMULARIO DE CONTACTO → FIRESTORE ───────────────────────
+document.getElementById('contact-form').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const btn     = document.getElementById('cf-submit');
+    const nombre  = document.getElementById('cf-nombre').value.trim();
+    const email   = document.getElementById('cf-email').value.trim();
+    const mensaje = document.getElementById('cf-mensaje').value.trim();
+
+    if (!nombre || !email || !mensaje) return;
+
+    btn.innerHTML  = '<span class="spinner"></span>Enviando...';
+    btn.disabled   = true;
+
+    try {
+        await addDoc(collection(db, 'contactos'), {
+            nombre,
+            email,
+            mensaje,
+            fecha: serverTimestamp()
+        });
+        document.getElementById('cf-nombre').value  = '';
+        document.getElementById('cf-email').value   = '';
+        document.getElementById('cf-mensaje').value = '';
+        showToast('✓ Mensaje recibido en HÓOL');
+    } catch (err) {
+        console.error(err);
+        showToast('Error al enviar. Intenta de nuevo.', true);
+    } finally {
+        btn.innerHTML = 'ENVIAR A HÓOL';
+        btn.disabled  = false;
+    }
+});
+
+// ── AUTENTICACIÓN SOCIOS (localStorage, original) ────────────
+window.handleAuth = (type) => {
+    const user = document.getElementById('user-input').value;
+    const pass = document.getElementById('pass-input').value;
+    if (!user || !pass) return alert("Completa los campos.");
+
+    let users = JSON.parse(localStorage.getItem('hool_users')) || [];
+
+    if (type === 'register') {
+        if (users.find(u => u.username === user)) return alert("Usuario existente.");
+        users.push({ username: user, password: pass });
+        localStorage.setItem('hool_users', JSON.stringify(users));
+        alert("Mente vinculada.");
+    } else {
+        const valid = users.find(u => u.username === user && u.password === pass);
+        if (valid) {
+            sessionStorage.setItem('active_hool_user', user);
+            location.reload();
+        } else alert("Credenciales inválidas.");
+    }
+};
+
+window.onload = () => {
+    const user = sessionStorage.getItem('active_hool_user');
+    if (user) {
+        document.getElementById('auth-section').innerHTML =
+            `<span class="text-hoolGreen text-[10px] font-bold uppercase tracking-widest">${user} (ASOCIADO)</span>`;
+    }
+};
+
+</script>
+
+<!-- Scripts NO-module (AOS, GSAP) -->
+<script>
+    AOS.init({ duration: 1200 });
+    gsap.registerPlugin(ScrollTrigger);
+
+    const introTl = gsap.timeline();
+    introTl.from(".layer", { scale: 1.5, duration: 5, ease: "expo.out", stagger: 0.1 });
+    introTl.to("#scroll-hint", { opacity: 1, duration: 1 }, "-=1");
+
+    setTimeout(() => {
+        const nav = document.getElementById('main-nav');
+        if (nav) { nav.style.opacity = '1'; nav.style.pointerEvents = 'auto'; }
+    }, 5000);
+
+    gsap.to(".layer", {
+        scrollTrigger: { trigger: "#intro-viewport", start: "top top", end: "bottom top", scrub: true },
+        y: (i) => i * 70,
+        scale: (i) => 1 + (i * 0.04),
+        ease: "none"
+    });
+
+    gsap.to("#plane-trigger", {
+        width: "300px",
+        scrollTrigger: { trigger: "#plane-trigger", start: "top 85%", toggleActions: "play none none reverse" }
+    });
+</script>
 </body>
 </html>
