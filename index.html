@@ -471,7 +471,7 @@
 
             <div class="grid md:grid-cols-3 gap-6">
                 <!-- Card 1 -->
-                <div class="feature-card" data-aos="fade-up" data-aos-delay="100" onclick="openModal('proyecto-modal')">
+                <div class="feature-card" onclick="openModal('proyecto-modal')">
                     <div class="card-icon"></div>
                     <h3 class="font-anton text-2xl mb-3 uppercase">Someter Proyecto</h3>
                     <p class="text-gray-500 text-sm leading-relaxed">Comparte tu visión técnica. Evaluamos viabilidad, impacto urbano y potencial de escalamiento en 72 horas.</p>
@@ -481,7 +481,7 @@
                     </div>
                 </div>
                 <!-- Card 2 -->
-                <div class="feature-card" style="--card-color: var(--yellow);" data-aos="fade-up" data-aos-delay="200" onclick="openModal('lab-modal')"
+                <div class="feature-card" style="--card-color: var(--yellow);"  onclick="openModal('lab-modal')"
                     onmouseenter="this.querySelector('.card-icon').style.background='#fed852'"
                     onmouseleave="this.querySelector('.card-icon').style.background='var(--green)'">
                     <div class="card-icon"></div>
@@ -493,7 +493,7 @@
                     </div>
                 </div>
                 <!-- Card 3 -->
-                <div class="feature-card" data-aos="fade-up" data-aos-delay="300" onclick="document.getElementById('contacto').scrollIntoView({behavior:'smooth'})">
+                <div class="feature-card"  onclick="document.getElementById('contacto').scrollIntoView({behavior:'smooth'})">
                     <div class="card-icon" style="background:#fff;"></div>
                     <h3 class="font-anton text-2xl mb-3 uppercase">Contacto Directo</h3>
                     <p class="text-gray-500 text-sm leading-relaxed">¿Eres empresa, institución o gobierno? Conéctate directamente con nuestro equipo territorial.</p>
@@ -1619,13 +1619,6 @@ window.onload = () => {
         scrollTrigger: { trigger:"#plane-trigger", start:"top 85%", toggleActions:"play none none reverse" }
     });
 
-    // Animate feature cards on scroll
-    gsap.utils.toArray('.feature-card').forEach((card, i) => {
-        gsap.from(card, {
-            scrollTrigger: { trigger: card, start: 'top 90%' },
-            y: 30, opacity: 0, duration: 0.6, delay: i * 0.12, ease: 'power2.out'
-        });
-    });
 </script>
 </body>
 </html>
