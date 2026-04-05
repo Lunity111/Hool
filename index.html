@@ -26,10 +26,19 @@
         }
     </script>
     <style>
+        :root {
+            --green: #7ed957;
+            --yellow: #fed852;
+            --black: #000;
+            --grey: #e1e1e1;
+        }
+
+        * { box-sizing: border-box; }
         body { background-color: #000; color: #fff; overflow-x: hidden; }
         .glass { background: rgba(0,0,0,0.6); backdrop-filter: blur(15px); border-bottom: 1px solid rgba(255,255,255,0.1); }
-        .horizontal-plane { height: 2px; background: #7ed957; width: 0; transition: width 1.5s ease-out; }
+        .horizontal-plane { height: 2px; background: var(--green); width: 0; transition: width 1.5s ease-out; }
 
+        /* ── HERO ── */
         #intro-viewport {
             height: 100vh; width: 100vw;
             position: relative; overflow: hidden;
@@ -44,69 +53,291 @@
         #scroll-hint {
             position: absolute; bottom: 40px;
             opacity: 0; transition: opacity 1s ease;
-            color: #fed852; z-index: 60; text-align: center;
+            color: var(--yellow); z-index: 60; text-align: center;
         }
         #main-nav { opacity: 0; pointer-events: none; transition: opacity 1.5s ease; }
 
-        .admin-panel-overlay {
+        /* ── OVERLAYS GENERALES ── */
+        .hool-overlay {
             position: fixed; inset: 0; z-index: 300;
             background: rgba(0,0,0,0.97);
             display: none; overflow-y: auto;
         }
-        .admin-panel-overlay.visible { display: block; }
+        .hool-overlay.visible { display: block; }
 
-        .msg-card {
-            border-left: 3px solid #7ed957;
-            background: #111;
-            padding: 1.25rem 1.5rem;
-            margin-bottom: 1rem;
+        /* ── MODALES EMERGENTES ── */
+        .hool-modal {
+            position: fixed; inset: 0; z-index: 350;
+            display: none; align-items: center; justify-content: center;
+            background: rgba(0,0,0,0.95);
+            padding: 1rem;
+            overflow-y: auto;
+        }
+        .hool-modal.open { display: flex; }
+        .modal-box {
+            background: #0a0a0a;
+            border: 1px solid rgba(255,255,255,0.08);
+            max-width: 680px; width: 100%;
+            position: relative;
+            animation: modalIn .4s cubic-bezier(.16,1,.3,1);
+        }
+        @keyframes modalIn {
+            from { opacity:0; transform: translateY(40px) scale(.97); }
+            to   { opacity:1; transform: translateY(0) scale(1); }
+        }
+        .modal-accent-green  { border-top: 3px solid var(--green); }
+        .modal-accent-yellow { border-top: 3px solid var(--yellow); }
+
+        /* ── INPUTS HÓOL ── */
+        .hool-input {
+            width: 100%;
+            background: transparent;
+            border: none;
+            border-bottom: 1px solid rgba(255,255,255,0.15);
+            padding: .75rem 0;
+            color: #fff;
+            font-family: 'Arimo', sans-serif;
+            font-size: .85rem;
+            letter-spacing: .05em;
+            outline: none;
             transition: border-color .3s;
         }
-        .msg-card:hover { border-color: #fed852; }
-        .msg-card .msg-date  { font-size: 10px; color: #555; letter-spacing: .1em; }
-        .msg-card .msg-name  { font-weight: 700; color: #fff; font-size: .9rem; text-transform: uppercase; }
-        .msg-card .msg-email { font-size: .75rem; color: #7ed957; }
-        .msg-card .msg-body  { font-size: .85rem; color: #bbb; margin-top: .5rem; line-height: 1.5; }
-
-        .empty-state { text-align: center; padding: 4rem 0; color: #444; }
-
-        #key-hint {
-            position: fixed; bottom: 16px; right: 16px;
-            background: rgba(0,0,0,0.7);
-            border: 1px solid rgba(255,255,255,0.08);
-            color: #333; font-size: 9px; letter-spacing: .15em;
-            padding: 6px 10px; font-family: monospace;
-            z-index: 50; border-radius: 4px;
-            pointer-events: none; user-select: none;
+        .hool-input:focus { border-color: var(--green); }
+        .hool-input::placeholder { color: #444; text-transform: uppercase; font-size: .75rem; letter-spacing: .15em; }
+        .hool-input-label {
+            font-size: .65rem; letter-spacing: .2em; color: #555;
+            text-transform: uppercase; font-family: 'Arimo', sans-serif;
+            display: block; margin-bottom: .25rem;
         }
+        select.hool-input option { background: #111; color: #fff; }
 
+        /* ── BOTONES ── */
+        .btn-green {
+            background: var(--green); color: #000;
+            font-family: 'Anton', sans-serif;
+            letter-spacing: .1em; text-transform: uppercase;
+            padding: .85rem 2rem; border: none; cursor: pointer;
+            transition: background .25s, transform .2s;
+            font-size: .95rem;
+        }
+        .btn-green:hover { background: #fff; transform: translateY(-1px); }
+        .btn-yellow {
+            background: var(--yellow); color: #000;
+            font-family: 'Anton', sans-serif;
+            letter-spacing: .1em; text-transform: uppercase;
+            padding: .85rem 2rem; border: none; cursor: pointer;
+            transition: background .25s; font-size: .95rem;
+        }
+        .btn-yellow:hover { background: #fff; }
+        .btn-outline {
+            background: transparent;
+            border: 1px solid rgba(255,255,255,0.2);
+            color: #777;
+            font-family: 'Arimo', sans-serif;
+            font-size: .7rem; letter-spacing: .2em; text-transform: uppercase;
+            padding: .75rem 1.5rem; cursor: pointer;
+            transition: color .25s, border-color .25s;
+        }
+        .btn-outline:hover { color: #fff; border-color: #fff; }
+
+        /* ── CARDS SECTION ── */
+        .feature-card {
+            background: #0a0a0a;
+            border: 1px solid rgba(255,255,255,0.06);
+            padding: 2.5rem;
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+            transition: border-color .4s, transform .3s;
+        }
+        .feature-card::before {
+            content: '';
+            position: absolute; top: 0; left: 0;
+            width: 100%; height: 2px;
+            background: var(--green);
+            transform: scaleX(0); transform-origin: left;
+            transition: transform .4s ease;
+        }
+        .feature-card:hover { border-color: rgba(126,217,87,.3); transform: translateY(-4px); }
+        .feature-card:hover::before { transform: scaleX(1); }
+        .feature-card .card-icon {
+            width: 48px; height: 48px;
+            background: var(--green);
+            margin-bottom: 1.5rem;
+            transition: transform .4s;
+        }
+        .feature-card:hover .card-icon { transform: rotate(45deg); }
+
+        /* ── ADMIN CARDS MENSAJES ── */
+        .msg-card {
+            border-left: 3px solid var(--green);
+            background: #0d0d0d;
+            padding: 1.25rem 1.5rem;
+            margin-bottom: .75rem;
+            transition: border-color .3s, background .3s;
+        }
+        .msg-card:hover { background: #111; border-color: var(--yellow); }
+        .msg-card .msg-date  { font-size: 10px; color: #444; letter-spacing: .1em; font-family: monospace; }
+        .msg-card .msg-name  { font-weight: 700; color: #fff; font-size: .85rem; text-transform: uppercase; letter-spacing: .05em; }
+        .msg-card .msg-email { font-size: .72rem; color: var(--green); }
+        .msg-card .msg-body  { font-size: .82rem; color: #999; margin-top: .5rem; line-height: 1.6; }
+
+        /* ── BADGES ── */
+        .badge {
+            display: inline-block;
+            font-size: .6rem; letter-spacing: .15em;
+            text-transform: uppercase; font-family: 'Arimo', sans-serif;
+            padding: .2rem .6rem; border-radius: 1px;
+        }
+        .badge-pending  { background: rgba(254,216,82,.15); color: var(--yellow); border: 1px solid rgba(254,216,82,.3); }
+        .badge-approved { background: rgba(126,217,87,.15); color: var(--green);  border: 1px solid rgba(126,217,87,.3); }
+        .badge-wait     { background: rgba(255,255,255,.08); color: #777;         border: 1px solid rgba(255,255,255,.15); }
+        .badge-rejected { background: rgba(255,68,68,.12);  color: #ff4444;       border: 1px solid rgba(255,68,68,.25); }
+
+        /* ── ADMIN TABS ── */
+        .admin-tab {
+            font-family: 'Arimo', sans-serif;
+            font-size: .7rem; letter-spacing: .2em; text-transform: uppercase;
+            padding: .75rem 1.5rem; background: transparent;
+            border: none; color: #444; cursor: pointer;
+            border-bottom: 2px solid transparent;
+            transition: color .25s, border-color .25s;
+        }
+        .admin-tab.active { color: var(--green); border-bottom-color: var(--green); }
+        .admin-tab:hover:not(.active) { color: #aaa; }
+
+        .tab-panel { display: none; }
+        .tab-panel.active { display: block; }
+
+        /* ── CALENDAR ── */
+        .cal-day {
+            aspect-ratio: 1;
+            display: flex; align-items: center; justify-content: center;
+            font-size: .8rem; font-family: 'Arimo', sans-serif;
+            cursor: pointer; border-radius: 2px;
+            border: 1px solid transparent;
+            transition: all .2s;
+        }
+        .cal-day:hover:not(.disabled):not(.booked) { border-color: var(--green); color: var(--green); }
+        .cal-day.selected { background: var(--green); color: #000; font-weight: 700; }
+        .cal-day.today    { border-color: var(--yellow); color: var(--yellow); }
+        .cal-day.booked   { color: #333; cursor: not-allowed; text-decoration: line-through; }
+        .cal-day.disabled { color: #222; cursor: not-allowed; }
+        .cal-day.empty    { cursor: default; }
+
+        /* ── TOAST ── */
         #toast {
             position: fixed; bottom: 24px; left: 50%;
             transform: translateX(-50%) translateY(80px);
-            background: #7ed957; color: #000;
+            background: var(--green); color: #000;
             padding: 12px 28px; font-weight: 700; font-size: .8rem;
             letter-spacing: .15em; text-transform: uppercase;
             transition: transform .4s ease, opacity .4s ease;
-            opacity: 0; z-index: 400; pointer-events: none; border-radius: 2px;
+            opacity: 0; z-index: 500; pointer-events: none;
         }
         #toast.show  { transform: translateX(-50%) translateY(0); opacity: 1; }
         #toast.error { background: #ff4444; color: #fff; }
+        #toast.warn  { background: var(--yellow); color: #000; }
 
+        /* ── SPINNER ── */
         .spinner {
-            display: inline-block; width: 16px; height: 16px;
-            border: 2px solid rgba(0,0,0,0.2); border-top-color: #000;
+            display: inline-block; width: 14px; height: 14px;
+            border: 2px solid rgba(0,0,0,0.15); border-top-color: #000;
             border-radius: 50%; animation: spin .6s linear infinite;
             vertical-align: middle; margin-right: 6px;
         }
+        .spinner-white { border-color: rgba(255,255,255,.15); border-top-color: #fff; }
         @keyframes spin { to { transform: rotate(360deg); } }
+
+        /* ── KEY HINT ── */
+        #key-hint {
+            position: fixed; bottom: 16px; right: 16px;
+            background: rgba(0,0,0,0.7);
+            border: 1px solid rgba(255,255,255,0.06);
+            color: #2a2a2a; font-size: 9px; letter-spacing: .15em;
+            padding: 5px 9px; font-family: monospace;
+            z-index: 50; border-radius: 3px;
+            pointer-events: none; user-select: none;
+        }
+
+        /* ── SECCIÓN SERVICIOS NUEVA ── */
+        .service-strip {
+            background: #050505;
+            border-top: 1px solid rgba(255,255,255,0.04);
+            border-bottom: 1px solid rgba(255,255,255,0.04);
+        }
+        .lab-type-btn {
+            border: 1px solid rgba(255,255,255,0.1);
+            padding: .6rem 1.2rem;
+            font-family: 'Arimo', sans-serif;
+            font-size: .7rem; letter-spacing: .15em; text-transform: uppercase;
+            cursor: pointer; color: #666;
+            background: transparent;
+            transition: all .25s;
+        }
+        .lab-type-btn.selected, .lab-type-btn:hover {
+            border-color: var(--green); color: var(--green);
+            background: rgba(126,217,87,.06);
+        }
+
+        /* ── EMPTY STATE ── */
+        .empty-state {
+            text-align: center; padding: 4rem 0; color: #333;
+            font-family: 'Arimo', sans-serif;
+            font-size: .75rem; letter-spacing: .2em; text-transform: uppercase;
+        }
+
+        /* ── SCROLLBAR ── */
+        ::-webkit-scrollbar { width: 4px; }
+        ::-webkit-scrollbar-track { background: #000; }
+        ::-webkit-scrollbar-thumb { background: #222; border-radius: 2px; }
+        ::-webkit-scrollbar-thumb:hover { background: var(--green); }
+
+        /* ── STEP INDICATOR ── */
+        .step-dot {
+            width: 8px; height: 8px; border-radius: 50%;
+            background: #222; transition: background .3s;
+        }
+        .step-dot.active { background: var(--green); }
+        .step-dot.done   { background: var(--yellow); }
+
+        /* ── GRID PANAL ADMIN ACTIONS ── */
+        .action-btn {
+            font-size: .6rem; letter-spacing: .12em; text-transform: uppercase;
+            font-family: 'Arimo', sans-serif;
+            padding: .35rem .75rem; border: 1px solid;
+            cursor: pointer; transition: all .2s; background: transparent;
+        }
+        .action-approve { border-color: rgba(126,217,87,.4); color: var(--green); }
+        .action-approve:hover { background: var(--green); color: #000; }
+        .action-wait    { border-color: rgba(255,255,255,.15); color: #666; }
+        .action-wait:hover { background: #222; color: #fff; }
+        .action-reject  { border-color: rgba(255,68,68,.3); color: #ff4444; }
+        .action-reject:hover { background: #ff4444; color: #fff; }
+        .action-reply   { border-color: rgba(254,216,82,.3); color: var(--yellow); }
+        .action-reply:hover { background: var(--yellow); color: #000; }
+        .action-delete  { border-color: rgba(255,68,68,.2); color: #ff6666; }
+        .action-delete:hover { background: rgba(255,68,68,.15); }
+
+        /* ── NOISE TEXTURE OVERLAY ── */
+        .noise::after {
+            content: ''; position: absolute; inset: 0;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+            pointer-events: none; z-index: 1;
+        }
+
+        /* ── REPLY MODAL ── */
+        #reply-modal .modal-box { max-width: 500px; }
     </style>
 </head>
 <body class="font-roboto">
 
 <div id="toast"></div>
-<div id="key-hint">ADMIN: Ctrl + Shift + H</div>
+<div id="key-hint">ADMIN · Ctrl+Shift+H</div>
 
-<!-- NAV -->
+<!-- ══════════════════════════════════════════════════
+     NAV
+══════════════════════════════════════════════════ -->
 <nav id="main-nav" class="fixed w-full z-[100] glass py-4 px-8 flex justify-between items-center">
     <div class="flex items-center gap-2">
         <img src="HÓOL_SOL_ACT2_1P Cartel.png" alt="Logo" class="h-10 w-auto">
@@ -116,6 +347,8 @@
         <a href="#inicio"         class="hover:text-hoolGreen transition">Inicio</a>
         <a href="#sobre-nosotros" class="hover:text-hoolGreen transition">Nosotros</a>
         <a href="#servicios"      class="hover:text-hoolGreen transition">Impacto</a>
+        <a href="#plataforma"     class="hover:text-hoolGreen transition">Plataforma</a>
+        <a href="#laboratorios"   class="hover:text-hoolGreen transition">Labs</a>
         <a href="#contacto"       class="hover:text-hoolGreen transition">Contacto</a>
     </div>
     <div id="auth-section" class="font-arimo">
@@ -126,7 +359,9 @@
     </div>
 </nav>
 
-<!-- HERO -->
+<!-- ══════════════════════════════════════════════════
+     HERO
+══════════════════════════════════════════════════ -->
 <section id="inicio">
     <div id="intro-viewport">
         <div class="layer z-0"  style="background-image: url('Capa 0.png');"></div>
@@ -134,15 +369,19 @@
         <div class="layer z-20" style="background-image: url('Capa 2.png');"></div>
         <div class="layer z-30" style="background-image: url('Capa 3.png');"></div>
         <div class="layer z-40" style="background-image: url('Capa 4.png');"></div>
-        <div id="scroll-hint" class="font-arimo uppercase tracking-[0.3em] text-xs">
+        <div id="scroll-hint" class="font-arimo uppercase tracking-[0.3em] text-xs z-50">
             <div class="mb-2 animate-bounce">↓</div>
             Desliza hacia abajo para continuar
         </div>
     </div>
 </section>
 
+<!-- ══════════════════════════════════════════════════
+     MAIN CONTENT
+══════════════════════════════════════════════════ -->
 <main class="relative z-50 bg-black">
 
+    <!-- Ingeniería -->
     <section class="py-24 px-8 bg-white text-black relative">
         <div class="max-w-7xl mx-auto grid md:grid-cols-2 gap-12 items-center">
             <div data-aos="fade-right">
@@ -165,6 +404,7 @@
         </div>
     </section>
 
+    <!-- La pregunta -->
     <section class="py-32 px-8 max-w-6xl mx-auto">
         <div class="grid md:grid-cols-2 gap-16 items-center">
             <div data-aos="fade-right">
@@ -178,6 +418,7 @@
         </div>
     </section>
 
+    <!-- Stats -->
     <section class="bg-white py-24 text-black px-8">
         <div class="max-w-7xl mx-auto grid md:grid-cols-3 gap-8">
             <div class="bg-black text-white p-12 flex flex-col justify-between" data-aos="zoom-in">
@@ -188,37 +429,104 @@
                 <h2 class="font-anton text-5xl mb-6 uppercase">Desconexión Sistémica</h2>
                 <p class="text-xl leading-relaxed text-gray-800">México tiene 12 millones de jóvenes con formación técnica. HOOL nace para eliminar la sensación de impotencia. Somos la plataforma que convierte la inquietud en acción tangible.</p>
                 <div class="mt-8 grid grid-cols-2 gap-4">
-                    <div class="border-l-4 border-hoolGreen pl-4">
-                        <span class="block font-anton text-2xl">+1K</span>
-                        <span class="text-xs uppercase">Mentes Inquietas</span>
-                    </div>
-                    <div class="border-l-4 border-hoolYellow pl-4">
-                        <span class="block font-anton text-2xl">I+D</span>
-                        <span class="text-xs uppercase">Soberanía Tech</span>
-                    </div>
+                    <div class="border-l-4 border-hoolGreen pl-4"><span class="block font-anton text-2xl">+1K</span><span class="text-xs uppercase">Mentes Inquietas</span></div>
+                    <div class="border-l-4 border-hoolYellow pl-4"><span class="block font-anton text-2xl">I+D</span><span class="text-xs uppercase">Soberanía Tech</span></div>
                 </div>
             </div>
         </div>
     </section>
 
+    <!-- Infraestructura -->
     <section class="py-32 px-8">
         <h2 class="font-anton text-center text-5xl mb-20 tracking-tighter">INFRAESTRUCTURA DE LA <span class="text-hoolYellow">VOLUNTAD</span></h2>
         <div class="grid md:grid-cols-3 gap-12 max-w-7xl mx-auto">
             <div class="border-t border-hoolGreen pt-8" data-aos="fade-up" data-aos-delay="100">
                 <h4 class="font-anton text-2xl mb-4">I+D APLICADA</h4>
-                <p class="text-gray-400 text-sm">Desde TI hasta ingeniería urbana y desarrollo sostenible. Eliminamos la sensación de impertinencia con la realidad.</p>
+                <p class="text-gray-400 text-sm">Desde TI hasta ingeniería urbana y desarrollo sostenible.</p>
             </div>
             <div class="border-t border-hoolGreen pt-8" data-aos="fade-up" data-aos-delay="200">
                 <h4 class="font-anton text-2xl mb-4">CAPITAL CONVERGENTE</h4>
-                <p class="text-gray-400 text-sm">Modelo híbrido: Gobierno local + Capital Privado + Fondos de Impacto. Garantizamos ejecución, no intención.</p>
+                <p class="text-gray-400 text-sm">Modelo híbrido: Gobierno local + Capital Privado + Fondos de Impacto.</p>
             </div>
             <div class="border-t border-hoolGreen pt-8" data-aos="fade-up" data-aos-delay="300">
                 <h4 class="font-anton text-2xl mb-4">ACCIÓN TERRITORIAL</h4>
-                <p class="text-gray-400 text-sm">Lo que se diseña aquí, se implementa aquí. Conectamos talento inquieto con problemas inmediatos.</p>
+                <p class="text-gray-400 text-sm">Lo que se diseña aquí, se implementa aquí.</p>
             </div>
         </div>
     </section>
 
+    <!-- ════════════════════════════════════════════
+         NUEVA: SECCIÓN PLATAFORMA (Proyectos + Labs)
+    ════════════════════════════════════════════ -->
+    <section id="plataforma" class="py-32 bg-white text-black px-8 relative overflow-hidden">
+        <!-- Decorative BG -->
+        <div class="absolute top-0 right-0 w-64 h-64 opacity-5" style="background: radial-gradient(circle, #7ed957 0%, transparent 70%);"></div>
+
+        <div class="max-w-7xl mx-auto">
+            <div class="mb-20" data-aos="fade-up">
+                <span class="text-hoolGreen font-bold tracking-widest uppercase text-sm font-arimo">Plataforma HÓOL</span>
+                <h2 class="font-anton text-6xl mt-2 uppercase leading-none">TU PROYECTO.<br><span class="text-hoolYellow">NUESTRO MOTOR.</span></h2>
+                <p class="mt-6 text-gray-600 max-w-xl text-lg">Somete tu idea al ecosistema HÓOL. Evaluamos, conectamos y ejecutamos. No buscamos proyectos perfectos — buscamos ideas que ardan.</p>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-6">
+                <!-- Card 1 -->
+                <div class="feature-card" data-aos="fade-up" data-aos-delay="100" onclick="openModal('proyecto-modal')">
+                    <div class="card-icon"></div>
+                    <h3 class="font-anton text-2xl mb-3 uppercase">Someter Proyecto</h3>
+                    <p class="text-gray-500 text-sm leading-relaxed">Comparte tu visión técnica. Evaluamos viabilidad, impacto urbano y potencial de escalamiento en 72 horas.</p>
+                    <div class="mt-8 flex items-center gap-2 text-hoolGreen font-arimo text-xs uppercase tracking-widest">
+                        <span>Iniciar evaluación</span>
+                        <span class="text-xl">→</span>
+                    </div>
+                </div>
+                <!-- Card 2 -->
+                <div class="feature-card" style="--card-color: var(--yellow);" data-aos="fade-up" data-aos-delay="200" onclick="openModal('lab-modal')"
+                    onmouseenter="this.querySelector('.card-icon').style.background='#fed852'"
+                    onmouseleave="this.querySelector('.card-icon').style.background='var(--green)'">
+                    <div class="card-icon"></div>
+                    <h3 class="font-anton text-2xl mb-3 uppercase">Reservar Lab</h3>
+                    <p class="text-gray-500 text-sm leading-relaxed">Accede a nuestros laboratorios gratuitos. Selecciona fecha, tipo de lab y ubicación. Confirmación inmediata.</p>
+                    <div class="mt-8 flex items-center gap-2 text-hoolYellow font-arimo text-xs uppercase tracking-widest">
+                        <span>Agendar ahora</span>
+                        <span class="text-xl">→</span>
+                    </div>
+                </div>
+                <!-- Card 3 -->
+                <div class="feature-card" data-aos="fade-up" data-aos-delay="300" onclick="document.getElementById('contacto').scrollIntoView({behavior:'smooth'})">
+                    <div class="card-icon" style="background:#fff;"></div>
+                    <h3 class="font-anton text-2xl mb-3 uppercase">Contacto Directo</h3>
+                    <p class="text-gray-500 text-sm leading-relaxed">¿Eres empresa, institución o gobierno? Conéctate directamente con nuestro equipo territorial.</p>
+                    <div class="mt-8 flex items-center gap-2 text-white font-arimo text-xs uppercase tracking-widest">
+                        <span>Escribir ahora</span>
+                        <span class="text-xl">→</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Process bar -->
+            <div class="mt-24 grid md:grid-cols-4 gap-0" data-aos="fade-up">
+                <div class="p-8 bg-black text-white">
+                    <div class="font-anton text-5xl text-hoolGreen mb-3">01</div>
+                    <div class="font-arimo text-xs uppercase tracking-widest text-gray-400">Sometes tu proyecto</div>
+                </div>
+                <div class="p-8 bg-hoolGrey text-black">
+                    <div class="font-anton text-5xl text-black mb-3">02</div>
+                    <div class="font-arimo text-xs uppercase tracking-widest text-gray-600">Evaluamos en 72 hrs</div>
+                </div>
+                <div class="p-8 bg-black text-white">
+                    <div class="font-anton text-5xl text-hoolYellow mb-3">03</div>
+                    <div class="font-arimo text-xs uppercase tracking-widest text-gray-400">Te conectamos con recursos</div>
+                </div>
+                <div class="p-8" style="background: var(--green);">
+                    <div class="font-anton text-5xl text-black mb-3">04</div>
+                    <div class="font-arimo text-xs uppercase tracking-widest text-black">Ejecutamos juntos</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Nosotros -->
     <section id="sobre-nosotros" class="py-24 bg-hoolGrey text-black overflow-hidden">
         <div class="container mx-auto px-8 flex flex-col md:flex-row gap-16 items-center">
             <div class="md:w-1/2 relative" data-aos="fade-up">
@@ -233,19 +541,21 @@
         </div>
     </section>
 
+    <!-- Misión / Visión -->
     <section class="py-32 bg-white text-black px-8">
         <div class="max-w-6xl mx-auto grid md:grid-cols-2 gap-20">
             <div data-aos="fade-right">
                 <h2 class="font-anton text-6xl mb-8">MISIÓN</h2>
-                <p class="text-2xl font-light italic border-l-8 border-hoolYellow pl-6 py-2">"Consolidar una red de soberanía tecnológica que transforme la voluntad de las mentes brillantes en infraestructura urbana resiliente, erradicando la apatía generacional a través de la ejecución inmediata."</p>
+                <p class="text-2xl font-light italic border-l-8 border-hoolYellow pl-6 py-2">"Consolidar una red de soberanía tecnológica que transforme la voluntad de las mentes brillantes en infraestructura urbana resiliente."</p>
             </div>
             <div data-aos="fade-left" class="text-right">
                 <h2 class="font-anton text-6xl mb-8">VISIÓN</h2>
-                <p class="text-2xl font-light uppercase tracking-tighter leading-tight">Ser el estándar de innovación sistémica en México para 2030, replicando nuestro modelo territorial en cada polo industrial del país.</p>
+                <p class="text-2xl font-light uppercase tracking-tighter leading-tight">Ser el estándar de innovación sistémica en México para 2030.</p>
             </div>
         </div>
     </section>
 
+    <!-- Servicios -->
     <section id="servicios" class="py-32 bg-black">
         <div class="container mx-auto px-8">
             <h2 class="font-anton text-5xl mb-20 text-center tracking-widest uppercase">Ejes de Acción Territorial</h2>
@@ -258,7 +568,7 @@
                 <div class="group p-10 border border-white/10 hover:border-hoolYellow transition-all duration-500 bg-zinc-900/40" data-aos="flip-left" data-aos-delay="200">
                     <div class="w-14 h-14 bg-hoolYellow mb-8 group-hover:scale-110 transition duration-500"></div>
                     <h3 class="font-anton text-2xl mb-4 uppercase">ACCION SOCIOAMBIENTAL</h3>
-                    <p class="text-gray-400 font-light text-sm">Implementación de tecnologías limpias y regeneración de ecosistemas urbanos mediante ingeniería avanzada.</p>
+                    <p class="text-gray-400 font-light text-sm">Implementación de tecnologías limpias y regeneración de ecosistemas urbanos.</p>
                 </div>
                 <div class="group p-10 border border-white/10 hover:border-white transition-all duration-500 bg-zinc-900/40" data-aos="flip-left" data-aos-delay="400">
                     <div class="w-14 h-14 bg-white mb-8 group-hover:-translate-y-2 transition duration-500"></div>
@@ -269,20 +579,73 @@
         </div>
     </section>
 
-    <!-- FORMULARIO CONTACTO -->
+    <!-- ════════════════════════════════════════════
+         LABORATORIOS BANNER
+    ════════════════════════════════════════════ -->
+    <section id="laboratorios" class="service-strip py-24 px-8">
+        <div class="max-w-7xl mx-auto">
+            <div class="grid md:grid-cols-2 gap-16 items-center">
+                <div data-aos="fade-right">
+                    <span class="text-hoolYellow font-arimo text-xs uppercase tracking-[.3em]">Acceso Gratuito</span>
+                    <h2 class="font-anton text-6xl mt-3 uppercase leading-none">LABORATORIOS<br><span class="text-hoolGreen">HÓOL</span></h2>
+                    <p class="mt-6 text-gray-500 text-lg leading-relaxed">Espacios de creación, prototipado y desarrollo disponibles para todos. Solo necesitas agendar tu fecha y presentarte con tu visión.</p>
+                    <div class="mt-10 grid grid-cols-3 gap-4">
+                        <div class="border-t border-hoolGreen pt-4">
+                            <div class="font-anton text-2xl text-hoolGreen">TI</div>
+                            <div class="text-xs text-gray-500 uppercase tracking-widest mt-1 font-arimo">Tecnología</div>
+                        </div>
+                        <div class="border-t border-hoolYellow pt-4">
+                            <div class="font-anton text-2xl text-hoolYellow">3D</div>
+                            <div class="text-xs text-gray-500 uppercase tracking-widest mt-1 font-arimo">Fabricación</div>
+                        </div>
+                        <div class="border-t border-white/30 pt-4">
+                            <div class="font-anton text-2xl">URB</div>
+                            <div class="text-xs text-gray-500 uppercase tracking-widest mt-1 font-arimo">Urbanismo</div>
+                        </div>
+                    </div>
+                </div>
+                <div data-aos="fade-left">
+                    <div class="border border-white/08 p-8 bg-zinc-900/30">
+                        <div class="font-arimo text-xs uppercase tracking-[.25em] text-gray-500 mb-6">Proceso de reserva</div>
+                        <div class="space-y-4">
+                            <div class="flex items-start gap-4">
+                                <div class="w-6 h-6 bg-hoolGreen flex items-center justify-center text-black font-bold text-xs shrink-0 mt-0.5">1</div>
+                                <div class="text-sm text-gray-400">Selecciona el tipo de laboratorio y sede</div>
+                            </div>
+                            <div class="flex items-start gap-4">
+                                <div class="w-6 h-6 bg-hoolYellow flex items-center justify-center text-black font-bold text-xs shrink-0 mt-0.5">2</div>
+                                <div class="text-sm text-gray-400">Elige tu fecha disponible en el calendario</div>
+                            </div>
+                            <div class="flex items-start gap-4">
+                                <div class="w-6 h-6 border border-white/20 flex items-center justify-center text-white font-bold text-xs shrink-0 mt-0.5">3</div>
+                                <div class="text-sm text-gray-400">Proporciona tus datos de contacto</div>
+                            </div>
+                            <div class="flex items-start gap-4">
+                                <div class="w-6 h-6 border border-hoolGreen flex items-center justify-center text-hoolGreen font-bold text-xs shrink-0 mt-0.5">✓</div>
+                                <div class="text-sm text-gray-400">Recíbete en nuestras instalaciones el día acordado</div>
+                            </div>
+                        </div>
+                        <button onclick="openModal('lab-modal')" class="btn-green w-full mt-8">Reservar Laboratorio</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CONTACTO -->
     <section id="contacto" class="py-32 bg-white text-black">
         <div class="max-w-4xl mx-auto px-8 text-center">
             <h2 class="font-anton text-6xl mb-4">¿ERES UNA MENTE CREATIVA?</h2>
-            <p class="text-hoolGreen font-bold mb-12 uppercase tracking-widest">Únete a la ingeniería de la voluntad.</p>
+            <p class="text-hoolGreen font-bold mb-12 uppercase tracking-widest font-arimo">Únete a la ingeniería de la voluntad.</p>
             <form id="contact-form" class="space-y-8 text-left">
                 <div class="grid md:grid-cols-2 gap-8">
                     <input id="cf-nombre" type="text" placeholder="NOMBRE"
-                        class="w-full border-b-2 border-black p-4 focus:outline-none focus:border-hoolGreen bg-transparent uppercase" required>
+                        class="w-full border-b-2 border-black p-4 focus:outline-none focus:border-hoolGreen bg-transparent uppercase font-arimo" required>
                     <input id="cf-email" type="email" placeholder="EMAIL"
-                        class="w-full border-b-2 border-black p-4 focus:outline-none focus:border-hoolGreen bg-transparent uppercase" required>
+                        class="w-full border-b-2 border-black p-4 focus:outline-none focus:border-hoolGreen bg-transparent uppercase font-arimo" required>
                 </div>
                 <textarea id="cf-mensaje" rows="4" placeholder="DESCRIBE TU VISIÓN"
-                    class="w-full border-b-2 border-black p-4 focus:outline-none focus:border-hoolGreen bg-transparent uppercase" required></textarea>
+                    class="w-full border-b-2 border-black p-4 focus:outline-none focus:border-hoolGreen bg-transparent uppercase font-arimo" required></textarea>
                 <button id="cf-submit" type="submit"
                     class="w-full bg-black text-white py-6 font-anton text-2xl hover:bg-hoolGreen transition shadow-2xl">
                     ENVIAR A HÓOL
@@ -298,116 +661,429 @@
     <p class="text-gray-600 text-[10px] tracking-[0.6em] font-arimo uppercase">HÓOL © 2026 | Ingeniería para la voluntad</p>
 </footer>
 
-<!-- MODAL SOCIOS (original) -->
+
+<!-- ══════════════════════════════════════════════════
+     MODAL SOCIOS (original)
+══════════════════════════════════════════════════ -->
 <div id="login-modal" class="fixed inset-0 z-[200] hidden flex items-center justify-center bg-black/95 px-4">
     <div class="bg-zinc-900 p-10 max-w-md w-full border-t-4 border-hoolYellow shadow-2xl">
         <h2 class="font-anton text-3xl mb-8 text-center text-white tracking-widest uppercase">Acceso Asociado</h2>
         <div class="space-y-6">
-            <input id="user-input" type="text" placeholder="USUARIO"
-                class="w-full bg-transparent border-b border-gray-700 p-3 text-white focus:outline-none focus:border-hoolYellow">
-            <input id="pass-input" type="password" placeholder="CLAVE"
-                class="w-full bg-transparent border-b border-gray-700 p-3 text-white focus:outline-none focus:border-hoolYellow">
+            <input id="user-input" type="text" placeholder="USUARIO" class="hool-input">
+            <input id="pass-input" type="password" placeholder="CLAVE" class="hool-input">
             <div class="flex gap-4 pt-4">
-                <button onclick="handleAuth('login')"    class="flex-1 bg-hoolYellow text-black font-bold py-3 uppercase text-xs">Entrar</button>
-                <button onclick="handleAuth('register')" class="flex-1 border border-white text-white font-bold py-3 uppercase text-xs">Registro</button>
+                <button onclick="handleAuth('login')"    class="flex-1 bg-hoolYellow text-black font-bold py-3 uppercase text-xs font-arimo">Entrar</button>
+                <button onclick="handleAuth('register')" class="flex-1 border border-white text-white font-bold py-3 uppercase text-xs font-arimo">Registro</button>
             </div>
-            <button onclick="toggleModal('login-modal')" class="w-full text-[10px] text-gray-500 mt-6 uppercase hover:text-white transition">Cerrar</button>
+            <button onclick="toggleModal('login-modal')" class="w-full text-[10px] text-gray-500 mt-6 uppercase hover:text-white transition font-arimo">Cerrar</button>
         </div>
     </div>
 </div>
 
-<!-- MODAL ADMIN -->
+<!-- ══════════════════════════════════════════════════
+     MODAL ADMIN LOGIN (Ctrl+Shift+H)
+══════════════════════════════════════════════════ -->
 <div id="admin-modal" class="fixed inset-0 z-[250] hidden flex items-center justify-center bg-black/98 px-4">
     <div class="bg-zinc-900 p-10 max-w-md w-full border-t-4 border-hoolGreen shadow-2xl relative">
         <div class="absolute top-4 right-4 w-2 h-2 rounded-full bg-hoolGreen animate-pulse"></div>
         <h2 class="font-anton text-3xl mb-2 text-white tracking-widest uppercase">Panel <span class="text-hoolGreen">Admin</span></h2>
-        <p class="text-gray-600 text-[10px] uppercase tracking-[.2em] mb-8">Acceso restringido · HÓOL</p>
+        <p class="text-gray-600 text-[10px] uppercase tracking-[.2em] mb-8 font-arimo">Acceso restringido · HÓOL</p>
         <div class="space-y-6">
-            <input id="admin-email" type="email" placeholder="EMAIL ADMIN"
-                class="w-full bg-transparent border-b border-gray-700 p-3 text-white focus:outline-none focus:border-hoolGreen">
-            <input id="admin-pass" type="password" placeholder="CONTRASEÑA"
-                class="w-full bg-transparent border-b border-gray-700 p-3 text-white focus:outline-none focus:border-hoolGreen">
-            <div id="admin-error" class="text-red-400 text-xs uppercase tracking-widest hidden"></div>
+            <input id="admin-email" type="email" placeholder="EMAIL ADMIN" class="hool-input">
+            <input id="admin-pass" type="password" placeholder="CONTRASEÑA" class="hool-input">
+            <div id="admin-error" class="text-red-400 text-xs uppercase tracking-widest hidden font-arimo"></div>
             <div class="flex gap-4 pt-2">
-                <button id="admin-login-btn" onclick="adminLogin()"
-                    class="flex-1 bg-hoolGreen text-black font-bold py-3 uppercase text-xs hover:bg-white transition">
-                    Ingresar
-                </button>
-                <button onclick="toggleModal('admin-modal')"
-                    class="flex-1 border border-gray-700 text-gray-500 font-bold py-3 uppercase text-xs hover:text-white transition">
-                    Cancelar
-                </button>
+                <button id="admin-login-btn" onclick="adminLogin()" class="flex-1 bg-hoolGreen text-black font-bold py-3 uppercase text-xs hover:bg-white transition font-arimo">Ingresar</button>
+                <button onclick="toggleModal('admin-modal')" class="flex-1 border border-gray-700 text-gray-500 font-bold py-3 uppercase text-xs hover:text-white transition font-arimo">Cancelar</button>
             </div>
         </div>
     </div>
 </div>
 
-<!-- DASHBOARD ADMIN -->
-<div id="admin-dashboard" class="admin-panel-overlay">
-    <div class="max-w-5xl mx-auto px-6 py-16">
-        <div class="flex items-center justify-between mb-16 border-b border-white/10 pb-8">
-            <div>
-                <h1 class="font-anton text-5xl tracking-widest">PANEL <span class="text-hoolGreen">ADMIN</span></h1>
-                <p id="admin-user-label" class="text-gray-500 text-xs uppercase tracking-[.2em] mt-1"></p>
+<!-- ══════════════════════════════════════════════════
+     MODAL SOMETER PROYECTO
+══════════════════════════════════════════════════ -->
+<div id="proyecto-modal" class="hool-modal" onclick="if(event.target===this)closeModal('proyecto-modal')">
+    <div class="modal-box modal-accent-green" style="max-width:720px; margin: auto;">
+        <div class="p-8 border-b border-white/06">
+            <div class="flex items-start justify-between">
+                <div>
+                    <h2 class="font-anton text-4xl tracking-widest uppercase">Someter <span class="text-hoolGreen">Proyecto</span></h2>
+                    <p class="text-gray-600 text-xs uppercase tracking-[.2em] mt-1 font-arimo">Evaluación HÓOL · 72 horas</p>
+                </div>
+                <button onclick="closeModal('proyecto-modal')" class="text-gray-700 hover:text-white text-2xl transition leading-none mt-1">✕</button>
             </div>
-            <button onclick="adminLogout()"
-                class="border border-hoolGreen text-hoolGreen px-6 py-2 font-arimo text-xs uppercase tracking-widest hover:bg-hoolGreen hover:text-black transition">
+            <!-- Step indicators -->
+            <div class="flex items-center gap-2 mt-6">
+                <div class="step-dot active" id="pdot-1"></div>
+                <div class="h-px flex-1 bg-white/10"></div>
+                <div class="step-dot" id="pdot-2"></div>
+                <div class="h-px flex-1 bg-white/10"></div>
+                <div class="step-dot" id="pdot-3"></div>
+            </div>
+        </div>
+
+        <form id="proyecto-form" class="p-8">
+            <!-- Paso 1 -->
+            <div id="pstep-1" class="space-y-6">
+                <div class="text-xs text-hoolGreen uppercase tracking-[.2em] font-arimo mb-6">Paso 1 · Tu Proyecto</div>
+                <div>
+                    <label class="hool-input-label">Nombre del Proyecto *</label>
+                    <input id="pf-nombre" type="text" placeholder="Ej: Sistema de monitoreo de calidad de aire..." class="hool-input" required>
+                </div>
+                <div>
+                    <label class="hool-input-label">Categoría *</label>
+                    <select id="pf-categoria" class="hool-input" required>
+                        <option value="">Selecciona una categoría</option>
+                        <option value="urbanismo">Urbanismo Táctico</option>
+                        <option value="socioambiental">Acción Socioambiental</option>
+                        <option value="software">Soberanía Tech / Software</option>
+                        <option value="hardware">Hardware / Fabricación</option>
+                        <option value="datos">Datos & Análisis</option>
+                        <option value="otro">Otro</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="hool-input-label">Descripción breve del problema que resuelve *</label>
+                    <textarea id="pf-descripcion" rows="4" placeholder="¿Qué problema existe en tu ciudad o comunidad?" class="hool-input resize-none" required></textarea>
+                </div>
+                <div class="flex justify-end">
+                    <button type="button" onclick="proyectoNext(1)" class="btn-green">Siguiente →</button>
+                </div>
+            </div>
+
+            <!-- Paso 2 -->
+            <div id="pstep-2" class="space-y-6 hidden">
+                <div class="text-xs text-hoolGreen uppercase tracking-[.2em] font-arimo mb-6">Paso 2 · Detalles Técnicos</div>
+                <div>
+                    <label class="hool-input-label">Tecnologías que utilizas o planeas utilizar</label>
+                    <input id="pf-tech" type="text" placeholder="Ej: Python, Arduino, Unity, GIS, etc." class="hool-input">
+                </div>
+                <div>
+                    <label class="hool-input-label">Etapa actual del proyecto *</label>
+                    <select id="pf-etapa" class="hool-input" required>
+                        <option value="">Selecciona etapa</option>
+                        <option value="idea">Solo idea / Concepto</option>
+                        <option value="prototipo">Prototipo inicial</option>
+                        <option value="mvp">MVP funcional</option>
+                        <option value="piloto">Piloto en campo</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="hool-input-label">¿Qué necesitas de HÓOL?</label>
+                    <textarea id="pf-necesidad" rows="3" placeholder="Mentoría, espacio de trabajo, conexión con instituciones, fondos..." class="hool-input resize-none"></textarea>
+                </div>
+                <div>
+                    <label class="hool-input-label">Link de referencia (opcional)</label>
+                    <input id="pf-link" type="url" placeholder="https://..." class="hool-input">
+                </div>
+                <div class="flex justify-between">
+                    <button type="button" onclick="proyectoBack(2)" class="btn-outline">← Atrás</button>
+                    <button type="button" onclick="proyectoNext(2)" class="btn-green">Siguiente →</button>
+                </div>
+            </div>
+
+            <!-- Paso 3 -->
+            <div id="pstep-3" class="space-y-6 hidden">
+                <div class="text-xs text-hoolGreen uppercase tracking-[.2em] font-arimo mb-6">Paso 3 · Tu Contacto</div>
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="hool-input-label">Nombre completo *</label>
+                        <input id="pf-contacto-nombre" type="text" placeholder="Tu nombre" class="hool-input" required>
+                    </div>
+                    <div>
+                        <label class="hool-input-label">Edad</label>
+                        <input id="pf-edad" type="number" min="14" max="35" placeholder="Ej: 22" class="hool-input">
+                    </div>
+                </div>
+                <div>
+                    <label class="hool-input-label">Correo electrónico *</label>
+                    <input id="pf-email" type="email" placeholder="tu@correo.com" class="hool-input" required>
+                </div>
+                <div>
+                    <label class="hool-input-label">Teléfono (opcional)</label>
+                    <input id="pf-tel" type="tel" placeholder="+52 477 000 0000" class="hool-input">
+                </div>
+                <div>
+                    <label class="hool-input-label">Ciudad / Estado</label>
+                    <input id="pf-ciudad" type="text" placeholder="Ej: León, Guanajuato" class="hool-input">
+                </div>
+                <!-- Resumen -->
+                <div class="border border-white/08 p-4 bg-white/02">
+                    <div class="text-xs text-gray-500 uppercase tracking-widest font-arimo mb-3">Resumen de tu envío</div>
+                    <div id="pf-resumen" class="text-xs text-gray-400 font-arimo space-y-1"></div>
+                </div>
+                <div class="flex justify-between">
+                    <button type="button" onclick="proyectoBack(3)" class="btn-outline">← Atrás</button>
+                    <button type="submit" id="pf-submit" class="btn-green">Enviar Proyecto ↗</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════
+     MODAL LABORATORIO
+══════════════════════════════════════════════════ -->
+<div id="lab-modal" class="hool-modal" onclick="if(event.target===this)closeModal('lab-modal')">
+    <div class="modal-box modal-accent-yellow" style="max-width:700px; margin:auto;">
+        <div class="p-8 border-b border-white/06">
+            <div class="flex items-start justify-between">
+                <div>
+                    <h2 class="font-anton text-4xl tracking-widest uppercase">Reservar <span class="text-hoolYellow">Laboratorio</span></h2>
+                    <p class="text-gray-600 text-xs uppercase tracking-[.2em] mt-1 font-arimo">Acceso Gratuito · Sin costo</p>
+                </div>
+                <button onclick="closeModal('lab-modal')" class="text-gray-700 hover:text-white text-2xl transition leading-none mt-1">✕</button>
+            </div>
+            <div class="flex items-center gap-2 mt-6">
+                <div class="step-dot active" id="ldot-1"></div>
+                <div class="h-px flex-1 bg-white/10"></div>
+                <div class="step-dot" id="ldot-2"></div>
+                <div class="h-px flex-1 bg-white/10"></div>
+                <div class="step-dot" id="ldot-3"></div>
+            </div>
+        </div>
+
+        <form id="lab-form" class="p-8">
+            <!-- Lab Step 1: Tipo y Sede -->
+            <div id="lstep-1" class="space-y-6">
+                <div class="text-xs text-hoolYellow uppercase tracking-[.2em] font-arimo mb-4">Paso 1 · Tipo de Laboratorio</div>
+                <div>
+                    <label class="hool-input-label">Tipo de Laboratorio *</label>
+                    <div class="flex flex-wrap gap-2 mt-3">
+                        <button type="button" class="lab-type-btn" data-type="ti" onclick="selectLabType(this)">💻 TI & Software</button>
+                        <button type="button" class="lab-type-btn" data-type="3d" onclick="selectLabType(this)">🖨 Fabricación 3D</button>
+                        <button type="button" class="lab-type-btn" data-type="urbanismo" onclick="selectLabType(this)">🏙 Urbanismo</button>
+                        <button type="button" class="lab-type-btn" data-type="electronica" onclick="selectLabType(this)">⚡ Electrónica</button>
+                        <button type="button" class="lab-type-btn" data-type="datos" onclick="selectLabType(this)">📊 Datos & IA</button>
+                    </div>
+                    <input type="hidden" id="lf-tipo" required>
+                </div>
+                <div>
+                    <label class="hool-input-label">Sede / Ubicación *</label>
+                    <select id="lf-sede" class="hool-input" required>
+                        <option value="">Selecciona una sede</option>
+                        <option value="leon-centro">León Centro — Blvd. Adolfo López Mateos</option>
+                        <option value="leon-norte">León Norte — Campus Tecnológico</option>
+                        <option value="leon-bajio">Bajío Hub — Zona Industrial</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="hool-input-label">Propósito de la visita</label>
+                    <input id="lf-proposito" type="text" placeholder="¿Qué planeas hacer en el lab?" class="hool-input">
+                </div>
+                <div class="flex justify-end">
+                    <button type="button" onclick="labNext(1)" class="btn-yellow">Siguiente →</button>
+                </div>
+            </div>
+
+            <!-- Lab Step 2: Calendario -->
+            <div id="lstep-2" class="hidden">
+                <div class="text-xs text-hoolYellow uppercase tracking-[.2em] font-arimo mb-6">Paso 2 · Selecciona tu Fecha</div>
+                <div class="border border-white/08 p-6">
+                    <!-- Month nav -->
+                    <div class="flex items-center justify-between mb-6">
+                        <button type="button" onclick="calPrev()" class="text-gray-500 hover:text-white transition font-arimo text-sm">← Ant</button>
+                        <div id="cal-month-label" class="font-anton text-xl tracking-widest"></div>
+                        <button type="button" onclick="calNext()" class="text-gray-500 hover:text-white transition font-arimo text-sm">Sig →</button>
+                    </div>
+                    <!-- Days header -->
+                    <div class="grid grid-cols-7 gap-1 mb-2">
+                        <div class="cal-day text-[10px] text-gray-600 font-arimo uppercase">Lu</div>
+                        <div class="cal-day text-[10px] text-gray-600 font-arimo uppercase">Ma</div>
+                        <div class="cal-day text-[10px] text-gray-600 font-arimo uppercase">Mi</div>
+                        <div class="cal-day text-[10px] text-gray-600 font-arimo uppercase">Ju</div>
+                        <div class="cal-day text-[10px] text-gray-600 font-arimo uppercase">Vi</div>
+                        <div class="cal-day text-[10px] text-gray-600 font-arimo uppercase">Sa</div>
+                        <div class="cal-day text-[10px] text-gray-600 font-arimo uppercase">Do</div>
+                    </div>
+                    <div id="cal-grid" class="grid grid-cols-7 gap-1"></div>
+                    <div id="cal-selected-display" class="mt-4 text-xs font-arimo text-hoolYellow uppercase tracking-widest hidden"></div>
+                    <input type="hidden" id="lf-fecha" required>
+                </div>
+                <div>
+                    <label class="hool-input-label mt-6">Horario preferido *</label>
+                    <select id="lf-horario" class="hool-input" required>
+                        <option value="">Selecciona horario</option>
+                        <option value="09:00-11:00">09:00 – 11:00 hrs</option>
+                        <option value="11:00-13:00">11:00 – 13:00 hrs</option>
+                        <option value="14:00-16:00">14:00 – 16:00 hrs</option>
+                        <option value="16:00-18:00">16:00 – 18:00 hrs</option>
+                    </select>
+                </div>
+                <div class="flex justify-between mt-6">
+                    <button type="button" onclick="labBack(2)" class="btn-outline">← Atrás</button>
+                    <button type="button" onclick="labNext(2)" class="btn-yellow">Siguiente →</button>
+                </div>
+            </div>
+
+            <!-- Lab Step 3: Contacto -->
+            <div id="lstep-3" class="space-y-6 hidden">
+                <div class="text-xs text-hoolYellow uppercase tracking-[.2em] font-arimo mb-6">Paso 3 · Tus Datos</div>
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="hool-input-label">Nombre completo *</label>
+                        <input id="lf-nombre" type="text" class="hool-input" placeholder="Tu nombre" required>
+                    </div>
+                    <div>
+                        <label class="hool-input-label">Edad</label>
+                        <input id="lf-edad" type="number" min="14" max="40" placeholder="Ej: 21" class="hool-input">
+                    </div>
+                </div>
+                <div>
+                    <label class="hool-input-label">Correo electrónico *</label>
+                    <input id="lf-email" type="email" class="hool-input" placeholder="tu@correo.com" required>
+                </div>
+                <div>
+                    <label class="hool-input-label">Teléfono</label>
+                    <input id="lf-tel" type="tel" class="hool-input" placeholder="+52 477 000 0000">
+                </div>
+                <!-- Resumen booking -->
+                <div class="border border-hoolYellow/20 p-4">
+                    <div class="text-xs text-hoolYellow uppercase tracking-widest font-arimo mb-3">Tu reserva</div>
+                    <div id="lf-resumen" class="text-xs text-gray-400 font-arimo space-y-1"></div>
+                </div>
+                <div class="flex justify-between">
+                    <button type="button" onclick="labBack(3)" class="btn-outline">← Atrás</button>
+                    <button type="submit" id="lf-submit" class="btn-yellow">Confirmar Reserva ✓</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════
+     MODAL REPLY EMAIL
+══════════════════════════════════════════════════ -->
+<div id="reply-modal" class="hool-modal" onclick="if(event.target===this)closeModal('reply-modal')">
+    <div class="modal-box modal-accent-yellow p-8" style="max-width:500px; margin:auto;">
+        <div class="flex justify-between items-start mb-6">
+            <div>
+                <h3 class="font-anton text-2xl">Responder</h3>
+                <p id="reply-to-label" class="text-hoolYellow text-xs font-arimo uppercase tracking-widest mt-1"></p>
+            </div>
+            <button onclick="closeModal('reply-modal')" class="text-gray-600 hover:text-white text-xl transition">✕</button>
+        </div>
+        <div class="space-y-4">
+            <div>
+                <label class="hool-input-label">Para (email)</label>
+                <input id="reply-email" type="email" class="hool-input" readonly>
+            </div>
+            <div>
+                <label class="hool-input-label">Asunto</label>
+                <input id="reply-subject" type="text" class="hool-input" placeholder="Respuesta de HÓOL">
+            </div>
+            <div>
+                <label class="hool-input-label">Mensaje *</label>
+                <textarea id="reply-body" rows="5" class="hool-input resize-none" placeholder="Escribe tu respuesta aquí..."></textarea>
+            </div>
+            <p class="text-[10px] text-gray-600 font-arimo leading-relaxed">Este mensaje se genera para que lo envíes desde tu cliente de correo. Al hacer click en "Abrir correo" se abrirá tu app de email con el mensaje listo.</p>
+            <div class="flex gap-3">
+                <button onclick="sendReply()" class="btn-yellow flex-1">Abrir Correo ↗</button>
+                <button onclick="closeModal('reply-modal')" class="btn-outline">Cancelar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════
+     PANEL ADMIN DASHBOARD
+══════════════════════════════════════════════════ -->
+<div id="admin-dashboard" class="hool-overlay">
+    <div class="max-w-6xl mx-auto px-6 py-12">
+
+        <!-- Header -->
+        <div class="flex items-center justify-between mb-12 border-b border-white/08 pb-8">
+            <div>
+                <h1 class="font-anton text-5xl tracking-widest">PANEL <span class="text-hoolGreen">HÓOL</span></h1>
+                <p id="admin-user-label" class="text-gray-600 text-xs uppercase tracking-[.2em] mt-1 font-arimo"></p>
+            </div>
+            <button onclick="adminLogout()" class="border border-hoolGreen text-hoolGreen px-6 py-2 font-arimo text-xs uppercase tracking-widest hover:bg-hoolGreen hover:text-black transition">
                 Cerrar Sesión
             </button>
         </div>
-        <div class="grid grid-cols-3 gap-6 mb-16">
-            <div class="bg-zinc-900 p-6 border-l-2 border-hoolGreen">
-                <div id="stat-total" class="font-anton text-5xl text-hoolGreen">—</div>
-                <div class="text-xs uppercase tracking-widest text-gray-500 mt-1">Mensajes Totales</div>
+
+        <!-- Stats -->
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-12">
+            <div class="bg-zinc-900/60 p-5 border-l-2 border-hoolGreen">
+                <div id="stat-mensajes" class="font-anton text-4xl text-hoolGreen">—</div>
+                <div class="text-[10px] uppercase tracking-widest text-gray-600 mt-1 font-arimo">Mensajes</div>
             </div>
-            <div class="bg-zinc-900 p-6 border-l-2 border-hoolYellow">
-                <div id="stat-today" class="font-anton text-5xl text-hoolYellow">—</div>
-                <div class="text-xs uppercase tracking-widest text-gray-500 mt-1">Hoy</div>
+            <div class="bg-zinc-900/60 p-5 border-l-2 border-hoolYellow">
+                <div id="stat-proyectos" class="font-anton text-4xl text-hoolYellow">—</div>
+                <div class="text-[10px] uppercase tracking-widest text-gray-600 mt-1 font-arimo">Proyectos</div>
             </div>
-            <div class="bg-zinc-900 p-6 border-l-2 border-white/30">
-                <div id="stat-week" class="font-anton text-5xl">—</div>
-                <div class="text-xs uppercase tracking-widest text-gray-500 mt-1">Esta Semana</div>
+            <div class="bg-zinc-900/60 p-5 border-l-2 border-white/30">
+                <div id="stat-labs" class="font-anton text-4xl">—</div>
+                <div class="text-[10px] uppercase tracking-widest text-gray-600 mt-1 font-arimo">Reservas Lab</div>
             </div>
-        </div>
-        <div class="flex items-center justify-between mb-8">
-            <h2 class="font-anton text-2xl uppercase tracking-widest">Mensajes de Contacto</h2>
-            <button onclick="loadMessages()"
-                class="text-xs uppercase tracking-widest text-hoolGreen border border-hoolGreen px-4 py-2 hover:bg-hoolGreen hover:text-black transition">
-                ↻ Actualizar
-            </button>
-        </div>
-        <div id="messages-container">
-            <div class="empty-state font-arimo text-sm uppercase tracking-widest">
-                <div class="text-4xl mb-4">⟳</div>Cargando mensajes...
+            <div class="bg-zinc-900/60 p-5 border-l-2 border-hoolGreen/40">
+                <div id="stat-pending" class="font-anton text-4xl text-hoolYellow">—</div>
+                <div class="text-[10px] uppercase tracking-widest text-gray-600 mt-1 font-arimo">Pendientes</div>
             </div>
         </div>
+
+        <!-- Tabs -->
+        <div class="border-b border-white/08 mb-8 flex gap-0 overflow-x-auto">
+            <button class="admin-tab active" onclick="switchTab('tab-mensajes', this)">✉ Mensajes</button>
+            <button class="admin-tab" onclick="switchTab('tab-proyectos', this)">◈ Proyectos</button>
+            <button class="admin-tab" onclick="switchTab('tab-labs', this)">⬡ Laboratorios</button>
+        </div>
+
+        <!-- TAB: Mensajes -->
+        <div id="tab-mensajes" class="tab-panel active">
+            <div class="flex justify-between items-center mb-6">
+                <h2 class="font-anton text-xl tracking-widest uppercase">Mensajes de Contacto</h2>
+                <button onclick="loadAllData()" class="action-btn action-wait">↻ Actualizar</button>
+            </div>
+            <div id="mensajes-container">
+                <div class="empty-state">⟳ Cargando...</div>
+            </div>
+        </div>
+
+        <!-- TAB: Proyectos -->
+        <div id="tab-proyectos" class="tab-panel">
+            <div class="flex justify-between items-center mb-6">
+                <h2 class="font-anton text-xl tracking-widest uppercase">Proyectos Sometidos</h2>
+                <div class="flex gap-2">
+                    <button onclick="filterProyectos('todos')" class="action-btn action-wait" id="pfilter-todos">Todos</button>
+                    <button onclick="filterProyectos('pendiente')" class="action-btn action-approve" id="pfilter-pendiente">Pendientes</button>
+                    <button onclick="loadAllData()" class="action-btn action-wait">↻ Actualizar</button>
+                </div>
+            </div>
+            <div id="proyectos-container">
+                <div class="empty-state">⟳ Cargando...</div>
+            </div>
+        </div>
+
+        <!-- TAB: Labs -->
+        <div id="tab-labs" class="tab-panel">
+            <div class="flex justify-between items-center mb-6">
+                <h2 class="font-anton text-xl tracking-widest uppercase">Reservas de Laboratorio</h2>
+                <button onclick="loadAllData()" class="action-btn action-wait">↻ Actualizar</button>
+            </div>
+            <div id="labs-container">
+                <div class="empty-state">⟳ Cargando...</div>
+            </div>
+        </div>
+
     </div>
 </div>
 
-<!-- SCRIPTS -->
+
+<!-- ══════════════════════════════════════════════════
+     SCRIPTS
+══════════════════════════════════════════════════ -->
 <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
 
 <script type="module">
-
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-import {
-    getAuth,
-    signInWithEmailAndPassword,
-    signOut,
-    onAuthStateChanged
-} from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
-import {
-    getDatabase,
-    ref,
-    push,
-    get
-} from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
+import { getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+import { getDatabase, ref, push, get, update, remove } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
 
-// ══════════════════════════════════════════════════════════
-//  ⚠️  REEMPLAZA ESTOS VALORES CON LOS DE TU PROYECTO
-// ══════════════════════════════════════════════════════════
+// ══════════ REEMPLAZA CON TU CONFIG ══════════
 const firebaseConfig = {
     apiKey:            "AIzaSyDYlskuWYe4fAZgBbuA9NWUKOFC1Aeg1ME",
     authDomain:        "hooldatabase.firebaseapp.com",
@@ -416,233 +1092,512 @@ const firebaseConfig = {
     messagingSenderId: "134683027486",
     appId:             "1:134683027486:web:b84fbf6bc2b4105128660f",
     databaseURL:       "https://hooldatabase-default-rtdb.firebaseio.com"
-    // ↑ Formato: https://TU-PROYECTO-default-rtdb.firebaseio.com
-    // Lo ves en: Realtime Database → panel principal (arriba del JSON)
 };
-// ══════════════════════════════════════════════════════════
+// ═════════════════════════════════════════════
 
 const app  = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db   = getDatabase(app);
 
-// Utilidades
-function showToast(msg, isError = false) {
+// ── UTILS ──────────────────────────────────
+function showToast(msg, type = 'ok') {
     const t = document.getElementById('toast');
     t.textContent = msg;
-    t.className = 'show' + (isError ? ' error' : '');
-    setTimeout(() => { t.className = ''; }, 3200);
+    t.className = 'show' + (type === 'err' ? ' error' : type === 'warn' ? ' warn' : '');
+    setTimeout(() => { t.className = ''; }, 3500);
 }
 
-function escHtml(str = '') {
-    return String(str)
-        .replace(/&/g,'&amp;').replace(/</g,'&lt;')
-        .replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+function escHtml(s = '') {
+    return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 }
 
-window.toggleModal = (id) => {
-    document.getElementById(id).classList.toggle('hidden');
-};
+function fmtDate(ts) {
+    if (!ts) return '—';
+    return new Date(ts).toLocaleString('es-MX', { day:'2-digit', month:'short', year:'numeric', hour:'2-digit', minute:'2-digit' });
+}
 
-// Ctrl + Shift + H → abre panel admin
+function badge(status) {
+    const map = {
+        pendiente:  '<span class="badge badge-pending">Pendiente</span>',
+        aprobado:   '<span class="badge badge-approved">Aprobado</span>',
+        espera:     '<span class="badge badge-wait">En espera</span>',
+        rechazado:  '<span class="badge badge-rejected">Rechazado</span>',
+        confirmado: '<span class="badge badge-approved">Confirmado</span>',
+    };
+    return map[status] || `<span class="badge badge-pending">${status}</span>`;
+}
+
+// ── MODAL CONTROL ──────────────────────────
+window.toggleModal = (id) => document.getElementById(id).classList.toggle('hidden');
+window.openModal  = (id) => { document.getElementById(id).classList.add('open'); document.body.style.overflow='hidden'; };
+window.closeModal = (id) => { document.getElementById(id).classList.remove('open'); document.body.style.overflow=''; };
+
+// ── ADMIN KEY COMBO ─────────────────────────
 document.addEventListener('keydown', (e) => {
     if (e.ctrlKey && e.shiftKey && e.key === 'H') {
         e.preventDefault();
         if (auth.currentUser) {
             document.getElementById('admin-dashboard').classList.add('visible');
         } else {
-            const modal = document.getElementById('admin-modal');
-            modal.classList.remove('hidden');
-            modal.classList.add('flex');
+            const m = document.getElementById('admin-modal');
+            m.classList.remove('hidden'); m.classList.add('flex');
         }
     }
 });
 
-// Login admin con Firebase Auth
+// ── ADMIN LOGIN ─────────────────────────────
 window.adminLogin = async () => {
     const email = document.getElementById('admin-email').value.trim();
     const pass  = document.getElementById('admin-pass').value;
     const btn   = document.getElementById('admin-login-btn');
     const errEl = document.getElementById('admin-error');
-
-    if (!email || !pass) {
-        errEl.textContent = 'Completa ambos campos';
-        errEl.classList.remove('hidden');
-        return;
-    }
-
-    btn.innerHTML = '<span class="spinner"></span>Verificando...';
-    btn.disabled  = true;
-    errEl.classList.add('hidden');
-
+    if (!email || !pass) { errEl.textContent='Completa ambos campos'; errEl.classList.remove('hidden'); return; }
+    btn.innerHTML = '<span class="spinner"></span>Verificando...'; btn.disabled=true; errEl.classList.add('hidden');
     try {
         await signInWithEmailAndPassword(auth, email, pass);
-    } catch (err) {
-        const msgs = {
-            'auth/user-not-found':     'Usuario no encontrado',
-            'auth/wrong-password':     'Contraseña incorrecta',
-            'auth/invalid-credential': 'Credenciales inválidas',
-            'auth/too-many-requests':  'Demasiados intentos. Espera un momento'
-        };
-        errEl.textContent = msgs[err.code] || 'Error al iniciar sesión';
-        errEl.classList.remove('hidden');
-        btn.innerHTML = 'Ingresar';
-        btn.disabled  = false;
+    } catch(err) {
+        const msgs = {'auth/user-not-found':'Usuario no encontrado','auth/wrong-password':'Contraseña incorrecta','auth/invalid-credential':'Credenciales inválidas','auth/too-many-requests':'Demasiados intentos'};
+        errEl.textContent = msgs[err.code]||'Error al iniciar sesión'; errEl.classList.remove('hidden');
+        btn.innerHTML='Ingresar'; btn.disabled=false;
     }
 };
 
-// Observer sesión
 onAuthStateChanged(auth, (user) => {
     if (user) {
-        const modal = document.getElementById('admin-modal');
-        modal.classList.add('hidden');
-        modal.classList.remove('flex');
-        document.getElementById('admin-email').value = '';
-        document.getElementById('admin-pass').value  = '';
-        document.getElementById('admin-login-btn').innerHTML = 'Ingresar';
-        document.getElementById('admin-login-btn').disabled  = false;
-        document.getElementById('admin-user-label').textContent = `Sesión activa: ${user.email}`;
+        const m = document.getElementById('admin-modal');
+        m.classList.add('hidden'); m.classList.remove('flex');
+        document.getElementById('admin-email').value=''; document.getElementById('admin-pass').value='';
+        document.getElementById('admin-login-btn').innerHTML='Ingresar'; document.getElementById('admin-login-btn').disabled=false;
+        document.getElementById('admin-user-label').textContent=`Sesión · ${user.email}`;
         document.getElementById('admin-dashboard').classList.add('visible');
-        loadMessages();
+        loadAllData();
     } else {
         document.getElementById('admin-dashboard').classList.remove('visible');
     }
 });
 
-window.adminLogout = async () => {
-    await signOut(auth);
-    showToast('Sesión cerrada correctamente');
+window.adminLogout = async () => { await signOut(auth); showToast('Sesión cerrada'); };
+
+// ── TABS ────────────────────────────────────
+window.switchTab = (tabId, btn) => {
+    document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.admin-tab').forEach(b => b.classList.remove('active'));
+    document.getElementById(tabId).classList.add('active');
+    btn.classList.add('active');
 };
 
-// Leer mensajes desde Realtime Database
-window.loadMessages = async () => {
-    const container = document.getElementById('messages-container');
-    container.innerHTML = `<div class="empty-state font-arimo text-sm uppercase tracking-widest"><div class="text-4xl mb-4">⟳</div>Cargando mensajes...</div>`;
+// ══════════════════════════════════════════════
+// CARGA DE DATOS (todas las colecciones)
+// ══════════════════════════════════════════════
+window.loadAllData = async () => {
+    await Promise.all([loadMensajes(), loadProyectos(), loadLabs()]);
+};
 
+// ── MENSAJES ────────────────────────────────
+async function loadMensajes() {
+    const c = document.getElementById('mensajes-container');
+    c.innerHTML = '<div class="empty-state">⟳ Cargando...</div>';
     try {
-        const snapshot = await get(ref(db, 'contactos'));
-
-        if (!snapshot.exists()) {
-            container.innerHTML = `<div class="empty-state font-arimo text-sm uppercase tracking-widest"><div class="text-4xl mb-4">✉</div>Sin mensajes aún.</div>`;
-            ['stat-total','stat-today','stat-week'].forEach(id => {
-                document.getElementById(id).textContent = '0';
-            });
-            return;
-        }
-
-        // Convertir a array y ordenar más nuevo primero
-        const mensajes = [];
-        snapshot.forEach(child => {
-            mensajes.push({ id: child.key, ...child.val() });
-        });
-        mensajes.sort((a, b) => (b.fecha || 0) - (a.fecha || 0));
-
-        const now        = new Date();
-        const todayStart = new Date(now.getFullYear(), now.getMonth(), now.getDate()).getTime();
-        const weekStart  = todayStart - (7 * 24 * 60 * 60 * 1000);
-        let total = 0, hoy = 0, semana = 0, html = '';
-
-        mensajes.forEach(msg => {
-            total++;
-            const ts = msg.fecha || 0;
-            if (ts >= todayStart) hoy++;
-            if (ts >= weekStart)  semana++;
-
-            const fechaStr = ts
-                ? new Date(ts).toLocaleString('es-MX', {
-                    day:'2-digit', month:'short', year:'numeric',
-                    hour:'2-digit', minute:'2-digit'
-                  })
-                : 'Sin fecha';
-
-            html += `
-            <div class="msg-card">
-                <div class="flex items-start justify-between gap-4">
-                    <div>
-                        <div class="msg-name">${escHtml(msg.nombre)}</div>
-                        <div class="msg-email">${escHtml(msg.email)}</div>
-                    </div>
-                    <div class="msg-date shrink-0">${fechaStr}</div>
+        const snap = await get(ref(db,'contactos'));
+        if (!snap.exists()) { c.innerHTML='<div class="empty-state">✉ Sin mensajes aún</div>'; document.getElementById('stat-mensajes').textContent='0'; return; }
+        const items = []; snap.forEach(ch => items.push({id:ch.key,...ch.val()}));
+        items.sort((a,b)=>(b.fecha||0)-(a.fecha||0));
+        document.getElementById('stat-mensajes').textContent = items.length;
+        c.innerHTML = items.map(m => `
+        <div class="msg-card" id="mc-${m.id}">
+            <div class="flex flex-wrap items-start justify-between gap-3">
+                <div>
+                    <div class="msg-name">${escHtml(m.nombre)}</div>
+                    <div class="msg-email">${escHtml(m.email)}</div>
                 </div>
-                <div class="msg-body">${escHtml(msg.mensaje)}</div>
-            </div>`;
-        });
+                <div class="flex items-center gap-2">
+                    <div class="msg-date">${fmtDate(m.fecha)}</div>
+                    ${badge(m.status||'pendiente')}
+                </div>
+            </div>
+            <div class="msg-body mt-2">${escHtml(m.mensaje)}</div>
+            <div class="flex flex-wrap gap-2 mt-4">
+                <button class="action-btn action-reply" onclick="openReply('${m.id}','${escHtml(m.email)}','${escHtml(m.nombre)}','contacto')">✉ Responder</button>
+                <button class="action-btn action-approve" onclick="updateStatus('contactos','${m.id}','aprobado','mc-${m.id}')">✓ Marcar leído</button>
+                <button class="action-btn action-delete" onclick="deleteItem('contactos','${m.id}','mc-${m.id}')">✕ Eliminar</button>
+            </div>
+        </div>`).join('');
+    } catch(e) { console.error(e); c.innerHTML='<div class="empty-state text-red-400">Error al cargar mensajes</div>'; }
+}
 
-        container.innerHTML = html;
-        document.getElementById('stat-total').textContent = total;
-        document.getElementById('stat-today').textContent = hoy;
-        document.getElementById('stat-week').textContent  = semana;
+// ── PROYECTOS ───────────────────────────────
+let todosProyectos = [];
+async function loadProyectos() {
+    const c = document.getElementById('proyectos-container');
+    c.innerHTML = '<div class="empty-state">⟳ Cargando...</div>';
+    try {
+        const snap = await get(ref(db,'proyectos'));
+        if (!snap.exists()) { c.innerHTML='<div class="empty-state">◈ Sin proyectos aún</div>'; document.getElementById('stat-proyectos').textContent='0'; return; }
+        todosProyectos = []; snap.forEach(ch => todosProyectos.push({id:ch.key,...ch.val()}));
+        todosProyectos.sort((a,b)=>(b.fecha||0)-(a.fecha||0));
+        document.getElementById('stat-proyectos').textContent = todosProyectos.length;
+        const pending = todosProyectos.filter(p=>!p.status||p.status==='pendiente').length;
+        document.getElementById('stat-pending').textContent = pending;
+        renderProyectos(todosProyectos);
+    } catch(e) { console.error(e); c.innerHTML='<div class="empty-state text-red-400">Error al cargar proyectos</div>'; }
+}
 
-    } catch (err) {
-        console.error('Error:', err);
-        container.innerHTML = `<div class="empty-state font-arimo text-sm uppercase tracking-widest text-red-400">Error al cargar mensajes.<br>Verifica las reglas de Realtime Database<br>y que databaseURL sea correcto.</div>`;
-    }
+function renderProyectos(items) {
+    const c = document.getElementById('proyectos-container');
+    if (!items.length) { c.innerHTML='<div class="empty-state">◈ Sin resultados</div>'; return; }
+    c.innerHTML = items.map(p => `
+    <div class="msg-card" id="pc-${p.id}" style="border-left-color: var(--yellow);">
+        <div class="flex flex-wrap items-start justify-between gap-3">
+            <div>
+                <div class="msg-name">${escHtml(p.nombre_proyecto||'Sin nombre')}</div>
+                <div class="msg-email">${escHtml(p.categoria||'—')} · ${escHtml(p.etapa||'—')}</div>
+                <div class="msg-date mt-1">${escHtml(p.contacto_nombre||'')} · ${escHtml(p.email||'')}</div>
+            </div>
+            <div class="flex flex-col items-end gap-2">
+                <div class="msg-date">${fmtDate(p.fecha)}</div>
+                ${badge(p.status||'pendiente')}
+            </div>
+        </div>
+        <div class="msg-body mt-2">${escHtml(p.descripcion||'')}</div>
+        ${p.necesidad ? `<div class="text-xs text-gray-500 mt-1 font-arimo"><span class="text-gray-600 uppercase tracking-widest">Necesita: </span>${escHtml(p.necesidad)}</div>` : ''}
+        ${p.link ? `<div class="mt-1"><a href="${escHtml(p.link)}" target="_blank" class="text-xs text-hoolGreen font-arimo underline">${escHtml(p.link)}</a></div>` : ''}
+        <div class="flex flex-wrap gap-2 mt-4">
+            <button class="action-btn action-approve" onclick="updateStatus('proyectos','${p.id}','aprobado','pc-${p.id}')">✓ Aprobar</button>
+            <button class="action-btn action-wait"    onclick="updateStatus('proyectos','${p.id}','espera','pc-${p.id}')">⏸ En espera</button>
+            <button class="action-btn action-reject"  onclick="updateStatus('proyectos','${p.id}','rechazado','pc-${p.id}')">✕ Rechazar</button>
+            <button class="action-btn action-reply"   onclick="openReply('${p.id}','${escHtml(p.email||'')}','${escHtml(p.contacto_nombre||'')}','proyecto')">✉ Responder</button>
+            <button class="action-btn action-delete"  onclick="deleteItem('proyectos','${p.id}','pc-${p.id}')">🗑 Eliminar</button>
+        </div>
+    </div>`).join('');
+}
+
+window.filterProyectos = (f) => {
+    if (f === 'todos') renderProyectos(todosProyectos);
+    else renderProyectos(todosProyectos.filter(p=>(p.status||'pendiente')===f));
 };
 
-// Enviar formulario → Realtime Database
+// ── LABS ────────────────────────────────────
+async function loadLabs() {
+    const c = document.getElementById('labs-container');
+    c.innerHTML = '<div class="empty-state">⟳ Cargando...</div>';
+    try {
+        const snap = await get(ref(db,'laboratorios'));
+        if (!snap.exists()) { c.innerHTML='<div class="empty-state">⬡ Sin reservas aún</div>'; document.getElementById('stat-labs').textContent='0'; return; }
+        const items = []; snap.forEach(ch => items.push({id:ch.key,...ch.val()}));
+        items.sort((a,b)=>(b.fecha_registro||0)-(a.fecha_registro||0));
+        document.getElementById('stat-labs').textContent = items.length;
+        c.innerHTML = items.map(l => `
+        <div class="msg-card" id="lc-${l.id}" style="border-left-color: #fff;">
+            <div class="flex flex-wrap items-start justify-between gap-3">
+                <div>
+                    <div class="msg-name">${escHtml(l.nombre||'—')}</div>
+                    <div class="msg-email">${escHtml(l.email||'—')} ${l.tel ? '· '+escHtml(l.tel) : ''}</div>
+                    <div class="msg-date mt-1">Lab: <strong class="text-white">${escHtml(l.tipo||'—')}</strong> · Sede: ${escHtml(l.sede||'—')}</div>
+                </div>
+                <div class="flex flex-col items-end gap-2">
+                    <div class="font-anton text-hoolYellow">${escHtml(l.fecha_reserva||'—')}</div>
+                    <div class="msg-date">${escHtml(l.horario||'—')}</div>
+                    ${badge(l.status||'pendiente')}
+                </div>
+            </div>
+            ${l.proposito ? `<div class="msg-body mt-2">${escHtml(l.proposito)}</div>` : ''}
+            <div class="flex flex-wrap gap-2 mt-4">
+                <button class="action-btn action-approve" onclick="updateStatus('laboratorios','${l.id}','confirmado','lc-${l.id}')">✓ Confirmar</button>
+                <button class="action-btn action-wait"    onclick="updateStatus('laboratorios','${l.id}','espera','lc-${l.id}')">⏸ En espera</button>
+                <button class="action-btn action-reply"   onclick="openReply('${l.id}','${escHtml(l.email||'')}','${escHtml(l.nombre||'')}','lab')">✉ Responder</button>
+                <button class="action-btn action-delete"  onclick="deleteItem('laboratorios','${l.id}','lc-${l.id}')">🗑 Eliminar</button>
+            </div>
+        </div>`).join('');
+    } catch(e) { console.error(e); c.innerHTML='<div class="empty-state text-red-400">Error al cargar labs</div>'; }
+}
+
+// ── ACCIONES ADMIN ──────────────────────────
+window.updateStatus = async (collection, id, status, cardId) => {
+    try {
+        await update(ref(db, `${collection}/${id}`), { status });
+        const card = document.getElementById(cardId);
+        if (card) {
+            const badgeEl = card.querySelector('.badge');
+            if (badgeEl) badgeEl.outerHTML = badge(status);
+        }
+        showToast(`Estado → ${status}`, 'ok');
+    } catch(e) { showToast('Error al actualizar', 'err'); }
+};
+
+window.deleteItem = async (collection, id, cardId) => {
+    if (!confirm('¿Eliminar este registro? Esta acción no se puede deshacer.')) return;
+    try {
+        await remove(ref(db, `${collection}/${id}`));
+        const card = document.getElementById(cardId);
+        if (card) { card.style.opacity='0'; card.style.transform='translateX(-20px)'; card.style.transition='all .3s'; setTimeout(()=>card.remove(), 300); }
+        showToast('Eliminado correctamente');
+        loadAllData();
+    } catch(e) { showToast('Error al eliminar','err'); }
+};
+
+// ── REPLY ───────────────────────────────────
+window.openReply = (id, email, nombre, tipo) => {
+    document.getElementById('reply-email').value   = email;
+    document.getElementById('reply-to-label').textContent = `Para: ${nombre}`;
+    const subjects = { contacto:'Re: Tu mensaje en HÓOL', proyecto:'Re: Tu proyecto en HÓOL', lab:'Confirmación de reserva · HÓOL' };
+    document.getElementById('reply-subject').value = subjects[tipo]||'Respuesta de HÓOL';
+    document.getElementById('reply-body').value = '';
+    window._replyData = { email, nombre, tipo };
+    openModal('reply-modal');
+};
+
+window.sendReply = () => {
+    const email   = document.getElementById('reply-email').value;
+    const subject = document.getElementById('reply-subject').value;
+    const body    = document.getElementById('reply-body').value;
+    if (!body.trim()) { showToast('Escribe un mensaje primero','warn'); return; }
+    const mailto = `mailto:${email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+    window.open(mailto);
+    closeModal('reply-modal');
+    showToast('Abriendo cliente de correo...','ok');
+};
+
+// ══════════════════════════════════════════════
+// FORMULARIO CONTACTO → Firebase
+// ══════════════════════════════════════════════
 document.getElementById('contact-form').addEventListener('submit', async (e) => {
     e.preventDefault();
-    const btn     = document.getElementById('cf-submit');
-    const nombre  = document.getElementById('cf-nombre').value.trim();
-    const email   = document.getElementById('cf-email').value.trim();
-    const mensaje = document.getElementById('cf-mensaje').value.trim();
-
-    if (!nombre || !email || !mensaje) return;
-
-    btn.innerHTML = '<span class="spinner"></span>Enviando...';
-    btn.disabled  = true;
-
+    const btn    = document.getElementById('cf-submit');
+    const nombre = document.getElementById('cf-nombre').value.trim();
+    const email  = document.getElementById('cf-email').value.trim();
+    const msg    = document.getElementById('cf-mensaje').value.trim();
+    if (!nombre||!email||!msg) return;
+    btn.innerHTML='<span class="spinner spinner-white"></span>Enviando...'; btn.disabled=true;
     try {
-        await push(ref(db, 'contactos'), {
-            nombre,
-            email,
-            mensaje,
-            fecha: Date.now()
-        });
-        document.getElementById('cf-nombre').value  = '';
-        document.getElementById('cf-email').value   = '';
-        document.getElementById('cf-mensaje').value = '';
+        await push(ref(db,'contactos'), { nombre, email, mensaje:msg, fecha:Date.now(), status:'pendiente' });
+        document.getElementById('cf-nombre').value='';
+        document.getElementById('cf-email').value='';
+        document.getElementById('cf-mensaje').value='';
         showToast('✓ Mensaje recibido en HÓOL');
-    } catch (err) {
-        console.error('Error:', err);
-        showToast('Error al enviar. Intenta de nuevo.', true);
-    } finally {
-        btn.innerHTML = 'ENVIAR A HÓOL';
-        btn.disabled  = false;
-    }
+    } catch(e) { showToast('Error al enviar. Intenta de nuevo.','err'); }
+    finally { btn.innerHTML='ENVIAR A HÓOL'; btn.disabled=false; }
 });
 
-// Socios (localStorage — original sin cambios)
+// ══════════════════════════════════════════════
+// FORMULARIO PROYECTO — multi-step
+// ══════════════════════════════════════════════
+window.proyectoNext = (step) => {
+    const validations = {
+        1: () => {
+            const n = document.getElementById('pf-nombre').value.trim();
+            const c = document.getElementById('pf-categoria').value;
+            const d = document.getElementById('pf-descripcion').value.trim();
+            if (!n||!c||!d) { showToast('Completa todos los campos requeridos','warn'); return false; }
+            return true;
+        },
+        2: () => {
+            const e = document.getElementById('pf-etapa').value;
+            if (!e) { showToast('Selecciona la etapa del proyecto','warn'); return false; }
+            return true;
+        }
+    };
+    if (validations[step] && !validations[step]()) return;
+    document.getElementById(`pstep-${step}`).classList.add('hidden');
+    document.getElementById(`pstep-${step+1}`).classList.remove('hidden');
+    document.getElementById(`pdot-${step}`).classList.remove('active'); document.getElementById(`pdot-${step}`).classList.add('done');
+    document.getElementById(`pdot-${step+1}`).classList.add('active');
+    if (step === 2) {
+        document.getElementById('pf-resumen').innerHTML = `
+            <div>📌 ${escHtml(document.getElementById('pf-nombre').value)}</div>
+            <div>📂 ${escHtml(document.getElementById('pf-categoria').value)} · ${escHtml(document.getElementById('pf-etapa').value)}</div>
+            <div>🔧 ${escHtml(document.getElementById('pf-tech').value)||'No especificado'}</div>`;
+    }
+};
+window.proyectoBack = (step) => {
+    document.getElementById(`pstep-${step}`).classList.add('hidden');
+    document.getElementById(`pstep-${step-1}`).classList.remove('hidden');
+    document.getElementById(`pdot-${step}`).classList.remove('active');
+    document.getElementById(`pdot-${step-1}`).classList.remove('done'); document.getElementById(`pdot-${step-1}`).classList.add('active');
+};
+
+document.getElementById('proyecto-form').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const nombre = document.getElementById('pf-contacto-nombre').value.trim();
+    const email  = document.getElementById('pf-email').value.trim();
+    if (!nombre||!email) { showToast('Nombre y email son requeridos','warn'); return; }
+    const btn = document.getElementById('pf-submit');
+    btn.innerHTML='<span class="spinner"></span>Enviando...'; btn.disabled=true;
+    try {
+        await push(ref(db,'proyectos'), {
+            nombre_proyecto: document.getElementById('pf-nombre').value.trim(),
+            categoria:       document.getElementById('pf-categoria').value,
+            descripcion:     document.getElementById('pf-descripcion').value.trim(),
+            tech:            document.getElementById('pf-tech').value.trim(),
+            etapa:           document.getElementById('pf-etapa').value,
+            necesidad:       document.getElementById('pf-necesidad').value.trim(),
+            link:            document.getElementById('pf-link').value.trim(),
+            contacto_nombre: nombre,
+            email, edad: document.getElementById('pf-edad').value,
+            tel:             document.getElementById('pf-tel').value.trim(),
+            ciudad:          document.getElementById('pf-ciudad').value.trim(),
+            fecha:           Date.now(),
+            status:          'pendiente'
+        });
+        closeModal('proyecto-modal');
+        showToast('✓ Proyecto enviado — te contactamos en 72 hrs');
+        document.getElementById('proyecto-form').reset();
+        // Reset steps
+        ['pstep-1','pstep-2','pstep-3'].forEach((s,i)=>{ document.getElementById(s).classList.toggle('hidden',i!==0); });
+        ['pdot-1','pdot-2','pdot-3'].forEach((d,i)=>{ document.getElementById(d).className='step-dot'+(i===0?' active':''); });
+    } catch(err) { console.error(err); showToast('Error al enviar proyecto','err'); }
+    finally { btn.innerHTML='Enviar Proyecto ↗'; btn.disabled=false; }
+});
+
+// ══════════════════════════════════════════════
+// FORMULARIO LABORATORIO — multi-step + calendario
+// ══════════════════════════════════════════════
+window.selectLabType = (btn) => {
+    document.querySelectorAll('.lab-type-btn').forEach(b=>b.classList.remove('selected'));
+    btn.classList.add('selected');
+    document.getElementById('lf-tipo').value = btn.dataset.type;
+};
+
+window.labNext = (step) => {
+    const validations = {
+        1: () => {
+            if (!document.getElementById('lf-tipo').value) { showToast('Selecciona un tipo de laboratorio','warn'); return false; }
+            if (!document.getElementById('lf-sede').value) { showToast('Selecciona una sede','warn'); return false; }
+            return true;
+        },
+        2: () => {
+            if (!document.getElementById('lf-fecha').value) { showToast('Selecciona una fecha','warn'); return false; }
+            if (!document.getElementById('lf-horario').value) { showToast('Selecciona un horario','warn'); return false; }
+            return true;
+        }
+    };
+    if (!validations[step]()) return;
+    document.getElementById(`lstep-${step}`).classList.add('hidden');
+    document.getElementById(`lstep-${step+1}`).classList.remove('hidden');
+    document.getElementById(`ldot-${step}`).classList.remove('active'); document.getElementById(`ldot-${step}`).classList.add('done');
+    document.getElementById(`ldot-${step+1}`).classList.add('active');
+    if (step === 2) {
+        document.getElementById('lf-resumen').innerHTML = `
+            <div>⬡ Lab: ${escHtml(document.getElementById('lf-tipo').value.toUpperCase())}</div>
+            <div>📍 Sede: ${escHtml(document.getElementById('lf-sede').value)}</div>
+            <div>📅 Fecha: ${escHtml(document.getElementById('lf-fecha').value)}</div>
+            <div>🕐 Horario: ${escHtml(document.getElementById('lf-horario').value)}</div>`;
+    }
+};
+window.labBack = (step) => {
+    document.getElementById(`lstep-${step}`).classList.add('hidden');
+    document.getElementById(`lstep-${step-1}`).classList.remove('hidden');
+    document.getElementById(`ldot-${step}`).classList.remove('active');
+    document.getElementById(`ldot-${step-1}`).classList.remove('done'); document.getElementById(`ldot-${step-1}`).classList.add('active');
+};
+
+document.getElementById('lab-form').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const nombre = document.getElementById('lf-nombre').value.trim();
+    const email  = document.getElementById('lf-email').value.trim();
+    if (!nombre||!email) { showToast('Nombre y email requeridos','warn'); return; }
+    const btn = document.getElementById('lf-submit');
+    btn.innerHTML='<span class="spinner"></span>Confirmando...'; btn.disabled=true;
+    try {
+        await push(ref(db,'laboratorios'), {
+            tipo:         document.getElementById('lf-tipo').value,
+            sede:         document.getElementById('lf-sede').value,
+            proposito:    document.getElementById('lf-proposito').value.trim(),
+            fecha_reserva:document.getElementById('lf-fecha').value,
+            horario:      document.getElementById('lf-horario').value,
+            nombre, email, edad: document.getElementById('lf-edad').value,
+            tel:          document.getElementById('lf-tel').value.trim(),
+            fecha_registro: Date.now(),
+            status:       'pendiente'
+        });
+        closeModal('lab-modal');
+        showToast('✓ Reserva confirmada — te esperamos ese día');
+        document.getElementById('lab-form').reset();
+        document.querySelectorAll('.lab-type-btn').forEach(b=>b.classList.remove('selected'));
+        ['lstep-1','lstep-2','lstep-3'].forEach((s,i)=>{ document.getElementById(s).classList.toggle('hidden',i!==0); });
+        ['ldot-1','ldot-2','ldot-3'].forEach((d,i)=>{ document.getElementById(d).className='step-dot'+(i===0?' active':''); });
+        renderCalendar();
+    } catch(err) { console.error(err); showToast('Error al reservar','err'); }
+    finally { btn.innerHTML='Confirmar Reserva ✓'; btn.disabled=false; }
+});
+
+// ══════════════════════════════════════════════
+// CALENDARIO
+// ══════════════════════════════════════════════
+let calYear, calMonth;
+
+function initCal() {
+    const now = new Date();
+    calYear  = now.getFullYear();
+    calMonth = now.getMonth();
+    renderCalendar();
+}
+
+window.renderCalendar = function() {
+    const months = ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
+    document.getElementById('cal-month-label').textContent = `${months[calMonth]} ${calYear}`;
+    const grid  = document.getElementById('cal-grid');
+    const today = new Date(); today.setHours(0,0,0,0);
+    const first = new Date(calYear, calMonth, 1);
+    let dow = first.getDay(); // 0=Sun
+    dow = dow===0 ? 6 : dow-1; // Convert to Mon=0
+    const daysInMonth = new Date(calYear, calMonth+1, 0).getDate();
+    let html = '';
+    for (let i=0; i<dow; i++) html += `<div class="cal-day empty"></div>`;
+    for (let d=1; d<=daysInMonth; d++) {
+        const date = new Date(calYear, calMonth, d);
+        const isPast = date < today;
+        const isToday = date.getTime()===today.getTime();
+        const isWeekend = date.getDay()===0||date.getDay()===6;
+        let cls = 'cal-day';
+        if (isPast||isWeekend) cls += ' disabled';
+        else if (isToday) cls += ' today';
+        const dateStr = `${d.toString().padStart(2,'0')} ${['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'][calMonth]} ${calYear}`;
+        const onclick = (!isPast&&!isWeekend) ? `onclick="selectCalDay(this,'${dateStr}')"` : '';
+        html += `<div class="${cls}" ${onclick}>${d}</div>`;
+    }
+    grid.innerHTML = html;
+};
+
+window.calPrev = () => { calMonth--; if(calMonth<0){calMonth=11;calYear--;} renderCalendar(); };
+window.calNext = () => { calMonth++; if(calMonth>11){calMonth=0;calYear++;} renderCalendar(); };
+window.selectCalDay = (el, dateStr) => {
+    document.querySelectorAll('#cal-grid .cal-day').forEach(d=>d.classList.remove('selected'));
+    el.classList.add('selected');
+    document.getElementById('lf-fecha').value = dateStr;
+    const disp = document.getElementById('cal-selected-display');
+    disp.textContent = `📅 Seleccionado: ${dateStr}`; disp.classList.remove('hidden');
+};
+
+initCal();
+
+// ── SOCIOS (localStorage original) ─────────
 window.handleAuth = (type) => {
     const user = document.getElementById('user-input').value;
     const pass = document.getElementById('pass-input').value;
-    if (!user || !pass) return alert("Completa los campos.");
-    let users = JSON.parse(localStorage.getItem('hool_users')) || [];
-    if (type === 'register') {
-        if (users.find(u => u.username === user)) return alert("Usuario existente.");
-        users.push({ username: user, password: pass });
-        localStorage.setItem('hool_users', JSON.stringify(users));
+    if (!user||!pass) return alert("Completa los campos.");
+    let users = JSON.parse(localStorage.getItem('hool_users'))||[];
+    if (type==='register') {
+        if (users.find(u=>u.username===user)) return alert("Usuario existente.");
+        users.push({username:user,password:pass});
+        localStorage.setItem('hool_users',JSON.stringify(users));
         alert("Mente vinculada.");
     } else {
-        const valid = users.find(u => u.username === user && u.password === pass);
-        if (valid) {
-            sessionStorage.setItem('active_hool_user', user);
-            location.reload();
-        } else alert("Credenciales inválidas.");
+        const valid = users.find(u=>u.username===user&&u.password===pass);
+        if (valid) { sessionStorage.setItem('active_hool_user',user); location.reload(); }
+        else alert("Credenciales inválidas.");
     }
 };
 
 window.onload = () => {
     const user = sessionStorage.getItem('active_hool_user');
-    if (user) {
-        document.getElementById('auth-section').innerHTML =
-            `<span class="text-hoolGreen text-[10px] font-bold uppercase tracking-widest">${user} (ASOCIADO)</span>`;
-    }
+    if (user) document.getElementById('auth-section').innerHTML=`<span class="text-hoolGreen text-[10px] font-bold uppercase tracking-widest">${user} (ASOCIADO)</span>`;
 };
 
 </script>
 
+<!-- Scripts regulares -->
 <script>
-    AOS.init({ duration: 1200 });
+    AOS.init({ duration: 1000, once: true, offset: 80 });
     gsap.registerPlugin(ScrollTrigger);
 
     const introTl = gsap.timeline();
@@ -651,19 +1606,25 @@ window.onload = () => {
 
     setTimeout(() => {
         const nav = document.getElementById('main-nav');
-        if (nav) { nav.style.opacity = '1'; nav.style.pointerEvents = 'auto'; }
+        if (nav) { nav.style.opacity='1'; nav.style.pointerEvents='auto'; }
     }, 5000);
 
     gsap.to(".layer", {
-        scrollTrigger: { trigger: "#intro-viewport", start: "top top", end: "bottom top", scrub: true },
-        y: (i) => i * 70,
-        scale: (i) => 1 + (i * 0.04),
-        ease: "none"
+        scrollTrigger: { trigger:"#intro-viewport", start:"top top", end:"bottom top", scrub:true },
+        y: (i) => i * 70, scale: (i) => 1 + (i*0.04), ease:"none"
     });
 
     gsap.to("#plane-trigger", {
-        width: "300px",
-        scrollTrigger: { trigger: "#plane-trigger", start: "top 85%", toggleActions: "play none none reverse" }
+        width:"300px",
+        scrollTrigger: { trigger:"#plane-trigger", start:"top 85%", toggleActions:"play none none reverse" }
+    });
+
+    // Animate feature cards on scroll
+    gsap.utils.toArray('.feature-card').forEach((card, i) => {
+        gsap.from(card, {
+            scrollTrigger: { trigger: card, start: 'top 90%' },
+            y: 30, opacity: 0, duration: 0.6, delay: i * 0.12, ease: 'power2.out'
+        });
     });
 </script>
 </body>
