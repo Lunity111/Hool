@@ -57,7 +57,7 @@
         }
         #main-nav { opacity: 0; pointer-events: none; transition: opacity 1.5s ease; }
 
-        /* ── OVERLAYS GENERALES ── */
+        /* ── OVERLAYS ── */
         .hool-overlay {
             position: fixed; inset: 0; z-index: 300;
             background: rgba(0,0,0,0.97);
@@ -65,13 +65,12 @@
         }
         .hool-overlay.visible { display: block; }
 
-        /* ── MODALES EMERGENTES ── */
+        /* ── MODALES ── */
         .hool-modal {
             position: fixed; inset: 0; z-index: 350;
             display: none; align-items: center; justify-content: center;
             background: rgba(0,0,0,0.95);
-            padding: 1rem;
-            overflow-y: auto;
+            padding: 1rem; overflow-y: auto;
         }
         .hool-modal.open { display: flex; }
         .modal-box {
@@ -88,19 +87,13 @@
         .modal-accent-green  { border-top: 3px solid var(--green); }
         .modal-accent-yellow { border-top: 3px solid var(--yellow); }
 
-        /* ── INPUTS HÓOL ── */
+        /* ── INPUTS ── */
         .hool-input {
-            width: 100%;
-            background: transparent;
-            border: none;
-            border-bottom: 1px solid rgba(255,255,255,0.15);
-            padding: .75rem 0;
-            color: #fff;
-            font-family: 'Arimo', sans-serif;
-            font-size: .85rem;
-            letter-spacing: .05em;
-            outline: none;
-            transition: border-color .3s;
+            width: 100%; background: transparent;
+            border: none; border-bottom: 1px solid rgba(255,255,255,0.15);
+            padding: .75rem 0; color: #fff;
+            font-family: 'Arimo', sans-serif; font-size: .85rem;
+            letter-spacing: .05em; outline: none; transition: border-color .3s;
         }
         .hool-input:focus { border-color: var(--green); }
         .hool-input::placeholder { color: #444; text-transform: uppercase; font-size: .75rem; letter-spacing: .15em; }
@@ -111,70 +104,66 @@
         }
         select.hool-input option { background: #111; color: #fff; }
 
+        /* Campo con badge de asociado */
+        .input-asociado-wrapper { position: relative; }
+        .input-asociado-wrapper .asociado-badge {
+            position: absolute; right: 0; top: 50%; transform: translateY(-50%);
+            font-size: .55rem; letter-spacing: .15em; color: var(--green);
+            font-family: 'Arimo', sans-serif; text-transform: uppercase;
+            background: rgba(126,217,87,.1); border: 1px solid rgba(126,217,87,.2);
+            padding: .15rem .5rem; pointer-events: none;
+        }
+
         /* ── BOTONES ── */
         .btn-green {
             background: var(--green); color: #000;
-            font-family: 'Anton', sans-serif;
-            letter-spacing: .1em; text-transform: uppercase;
+            font-family: 'Anton', sans-serif; letter-spacing: .1em; text-transform: uppercase;
             padding: .85rem 2rem; border: none; cursor: pointer;
-            transition: background .25s, transform .2s;
-            font-size: .95rem;
+            transition: background .25s, transform .2s; font-size: .95rem;
         }
         .btn-green:hover { background: #fff; transform: translateY(-1px); }
         .btn-yellow {
             background: var(--yellow); color: #000;
-            font-family: 'Anton', sans-serif;
-            letter-spacing: .1em; text-transform: uppercase;
+            font-family: 'Anton', sans-serif; letter-spacing: .1em; text-transform: uppercase;
             padding: .85rem 2rem; border: none; cursor: pointer;
             transition: background .25s; font-size: .95rem;
         }
         .btn-yellow:hover { background: #fff; }
         .btn-outline {
-            background: transparent;
-            border: 1px solid rgba(255,255,255,0.2);
-            color: #777;
-            font-family: 'Arimo', sans-serif;
+            background: transparent; border: 1px solid rgba(255,255,255,0.2);
+            color: #777; font-family: 'Arimo', sans-serif;
             font-size: .7rem; letter-spacing: .2em; text-transform: uppercase;
-            padding: .75rem 1.5rem; cursor: pointer;
-            transition: color .25s, border-color .25s;
+            padding: .75rem 1.5rem; cursor: pointer; transition: color .25s, border-color .25s;
         }
         .btn-outline:hover { color: #fff; border-color: #fff; }
 
-        /* ── CARDS SECTION ── */
+        /* ── FEATURE CARDS ── */
         .feature-card {
-            background: #0a0a0a;
-            border: 1px solid rgba(255,255,255,0.06);
+            background: #0a0a0a !important;
+            border: 1px solid rgba(255,255,255,0.08) !important;
             padding: 2.5rem;
-            position: relative;
-            overflow: hidden;
-            cursor: pointer;
+            position: relative; overflow: hidden; cursor: pointer;
+            opacity: 1 !important; visibility: visible !important;
             transition: border-color .4s, transform .3s;
         }
         .feature-card::before {
-            content: '';
-            position: absolute; top: 0; left: 0;
-            width: 100%; height: 2px;
-            background: var(--green);
-            transform: scaleX(0); transform-origin: left;
-            transition: transform .4s ease;
+            content: ''; position: absolute; top: 0; left: 0;
+            width: 100%; height: 2px; background: var(--green);
+            transform: scaleX(0); transform-origin: left; transition: transform .4s ease;
         }
-        .feature-card:hover { border-color: rgba(126,217,87,.3); transform: translateY(-4px); }
+        .feature-card:hover { border-color: rgba(126,217,87,.3) !important; transform: translateY(-4px); }
         .feature-card:hover::before { transform: scaleX(1); }
         .feature-card .card-icon {
-            width: 48px; height: 48px;
-            background: var(--green);
-            margin-bottom: 1.5rem;
-            transition: transform .4s;
+            width: 48px; height: 48px; background: var(--green);
+            margin-bottom: 1.5rem; transition: transform .4s;
         }
         .feature-card:hover .card-icon { transform: rotate(45deg); }
 
-        /* ── ADMIN CARDS MENSAJES ── */
+        /* ── MSG CARDS ADMIN ── */
         .msg-card {
             border-left: 3px solid var(--green);
-            background: #0d0d0d;
-            padding: 1.25rem 1.5rem;
-            margin-bottom: .75rem;
-            transition: border-color .3s, background .3s;
+            background: #0d0d0d; padding: 1.25rem 1.5rem;
+            margin-bottom: .75rem; transition: border-color .3s, background .3s;
         }
         .msg-card:hover { background: #111; border-color: var(--yellow); }
         .msg-card .msg-date  { font-size: 10px; color: #444; letter-spacing: .1em; font-family: monospace; }
@@ -184,8 +173,7 @@
 
         /* ── BADGES ── */
         .badge {
-            display: inline-block;
-            font-size: .6rem; letter-spacing: .15em;
+            display: inline-block; font-size: .6rem; letter-spacing: .15em;
             text-transform: uppercase; font-family: 'Arimo', sans-serif;
             padding: .2rem .6rem; border-radius: 1px;
         }
@@ -196,34 +184,112 @@
 
         /* ── ADMIN TABS ── */
         .admin-tab {
-            font-family: 'Arimo', sans-serif;
-            font-size: .7rem; letter-spacing: .2em; text-transform: uppercase;
-            padding: .75rem 1.5rem; background: transparent;
+            font-family: 'Arimo', sans-serif; font-size: .7rem; letter-spacing: .2em;
+            text-transform: uppercase; padding: .75rem 1.5rem; background: transparent;
             border: none; color: #444; cursor: pointer;
-            border-bottom: 2px solid transparent;
-            transition: color .25s, border-color .25s;
+            border-bottom: 2px solid transparent; transition: color .25s, border-color .25s;
         }
         .admin-tab.active { color: var(--green); border-bottom-color: var(--green); }
         .admin-tab:hover:not(.active) { color: #aaa; }
-
         .tab-panel { display: none; }
         .tab-panel.active { display: block; }
 
         /* ── CALENDAR ── */
         .cal-day {
-            aspect-ratio: 1;
-            display: flex; align-items: center; justify-content: center;
+            aspect-ratio: 1; display: flex; align-items: center; justify-content: center;
             font-size: .8rem; font-family: 'Arimo', sans-serif;
-            cursor: pointer; border-radius: 2px;
-            border: 1px solid transparent;
-            transition: all .2s;
+            cursor: pointer; border-radius: 2px; border: 1px solid transparent; transition: all .2s;
         }
         .cal-day:hover:not(.disabled):not(.booked) { border-color: var(--green); color: var(--green); }
         .cal-day.selected { background: var(--green); color: #000; font-weight: 700; }
         .cal-day.today    { border-color: var(--yellow); color: var(--yellow); }
-        .cal-day.booked   { color: #333; cursor: not-allowed; text-decoration: line-through; }
         .cal-day.disabled { color: #222; cursor: not-allowed; }
         .cal-day.empty    { cursor: default; }
+
+        /* ══════════════════════════════════════
+           SISTEMA DE ALERTAS CUSTOM HÓOL
+        ══════════════════════════════════════ */
+        #hool-alert-overlay {
+            position: fixed; inset: 0; z-index: 999;
+            background: rgba(0,0,0,0.85);
+            display: none; align-items: center; justify-content: center;
+            padding: 1rem;
+            backdrop-filter: blur(4px);
+        }
+        #hool-alert-overlay.show { display: flex; }
+
+        #hool-alert-box {
+            background: #080808;
+            border: 1px solid rgba(255,255,255,0.08);
+            max-width: 420px; width: 100%;
+            position: relative;
+            animation: alertSlideIn .35s cubic-bezier(.16,1,.3,1);
+        }
+        @keyframes alertSlideIn {
+            from { opacity:0; transform: translateY(-24px) scale(.96); }
+            to   { opacity:1; transform: translateY(0) scale(1); }
+        }
+
+        .alert-accent-bar {
+            height: 3px; width: 100%;
+        }
+        .alert-accent-green  { background: var(--green); }
+        .alert-accent-yellow { background: var(--yellow); }
+        .alert-accent-red    { background: #ff4444; }
+        .alert-accent-white  { background: #fff; }
+
+        .alert-body { padding: 2rem 2rem 1.5rem; }
+
+        .alert-icon-wrap {
+            width: 44px; height: 44px;
+            border-radius: 2px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1.2rem; margin-bottom: 1.25rem;
+        }
+        .alert-icon-green  { background: rgba(126,217,87,.12); }
+        .alert-icon-yellow { background: rgba(254,216,82,.12); }
+        .alert-icon-red    { background: rgba(255,68,68,.12); }
+        .alert-icon-white  { background: rgba(255,255,255,.06); }
+
+        .alert-title {
+            font-family: 'Anton', sans-serif;
+            font-size: 1.4rem; letter-spacing: .08em;
+            text-transform: uppercase; margin-bottom: .5rem;
+        }
+        .alert-msg {
+            font-family: 'Arimo', sans-serif;
+            font-size: .82rem; color: #777; line-height: 1.6;
+            letter-spacing: .02em;
+        }
+
+        .alert-footer {
+            padding: 1rem 2rem 1.5rem;
+            display: flex; gap: .75rem; justify-content: flex-end;
+        }
+
+        .alert-btn-primary {
+            font-family: 'Anton', sans-serif;
+            font-size: .75rem; letter-spacing: .12em; text-transform: uppercase;
+            padding: .65rem 1.5rem; border: none; cursor: pointer;
+            transition: background .2s, transform .15s;
+        }
+        .alert-btn-primary:hover { transform: translateY(-1px); }
+        .alert-btn-primary.green  { background: var(--green); color: #000; }
+        .alert-btn-primary.green:hover { background: #fff; }
+        .alert-btn-primary.yellow { background: var(--yellow); color: #000; }
+        .alert-btn-primary.yellow:hover { background: #fff; }
+        .alert-btn-primary.red    { background: #ff4444; color: #fff; }
+        .alert-btn-primary.red:hover { background: #ff6666; }
+        .alert-btn-primary.white  { background: #fff; color: #000; }
+
+        .alert-btn-secondary {
+            font-family: 'Arimo', sans-serif;
+            font-size: .7rem; letter-spacing: .15em; text-transform: uppercase;
+            padding: .65rem 1rem; border: 1px solid rgba(255,255,255,0.12);
+            background: transparent; color: #555; cursor: pointer;
+            transition: color .2s, border-color .2s;
+        }
+        .alert-btn-secondary:hover { color: #fff; border-color: rgba(255,255,255,0.3); }
 
         /* ── TOAST ── */
         #toast {
@@ -233,7 +299,7 @@
             padding: 12px 28px; font-weight: 700; font-size: .8rem;
             letter-spacing: .15em; text-transform: uppercase;
             transition: transform .4s ease, opacity .4s ease;
-            opacity: 0; z-index: 500; pointer-events: none;
+            opacity: 0; z-index: 600; pointer-events: none;
         }
         #toast.show  { transform: translateX(-50%) translateY(0); opacity: 1; }
         #toast.error { background: #ff4444; color: #fff; }
@@ -252,39 +318,32 @@
         /* ── KEY HINT ── */
         #key-hint {
             position: fixed; bottom: 16px; right: 16px;
-            background: rgba(0,0,0,0.7);
-            border: 1px solid rgba(255,255,255,0.06);
+            background: rgba(0,0,0,0.7); border: 1px solid rgba(255,255,255,0.06);
             color: #2a2a2a; font-size: 9px; letter-spacing: .15em;
             padding: 5px 9px; font-family: monospace;
-            z-index: 50; border-radius: 3px;
-            pointer-events: none; user-select: none;
+            z-index: 50; border-radius: 3px; pointer-events: none; user-select: none;
         }
 
-        /* ── SECCIÓN SERVICIOS NUEVA ── */
+        /* ── SERVICE STRIP ── */
         .service-strip {
             background: #050505;
             border-top: 1px solid rgba(255,255,255,0.04);
             border-bottom: 1px solid rgba(255,255,255,0.04);
         }
         .lab-type-btn {
-            border: 1px solid rgba(255,255,255,0.1);
-            padding: .6rem 1.2rem;
-            font-family: 'Arimo', sans-serif;
-            font-size: .7rem; letter-spacing: .15em; text-transform: uppercase;
-            cursor: pointer; color: #666;
-            background: transparent;
-            transition: all .25s;
+            border: 1px solid rgba(255,255,255,0.1); padding: .6rem 1.2rem;
+            font-family: 'Arimo', sans-serif; font-size: .7rem; letter-spacing: .15em;
+            text-transform: uppercase; cursor: pointer; color: #666;
+            background: transparent; transition: all .25s;
         }
         .lab-type-btn.selected, .lab-type-btn:hover {
-            border-color: var(--green); color: var(--green);
-            background: rgba(126,217,87,.06);
+            border-color: var(--green); color: var(--green); background: rgba(126,217,87,.06);
         }
 
         /* ── EMPTY STATE ── */
         .empty-state {
             text-align: center; padding: 4rem 0; color: #333;
-            font-family: 'Arimo', sans-serif;
-            font-size: .75rem; letter-spacing: .2em; text-transform: uppercase;
+            font-family: 'Arimo', sans-serif; font-size: .75rem; letter-spacing: .2em; text-transform: uppercase;
         }
 
         /* ── SCROLLBAR ── */
@@ -294,18 +353,14 @@
         ::-webkit-scrollbar-thumb:hover { background: var(--green); }
 
         /* ── STEP INDICATOR ── */
-        .step-dot {
-            width: 8px; height: 8px; border-radius: 50%;
-            background: #222; transition: background .3s;
-        }
+        .step-dot { width: 8px; height: 8px; border-radius: 50%; background: #222; transition: background .3s; }
         .step-dot.active { background: var(--green); }
         .step-dot.done   { background: var(--yellow); }
 
-        /* ── GRID PANAL ADMIN ACTIONS ── */
+        /* ── ADMIN ACTIONS ── */
         .action-btn {
             font-size: .6rem; letter-spacing: .12em; text-transform: uppercase;
-            font-family: 'Arimo', sans-serif;
-            padding: .35rem .75rem; border: 1px solid;
+            font-family: 'Arimo', sans-serif; padding: .35rem .75rem; border: 1px solid;
             cursor: pointer; transition: all .2s; background: transparent;
         }
         .action-approve { border-color: rgba(126,217,87,.4); color: var(--green); }
@@ -318,16 +373,6 @@
         .action-reply:hover { background: var(--yellow); color: #000; }
         .action-delete  { border-color: rgba(255,68,68,.2); color: #ff6666; }
         .action-delete:hover { background: rgba(255,68,68,.15); }
-
-        /* ── NOISE TEXTURE OVERLAY ── */
-        .noise::after {
-            content: ''; position: absolute; inset: 0;
-            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
-            pointer-events: none; z-index: 1;
-        }
-
-        /* ── REPLY MODAL ── */
-        #reply-modal .modal-box { max-width: 500px; }
     </style>
 </head>
 <body class="font-roboto">
@@ -335,9 +380,29 @@
 <div id="toast"></div>
 <div id="key-hint">ADMIN · Ctrl+Shift+H</div>
 
-<!-- ══════════════════════════════════════════════════
+<!-- ══════════════════════════════════════════
+     SISTEMA DE ALERTAS HÓOL (reemplaza alert())
+══════════════════════════════════════════ -->
+<div id="hool-alert-overlay">
+    <div id="hool-alert-box">
+        <div id="alert-accent-bar" class="alert-accent-bar alert-accent-green"></div>
+        <div class="alert-body">
+            <div id="alert-icon-wrap" class="alert-icon-wrap alert-icon-green">
+                <span id="alert-icon">✓</span>
+            </div>
+            <div id="alert-title" class="alert-title">Título</div>
+            <div id="alert-msg"   class="alert-msg">Mensaje</div>
+        </div>
+        <div class="alert-footer">
+            <button id="alert-cancel-btn" class="alert-btn-secondary" style="display:none">Cancelar</button>
+            <button id="alert-ok-btn"     class="alert-btn-primary green">Aceptar</button>
+        </div>
+    </div>
+</div>
+
+<!-- ══════════════════════════════════════════
      NAV
-══════════════════════════════════════════════════ -->
+══════════════════════════════════════════ -->
 <nav id="main-nav" class="fixed w-full z-[100] glass py-4 px-8 flex justify-between items-center">
     <div class="flex items-center gap-2">
         <img src="HÓOL_SOL_ACT2_1P Cartel.png" alt="Logo" class="h-10 w-auto">
@@ -359,9 +424,9 @@
     </div>
 </nav>
 
-<!-- ══════════════════════════════════════════════════
+<!-- ══════════════════════════════════════════
      HERO
-══════════════════════════════════════════════════ -->
+══════════════════════════════════════════ -->
 <section id="inicio">
     <div id="intro-viewport">
         <div class="layer z-0"  style="background-image: url('Capa 0.png');"></div>
@@ -376,9 +441,6 @@
     </div>
 </section>
 
-<!-- ══════════════════════════════════════════════════
-     MAIN CONTENT
-══════════════════════════════════════════════════ -->
 <main class="relative z-50 bg-black">
 
     <!-- Ingeniería -->
@@ -404,7 +466,7 @@
         </div>
     </section>
 
-    <!-- La pregunta -->
+    <!-- La Pregunta -->
     <section class="py-32 px-8 max-w-6xl mx-auto">
         <div class="grid md:grid-cols-2 gap-16 items-center">
             <div data-aos="fade-right">
@@ -455,73 +517,46 @@
         </div>
     </section>
 
-    <!-- ════════════════════════════════════════════
-         NUEVA: SECCIÓN PLATAFORMA (Proyectos + Labs)
-    ════════════════════════════════════════════ -->
+    <!-- ══ PLATAFORMA ══ -->
     <section id="plataforma" class="py-32 bg-white text-black px-8 relative overflow-hidden">
-        <!-- Decorative BG -->
         <div class="absolute top-0 right-0 w-64 h-64 opacity-5" style="background: radial-gradient(circle, #7ed957 0%, transparent 70%);"></div>
-
         <div class="max-w-7xl mx-auto">
             <div class="mb-20" data-aos="fade-up">
                 <span class="text-hoolGreen font-bold tracking-widest uppercase text-sm font-arimo">Plataforma HÓOL</span>
                 <h2 class="font-anton text-6xl mt-2 uppercase leading-none">TU PROYECTO.<br><span class="text-hoolYellow">NUESTRO MOTOR.</span></h2>
                 <p class="mt-6 text-gray-600 max-w-xl text-lg">Somete tu idea al ecosistema HÓOL. Evaluamos, conectamos y ejecutamos. No buscamos proyectos perfectos — buscamos ideas que ardan.</p>
             </div>
-
             <div class="grid md:grid-cols-3 gap-6">
-                <!-- Card 1 -->
                 <div class="feature-card" onclick="openModal('proyecto-modal')">
                     <div class="card-icon"></div>
                     <h3 class="font-anton text-2xl mb-3 uppercase">Someter Proyecto</h3>
                     <p class="text-gray-500 text-sm leading-relaxed">Comparte tu visión técnica. Evaluamos viabilidad, impacto urbano y potencial de escalamiento en 72 horas.</p>
                     <div class="mt-8 flex items-center gap-2 text-hoolGreen font-arimo text-xs uppercase tracking-widest">
-                        <span>Iniciar evaluación</span>
-                        <span class="text-xl">→</span>
+                        <span>Iniciar evaluación</span><span class="text-xl">→</span>
                     </div>
                 </div>
-                <!-- Card 2 -->
-                <div class="feature-card" style="--card-color: var(--yellow);"  onclick="openModal('lab-modal')"
-                    onmouseenter="this.querySelector('.card-icon').style.background='#fed852'"
-                    onmouseleave="this.querySelector('.card-icon').style.background='var(--yellow)'">
-                    <div class="card-icon"></div>
+                <div class="feature-card" onclick="openModal('lab-modal')">
+                    <div class="card-icon" style="background: var(--yellow);"></div>
                     <h3 class="font-anton text-2xl mb-3 uppercase">Reservar Lab</h3>
                     <p class="text-gray-500 text-sm leading-relaxed">Accede a nuestros laboratorios gratuitos. Selecciona fecha, tipo de lab y ubicación. Confirmación inmediata.</p>
                     <div class="mt-8 flex items-center gap-2 text-hoolYellow font-arimo text-xs uppercase tracking-widest">
-                        <span>Agendar ahora</span>
-                        <span class="text-xl">→</span>
+                        <span>Agendar ahora</span><span class="text-xl">→</span>
                     </div>
                 </div>
-                <!-- Card 3 -->
-                <div class="feature-card"  onclick="document.getElementById('contacto').scrollIntoView({behavior:'smooth'})">
+                <div class="feature-card" onclick="document.getElementById('contacto').scrollIntoView({behavior:'smooth'})">
                     <div class="card-icon" style="background:#fff;"></div>
                     <h3 class="font-anton text-2xl mb-3 uppercase">Contacto Directo</h3>
                     <p class="text-gray-500 text-sm leading-relaxed">¿Eres empresa, institución o gobierno? Conéctate directamente con nuestro equipo territorial.</p>
                     <div class="mt-8 flex items-center gap-2 text-white font-arimo text-xs uppercase tracking-widest">
-                        <span>Escribir ahora</span>
-                        <span class="text-xl">→</span>
+                        <span>Escribir ahora</span><span class="text-xl">→</span>
                     </div>
                 </div>
             </div>
-
-            <!-- Process bar -->
             <div class="mt-24 grid md:grid-cols-4 gap-0" data-aos="fade-up">
-                <div class="p-8 bg-black text-white">
-                    <div class="font-anton text-5xl text-hoolGreen mb-3">01</div>
-                    <div class="font-arimo text-xs uppercase tracking-widest text-gray-400">Sometes tu proyecto</div>
-                </div>
-                <div class="p-8 bg-hoolGrey text-black">
-                    <div class="font-anton text-5xl text-black mb-3">02</div>
-                    <div class="font-arimo text-xs uppercase tracking-widest text-gray-600">Evaluamos en 72 hrs</div>
-                </div>
-                <div class="p-8 bg-black text-white">
-                    <div class="font-anton text-5xl text-hoolYellow mb-3">03</div>
-                    <div class="font-arimo text-xs uppercase tracking-widest text-gray-400">Te conectamos con recursos</div>
-                </div>
-                <div class="p-8" style="background: var(--green);">
-                    <div class="font-anton text-5xl text-black mb-3">04</div>
-                    <div class="font-arimo text-xs uppercase tracking-widest text-black">Ejecutamos juntos</div>
-                </div>
+                <div class="p-8 bg-black text-white"><div class="font-anton text-5xl text-hoolGreen mb-3">01</div><div class="font-arimo text-xs uppercase tracking-widest text-gray-400">Sometes tu proyecto</div></div>
+                <div class="p-8 bg-hoolGrey text-black"><div class="font-anton text-5xl text-black mb-3">02</div><div class="font-arimo text-xs uppercase tracking-widest text-gray-600">Evaluamos en 72 hrs</div></div>
+                <div class="p-8 bg-black text-white"><div class="font-anton text-5xl text-hoolYellow mb-3">03</div><div class="font-arimo text-xs uppercase tracking-widest text-gray-400">Te conectamos con recursos</div></div>
+                <div class="p-8" style="background:var(--green);"><div class="font-anton text-5xl text-black mb-3">04</div><div class="font-arimo text-xs uppercase tracking-widest text-black">Ejecutamos juntos</div></div>
             </div>
         </div>
     </section>
@@ -563,7 +598,7 @@
                 <div class="group p-10 border border-white/10 hover:border-hoolGreen transition-all duration-500 bg-zinc-900/40" data-aos="flip-left">
                     <div class="w-14 h-14 bg-hoolGreen mb-8 group-hover:rotate-45 transition duration-500"></div>
                     <h3 class="font-anton text-2xl mb-4 uppercase">URBANISMO TÁCTICO</h3>
-                    <p class="text-gray-400 font-light text-sm">Diseño y prototipado de espacios públicos resilientes mediante entornos virtuales de alta fidelidad.</p>
+                    <p class="text-gray-400 font-light text-sm">Diseño y prototipado de espacios públicos resilientes.</p>
                 </div>
                 <div class="group p-10 border border-white/10 hover:border-hoolYellow transition-all duration-500 bg-zinc-900/40" data-aos="flip-left" data-aos-delay="200">
                     <div class="w-14 h-14 bg-hoolYellow mb-8 group-hover:scale-110 transition duration-500"></div>
@@ -573,15 +608,13 @@
                 <div class="group p-10 border border-white/10 hover:border-white transition-all duration-500 bg-zinc-900/40" data-aos="flip-left" data-aos-delay="400">
                     <div class="w-14 h-14 bg-white mb-8 group-hover:-translate-y-2 transition duration-500"></div>
                     <h3 class="font-anton text-2xl mb-4 uppercase">SOBERANÍA TECH</h3>
-                    <p class="text-gray-400 font-light text-sm">Empoderamiento de la élite creativa juvenil para el desarrollo de software de impacto social.</p>
+                    <p class="text-gray-400 font-light text-sm">Empoderamiento de la élite creativa juvenil para software de impacto social.</p>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- ════════════════════════════════════════════
-         LABORATORIOS BANNER
-    ════════════════════════════════════════════ -->
+    <!-- ══ LABORATORIOS ══ -->
     <section id="laboratorios" class="service-strip py-24 px-8">
         <div class="max-w-7xl mx-auto">
             <div class="grid md:grid-cols-2 gap-16 items-center">
@@ -590,40 +623,19 @@
                     <h2 class="font-anton text-6xl mt-3 uppercase leading-none">LABORATORIOS<br><span class="text-hoolGreen">HÓOL</span></h2>
                     <p class="mt-6 text-gray-500 text-lg leading-relaxed">Espacios de creación, prototipado y desarrollo disponibles para todos. Solo necesitas agendar tu fecha y presentarte con tu visión.</p>
                     <div class="mt-10 grid grid-cols-3 gap-4">
-                        <div class="border-t border-hoolGreen pt-4">
-                            <div class="font-anton text-2xl text-hoolGreen">TI</div>
-                            <div class="text-xs text-gray-500 uppercase tracking-widest mt-1 font-arimo">Tecnología</div>
-                        </div>
-                        <div class="border-t border-hoolYellow pt-4">
-                            <div class="font-anton text-2xl text-hoolYellow">3D</div>
-                            <div class="text-xs text-gray-500 uppercase tracking-widest mt-1 font-arimo">Fabricación</div>
-                        </div>
-                        <div class="border-t border-white/30 pt-4">
-                            <div class="font-anton text-2xl">URB</div>
-                            <div class="text-xs text-gray-500 uppercase tracking-widest mt-1 font-arimo">Urbanismo</div>
-                        </div>
+                        <div class="border-t border-hoolGreen pt-4"><div class="font-anton text-2xl text-hoolGreen">TI</div><div class="text-xs text-gray-500 uppercase tracking-widest mt-1 font-arimo">Tecnología</div></div>
+                        <div class="border-t border-hoolYellow pt-4"><div class="font-anton text-2xl text-hoolYellow">3D</div><div class="text-xs text-gray-500 uppercase tracking-widest mt-1 font-arimo">Fabricación</div></div>
+                        <div class="border-t border-white/30 pt-4"><div class="font-anton text-2xl">URB</div><div class="text-xs text-gray-500 uppercase tracking-widest mt-1 font-arimo">Urbanismo</div></div>
                     </div>
                 </div>
                 <div data-aos="fade-left">
                     <div class="border border-white/08 p-8 bg-zinc-900/30">
                         <div class="font-arimo text-xs uppercase tracking-[.25em] text-gray-500 mb-6">Proceso de reserva</div>
                         <div class="space-y-4">
-                            <div class="flex items-start gap-4">
-                                <div class="w-6 h-6 bg-hoolGreen flex items-center justify-center text-black font-bold text-xs shrink-0 mt-0.5">1</div>
-                                <div class="text-sm text-gray-400">Selecciona el tipo de laboratorio y sede</div>
-                            </div>
-                            <div class="flex items-start gap-4">
-                                <div class="w-6 h-6 bg-hoolYellow flex items-center justify-center text-black font-bold text-xs shrink-0 mt-0.5">2</div>
-                                <div class="text-sm text-gray-400">Elige tu fecha disponible en el calendario</div>
-                            </div>
-                            <div class="flex items-start gap-4">
-                                <div class="w-6 h-6 border border-white/20 flex items-center justify-center text-white font-bold text-xs shrink-0 mt-0.5">3</div>
-                                <div class="text-sm text-gray-400">Proporciona tus datos de contacto</div>
-                            </div>
-                            <div class="flex items-start gap-4">
-                                <div class="w-6 h-6 border border-hoolGreen flex items-center justify-center text-hoolGreen font-bold text-xs shrink-0 mt-0.5">✓</div>
-                                <div class="text-sm text-gray-400">Recíbete en nuestras instalaciones el día acordado</div>
-                            </div>
+                            <div class="flex items-start gap-4"><div class="w-6 h-6 bg-hoolGreen flex items-center justify-center text-black font-bold text-xs shrink-0 mt-0.5">1</div><div class="text-sm text-gray-400">Selecciona el tipo de laboratorio y sede</div></div>
+                            <div class="flex items-start gap-4"><div class="w-6 h-6 bg-hoolYellow flex items-center justify-center text-black font-bold text-xs shrink-0 mt-0.5">2</div><div class="text-sm text-gray-400">Elige tu fecha disponible en el calendario</div></div>
+                            <div class="flex items-start gap-4"><div class="w-6 h-6 border border-white/20 flex items-center justify-center text-white font-bold text-xs shrink-0 mt-0.5">3</div><div class="text-sm text-gray-400">Proporciona tus datos de contacto</div></div>
+                            <div class="flex items-start gap-4"><div class="w-6 h-6 border border-hoolGreen flex items-center justify-center text-hoolGreen font-bold text-xs shrink-0 mt-0.5">✓</div><div class="text-sm text-gray-400">Recíbete en nuestras instalaciones el día acordado</div></div>
                         </div>
                         <button onclick="openModal('lab-modal')" class="btn-green w-full mt-8">Reservar Laboratorio</button>
                     </div>
@@ -641,8 +653,12 @@
                 <div class="grid md:grid-cols-2 gap-8">
                     <input id="cf-nombre" type="text" placeholder="NOMBRE"
                         class="w-full border-b-2 border-black p-4 focus:outline-none focus:border-hoolGreen bg-transparent uppercase font-arimo" required>
-                    <input id="cf-email" type="email" placeholder="EMAIL"
-                        class="w-full border-b-2 border-black p-4 focus:outline-none focus:border-hoolGreen bg-transparent uppercase font-arimo" required>
+                    <!-- Email con autofill para asociados -->
+                    <div class="input-asociado-wrapper">
+                        <input id="cf-email" type="email" placeholder="EMAIL"
+                            class="w-full border-b-2 border-black p-4 focus:outline-none focus:border-hoolGreen bg-transparent uppercase font-arimo" required>
+                        <span class="asociado-badge hidden" id="cf-email-badge">Asociado ✓</span>
+                    </div>
                 </div>
                 <textarea id="cf-mensaje" rows="4" placeholder="DESCRIBE TU VISIÓN"
                     class="w-full border-b-2 border-black p-4 focus:outline-none focus:border-hoolGreen bg-transparent uppercase font-arimo" required></textarea>
@@ -661,10 +677,7 @@
     <p class="text-gray-600 text-[10px] tracking-[0.6em] font-arimo uppercase">HÓOL © 2026 | Ingeniería para la voluntad</p>
 </footer>
 
-
-<!-- ══════════════════════════════════════════════════
-     MODAL SOCIOS (original)
-══════════════════════════════════════════════════ -->
+<!-- ══ MODAL SOCIOS ══ -->
 <div id="login-modal" class="fixed inset-0 z-[200] hidden flex items-center justify-center bg-black/95 px-4">
     <div class="bg-zinc-900 p-10 max-w-md w-full border-t-4 border-hoolYellow shadow-2xl">
         <h2 class="font-anton text-3xl mb-8 text-center text-white tracking-widest uppercase">Acceso Asociado</h2>
@@ -680,9 +693,7 @@
     </div>
 </div>
 
-<!-- ══════════════════════════════════════════════════
-     MODAL ADMIN LOGIN (Ctrl+Shift+H)
-══════════════════════════════════════════════════ -->
+<!-- ══ MODAL ADMIN LOGIN ══ -->
 <div id="admin-modal" class="fixed inset-0 z-[250] hidden flex items-center justify-center bg-black/98 px-4">
     <div class="bg-zinc-900 p-10 max-w-md w-full border-t-4 border-hoolGreen shadow-2xl relative">
         <div class="absolute top-4 right-4 w-2 h-2 rounded-full bg-hoolGreen animate-pulse"></div>
@@ -700,11 +711,9 @@
     </div>
 </div>
 
-<!-- ══════════════════════════════════════════════════
-     MODAL SOMETER PROYECTO
-══════════════════════════════════════════════════ -->
+<!-- ══ MODAL PROYECTO ══ -->
 <div id="proyecto-modal" class="hool-modal" onclick="if(event.target===this)closeModal('proyecto-modal')">
-    <div class="modal-box modal-accent-green" style="max-width:720px; margin: auto;">
+    <div class="modal-box modal-accent-green" style="max-width:720px;margin:auto;">
         <div class="p-8 border-b border-white/06">
             <div class="flex items-start justify-between">
                 <div>
@@ -713,7 +722,6 @@
                 </div>
                 <button onclick="closeModal('proyecto-modal')" class="text-gray-700 hover:text-white text-2xl transition leading-none mt-1">✕</button>
             </div>
-            <!-- Step indicators -->
             <div class="flex items-center gap-2 mt-6">
                 <div class="step-dot active" id="pdot-1"></div>
                 <div class="h-px flex-1 bg-white/10"></div>
@@ -722,17 +730,12 @@
                 <div class="step-dot" id="pdot-3"></div>
             </div>
         </div>
-
         <form id="proyecto-form" class="p-8">
             <!-- Paso 1 -->
             <div id="pstep-1" class="space-y-6">
                 <div class="text-xs text-hoolGreen uppercase tracking-[.2em] font-arimo mb-6">Paso 1 · Tu Proyecto</div>
-                <div>
-                    <label class="hool-input-label">Nombre del Proyecto *</label>
-                    <input id="pf-nombre" type="text" placeholder="Ej: Sistema de monitoreo de calidad de aire..." class="hool-input" required>
-                </div>
-                <div>
-                    <label class="hool-input-label">Categoría *</label>
+                <div><label class="hool-input-label">Nombre del Proyecto *</label><input id="pf-nombre" type="text" placeholder="Ej: Sistema de monitoreo de calidad de aire..." class="hool-input" required></div>
+                <div><label class="hool-input-label">Categoría *</label>
                     <select id="pf-categoria" class="hool-input" required>
                         <option value="">Selecciona una categoría</option>
                         <option value="urbanismo">Urbanismo Táctico</option>
@@ -743,24 +746,14 @@
                         <option value="otro">Otro</option>
                     </select>
                 </div>
-                <div>
-                    <label class="hool-input-label">Descripción breve del problema que resuelve *</label>
-                    <textarea id="pf-descripcion" rows="4" placeholder="¿Qué problema existe en tu ciudad o comunidad?" class="hool-input resize-none" required></textarea>
-                </div>
-                <div class="flex justify-end">
-                    <button type="button" onclick="proyectoNext(1)" class="btn-green">Siguiente →</button>
-                </div>
+                <div><label class="hool-input-label">Descripción breve del problema que resuelve *</label><textarea id="pf-descripcion" rows="4" placeholder="¿Qué problema existe en tu ciudad o comunidad?" class="hool-input resize-none" required></textarea></div>
+                <div class="flex justify-end"><button type="button" onclick="proyectoNext(1)" class="btn-green">Siguiente →</button></div>
             </div>
-
             <!-- Paso 2 -->
             <div id="pstep-2" class="space-y-6 hidden">
                 <div class="text-xs text-hoolGreen uppercase tracking-[.2em] font-arimo mb-6">Paso 2 · Detalles Técnicos</div>
-                <div>
-                    <label class="hool-input-label">Tecnologías que utilizas o planeas utilizar</label>
-                    <input id="pf-tech" type="text" placeholder="Ej: Python, Arduino, Unity, GIS, etc." class="hool-input">
-                </div>
-                <div>
-                    <label class="hool-input-label">Etapa actual del proyecto *</label>
+                <div><label class="hool-input-label">Tecnologías que utilizas o planeas utilizar</label><input id="pf-tech" type="text" placeholder="Ej: Python, Arduino, Unity, GIS, etc." class="hool-input"></div>
+                <div><label class="hool-input-label">Etapa actual del proyecto *</label>
                     <select id="pf-etapa" class="hool-input" required>
                         <option value="">Selecciona etapa</option>
                         <option value="idea">Solo idea / Concepto</option>
@@ -769,64 +762,40 @@
                         <option value="piloto">Piloto en campo</option>
                     </select>
                 </div>
-                <div>
-                    <label class="hool-input-label">¿Qué necesitas de HÓOL?</label>
-                    <textarea id="pf-necesidad" rows="3" placeholder="Mentoría, espacio de trabajo, conexión con instituciones, fondos..." class="hool-input resize-none"></textarea>
-                </div>
-                <div>
-                    <label class="hool-input-label">Link de referencia (opcional)</label>
-                    <input id="pf-link" type="url" placeholder="https://..." class="hool-input">
-                </div>
-                <div class="flex justify-between">
-                    <button type="button" onclick="proyectoBack(2)" class="btn-outline">← Atrás</button>
-                    <button type="button" onclick="proyectoNext(2)" class="btn-green">Siguiente →</button>
-                </div>
+                <div><label class="hool-input-label">¿Qué necesitas de HÓOL?</label><textarea id="pf-necesidad" rows="3" placeholder="Mentoría, espacio de trabajo, conexión con instituciones, fondos..." class="hool-input resize-none"></textarea></div>
+                <div><label class="hool-input-label">Link de referencia (opcional)</label><input id="pf-link" type="url" placeholder="https://..." class="hool-input"></div>
+                <div class="flex justify-between"><button type="button" onclick="proyectoBack(2)" class="btn-outline">← Atrás</button><button type="button" onclick="proyectoNext(2)" class="btn-green">Siguiente →</button></div>
             </div>
-
             <!-- Paso 3 -->
             <div id="pstep-3" class="space-y-6 hidden">
                 <div class="text-xs text-hoolGreen uppercase tracking-[.2em] font-arimo mb-6">Paso 3 · Tu Contacto</div>
                 <div class="grid grid-cols-2 gap-4">
-                    <div>
-                        <label class="hool-input-label">Nombre completo *</label>
-                        <input id="pf-contacto-nombre" type="text" placeholder="Tu nombre" class="hool-input" required>
-                    </div>
-                    <div>
-                        <label class="hool-input-label">Edad</label>
-                        <input id="pf-edad" type="number" min="14" max="35" placeholder="Ej: 22" class="hool-input">
-                    </div>
+                    <div><label class="hool-input-label">Nombre completo *</label><input id="pf-contacto-nombre" type="text" placeholder="Tu nombre" class="hool-input" required></div>
+                    <div><label class="hool-input-label">Edad</label><input id="pf-edad" type="number" min="14" max="35" placeholder="Ej: 22" class="hool-input"></div>
                 </div>
+                <!-- Email con autofill asociado -->
                 <div>
                     <label class="hool-input-label">Correo electrónico *</label>
-                    <input id="pf-email" type="email" placeholder="tu@correo.com" class="hool-input" required>
+                    <div class="input-asociado-wrapper">
+                        <input id="pf-email" type="email" placeholder="tu@correo.com" class="hool-input" required>
+                        <span class="asociado-badge hidden" id="pf-email-badge">Asociado ✓</span>
+                    </div>
                 </div>
-                <div>
-                    <label class="hool-input-label">Teléfono (opcional)</label>
-                    <input id="pf-tel" type="tel" placeholder="+52 477 000 0000" class="hool-input">
-                </div>
-                <div>
-                    <label class="hool-input-label">Ciudad / Estado</label>
-                    <input id="pf-ciudad" type="text" placeholder="Ej: León, Guanajuato" class="hool-input">
-                </div>
-                <!-- Resumen -->
+                <div><label class="hool-input-label">Teléfono (opcional)</label><input id="pf-tel" type="tel" placeholder="+52 477 000 0000" class="hool-input"></div>
+                <div><label class="hool-input-label">Ciudad / Estado</label><input id="pf-ciudad" type="text" placeholder="Ej: León, Guanajuato" class="hool-input"></div>
                 <div class="border border-white/08 p-4 bg-white/02">
                     <div class="text-xs text-gray-500 uppercase tracking-widest font-arimo mb-3">Resumen de tu envío</div>
                     <div id="pf-resumen" class="text-xs text-gray-400 font-arimo space-y-1"></div>
                 </div>
-                <div class="flex justify-between">
-                    <button type="button" onclick="proyectoBack(3)" class="btn-outline">← Atrás</button>
-                    <button type="submit" id="pf-submit" class="btn-green">Enviar Proyecto ↗</button>
-                </div>
+                <div class="flex justify-between"><button type="button" onclick="proyectoBack(3)" class="btn-outline">← Atrás</button><button type="submit" id="pf-submit" class="btn-green">Enviar Proyecto ↗</button></div>
             </div>
         </form>
     </div>
 </div>
 
-<!-- ══════════════════════════════════════════════════
-     MODAL LABORATORIO
-══════════════════════════════════════════════════ -->
+<!-- ══ MODAL LABORATORIO ══ -->
 <div id="lab-modal" class="hool-modal" onclick="if(event.target===this)closeModal('lab-modal')">
-    <div class="modal-box modal-accent-yellow" style="max-width:700px; margin:auto;">
+    <div class="modal-box modal-accent-yellow" style="max-width:700px;margin:auto;">
         <div class="p-8 border-b border-white/06">
             <div class="flex items-start justify-between">
                 <div>
@@ -843,24 +812,22 @@
                 <div class="step-dot" id="ldot-3"></div>
             </div>
         </div>
-
         <form id="lab-form" class="p-8">
-            <!-- Lab Step 1: Tipo y Sede -->
+            <!-- Lab Step 1 -->
             <div id="lstep-1" class="space-y-6">
                 <div class="text-xs text-hoolYellow uppercase tracking-[.2em] font-arimo mb-4">Paso 1 · Tipo de Laboratorio</div>
                 <div>
                     <label class="hool-input-label">Tipo de Laboratorio *</label>
                     <div class="flex flex-wrap gap-2 mt-3">
-                        <button type="button" class="lab-type-btn" data-type="ti" onclick="selectLabType(this)">💻 TI & Software</button>
-                        <button type="button" class="lab-type-btn" data-type="3d" onclick="selectLabType(this)">🖨 Fabricación 3D</button>
-                        <button type="button" class="lab-type-btn" data-type="urbanismo" onclick="selectLabType(this)">🏙 Urbanismo</button>
+                        <button type="button" class="lab-type-btn" data-type="ti"          onclick="selectLabType(this)">💻 TI & Software</button>
+                        <button type="button" class="lab-type-btn" data-type="3d"          onclick="selectLabType(this)">🖨 Fabricación 3D</button>
+                        <button type="button" class="lab-type-btn" data-type="urbanismo"   onclick="selectLabType(this)">🏙 Urbanismo</button>
                         <button type="button" class="lab-type-btn" data-type="electronica" onclick="selectLabType(this)">⚡ Electrónica</button>
-                        <button type="button" class="lab-type-btn" data-type="datos" onclick="selectLabType(this)">📊 Datos & IA</button>
+                        <button type="button" class="lab-type-btn" data-type="datos"       onclick="selectLabType(this)">📊 Datos & IA</button>
                     </div>
                     <input type="hidden" id="lf-tipo" required>
                 </div>
-                <div>
-                    <label class="hool-input-label">Sede / Ubicación *</label>
+                <div><label class="hool-input-label">Sede / Ubicación *</label>
                     <select id="lf-sede" class="hool-input" required>
                         <option value="">Selecciona una sede</option>
                         <option value="leon-centro">León Centro — Blvd. Adolfo López Mateos</option>
@@ -868,41 +835,29 @@
                         <option value="leon-bajio">Bajío Hub — Zona Industrial</option>
                     </select>
                 </div>
-                <div>
-                    <label class="hool-input-label">Propósito de la visita</label>
-                    <input id="lf-proposito" type="text" placeholder="¿Qué planeas hacer en el lab?" class="hool-input">
-                </div>
-                <div class="flex justify-end">
-                    <button type="button" onclick="labNext(1)" class="btn-yellow">Siguiente →</button>
-                </div>
+                <div><label class="hool-input-label">Propósito de la visita</label><input id="lf-proposito" type="text" placeholder="¿Qué planeas hacer en el lab?" class="hool-input"></div>
+                <div class="flex justify-end"><button type="button" onclick="labNext(1)" class="btn-yellow">Siguiente →</button></div>
             </div>
-
             <!-- Lab Step 2: Calendario -->
             <div id="lstep-2" class="hidden">
                 <div class="text-xs text-hoolYellow uppercase tracking-[.2em] font-arimo mb-6">Paso 2 · Selecciona tu Fecha</div>
                 <div class="border border-white/08 p-6">
-                    <!-- Month nav -->
                     <div class="flex items-center justify-between mb-6">
                         <button type="button" onclick="calPrev()" class="text-gray-500 hover:text-white transition font-arimo text-sm">← Ant</button>
                         <div id="cal-month-label" class="font-anton text-xl tracking-widest"></div>
                         <button type="button" onclick="calNext()" class="text-gray-500 hover:text-white transition font-arimo text-sm">Sig →</button>
                     </div>
-                    <!-- Days header -->
                     <div class="grid grid-cols-7 gap-1 mb-2">
-                        <div class="cal-day text-[10px] text-gray-600 font-arimo uppercase">Lu</div>
-                        <div class="cal-day text-[10px] text-gray-600 font-arimo uppercase">Ma</div>
-                        <div class="cal-day text-[10px] text-gray-600 font-arimo uppercase">Mi</div>
-                        <div class="cal-day text-[10px] text-gray-600 font-arimo uppercase">Ju</div>
-                        <div class="cal-day text-[10px] text-gray-600 font-arimo uppercase">Vi</div>
-                        <div class="cal-day text-[10px] text-gray-600 font-arimo uppercase">Sa</div>
+                        <div class="cal-day text-[10px] text-gray-600 font-arimo uppercase">Lu</div><div class="cal-day text-[10px] text-gray-600 font-arimo uppercase">Ma</div>
+                        <div class="cal-day text-[10px] text-gray-600 font-arimo uppercase">Mi</div><div class="cal-day text-[10px] text-gray-600 font-arimo uppercase">Ju</div>
+                        <div class="cal-day text-[10px] text-gray-600 font-arimo uppercase">Vi</div><div class="cal-day text-[10px] text-gray-600 font-arimo uppercase">Sa</div>
                         <div class="cal-day text-[10px] text-gray-600 font-arimo uppercase">Do</div>
                     </div>
                     <div id="cal-grid" class="grid grid-cols-7 gap-1"></div>
                     <div id="cal-selected-display" class="mt-4 text-xs font-arimo text-hoolYellow uppercase tracking-widest hidden"></div>
                     <input type="hidden" id="lf-fecha" required>
                 </div>
-                <div>
-                    <label class="hool-input-label mt-6">Horario preferido *</label>
+                <div><label class="hool-input-label mt-6">Horario preferido *</label>
                     <select id="lf-horario" class="hool-input" required>
                         <option value="">Selecciona horario</option>
                         <option value="09:00-11:00">09:00 – 11:00 hrs</option>
@@ -911,179 +866,103 @@
                         <option value="16:00-18:00">16:00 – 18:00 hrs</option>
                     </select>
                 </div>
-                <div class="flex justify-between mt-6">
-                    <button type="button" onclick="labBack(2)" class="btn-outline">← Atrás</button>
-                    <button type="button" onclick="labNext(2)" class="btn-yellow">Siguiente →</button>
-                </div>
+                <div class="flex justify-between mt-6"><button type="button" onclick="labBack(2)" class="btn-outline">← Atrás</button><button type="button" onclick="labNext(2)" class="btn-yellow">Siguiente →</button></div>
             </div>
-
-            <!-- Lab Step 3: Contacto -->
+            <!-- Lab Step 3 -->
             <div id="lstep-3" class="space-y-6 hidden">
                 <div class="text-xs text-hoolYellow uppercase tracking-[.2em] font-arimo mb-6">Paso 3 · Tus Datos</div>
                 <div class="grid grid-cols-2 gap-4">
-                    <div>
-                        <label class="hool-input-label">Nombre completo *</label>
-                        <input id="lf-nombre" type="text" class="hool-input" placeholder="Tu nombre" required>
-                    </div>
-                    <div>
-                        <label class="hool-input-label">Edad</label>
-                        <input id="lf-edad" type="number" min="14" max="40" placeholder="Ej: 21" class="hool-input">
-                    </div>
+                    <div><label class="hool-input-label">Nombre completo *</label><input id="lf-nombre" type="text" class="hool-input" placeholder="Tu nombre" required></div>
+                    <div><label class="hool-input-label">Edad</label><input id="lf-edad" type="number" min="14" max="40" placeholder="Ej: 21" class="hool-input"></div>
                 </div>
+                <!-- Email con autofill asociado -->
                 <div>
                     <label class="hool-input-label">Correo electrónico *</label>
-                    <input id="lf-email" type="email" class="hool-input" placeholder="tu@correo.com" required>
+                    <div class="input-asociado-wrapper">
+                        <input id="lf-email" type="email" class="hool-input" placeholder="tu@correo.com" required>
+                        <span class="asociado-badge hidden" id="lf-email-badge">Asociado ✓</span>
+                    </div>
                 </div>
-                <div>
-                    <label class="hool-input-label">Teléfono</label>
-                    <input id="lf-tel" type="tel" class="hool-input" placeholder="+52 477 000 0000">
-                </div>
-                <!-- Resumen booking -->
+                <div><label class="hool-input-label">Teléfono</label><input id="lf-tel" type="tel" class="hool-input" placeholder="+52 477 000 0000"></div>
                 <div class="border border-hoolYellow/20 p-4">
                     <div class="text-xs text-hoolYellow uppercase tracking-widest font-arimo mb-3">Tu reserva</div>
                     <div id="lf-resumen" class="text-xs text-gray-400 font-arimo space-y-1"></div>
                 </div>
-                <div class="flex justify-between">
-                    <button type="button" onclick="labBack(3)" class="btn-outline">← Atrás</button>
-                    <button type="submit" id="lf-submit" class="btn-yellow">Confirmar Reserva ✓</button>
-                </div>
+                <div class="flex justify-between"><button type="button" onclick="labBack(3)" class="btn-outline">← Atrás</button><button type="submit" id="lf-submit" class="btn-yellow">Confirmar Reserva ✓</button></div>
             </div>
         </form>
     </div>
 </div>
 
-<!-- ══════════════════════════════════════════════════
-     MODAL REPLY EMAIL
-══════════════════════════════════════════════════ -->
+<!-- ══ MODAL REPLY ══ -->
 <div id="reply-modal" class="hool-modal" onclick="if(event.target===this)closeModal('reply-modal')">
-    <div class="modal-box modal-accent-yellow p-8" style="max-width:500px; margin:auto;">
+    <div class="modal-box modal-accent-yellow p-8" style="max-width:500px;margin:auto;">
         <div class="flex justify-between items-start mb-6">
-            <div>
-                <h3 class="font-anton text-2xl">Responder</h3>
-                <p id="reply-to-label" class="text-hoolYellow text-xs font-arimo uppercase tracking-widest mt-1"></p>
-            </div>
+            <div><h3 class="font-anton text-2xl">Responder</h3><p id="reply-to-label" class="text-hoolYellow text-xs font-arimo uppercase tracking-widest mt-1"></p></div>
             <button onclick="closeModal('reply-modal')" class="text-gray-600 hover:text-white text-xl transition">✕</button>
         </div>
         <div class="space-y-4">
-            <div>
-                <label class="hool-input-label">Para (email)</label>
-                <input id="reply-email" type="email" class="hool-input" readonly>
-            </div>
-            <div>
-                <label class="hool-input-label">Asunto</label>
-                <input id="reply-subject" type="text" class="hool-input" placeholder="Respuesta de HÓOL">
-            </div>
-            <div>
-                <label class="hool-input-label">Mensaje *</label>
-                <textarea id="reply-body" rows="5" class="hool-input resize-none" placeholder="Escribe tu respuesta aquí..."></textarea>
-            </div>
-            <p class="text-[10px] text-gray-600 font-arimo leading-relaxed">Este mensaje se genera para que lo envíes desde tu cliente de correo. Al hacer click en "Abrir correo" se abrirá tu app de email con el mensaje listo.</p>
-            <div class="flex gap-3">
-                <button onclick="sendReply()" class="btn-yellow flex-1">Abrir Correo ↗</button>
-                <button onclick="closeModal('reply-modal')" class="btn-outline">Cancelar</button>
-            </div>
+            <div><label class="hool-input-label">Para (email)</label><input id="reply-email" type="email" class="hool-input" readonly></div>
+            <div><label class="hool-input-label">Asunto</label><input id="reply-subject" type="text" class="hool-input" placeholder="Respuesta de HÓOL"></div>
+            <div><label class="hool-input-label">Mensaje *</label><textarea id="reply-body" rows="5" class="hool-input resize-none" placeholder="Escribe tu respuesta aquí..."></textarea></div>
+            <p class="text-[10px] text-gray-600 font-arimo leading-relaxed">Al hacer click en "Abrir correo" se abrirá tu app de email con el mensaje listo.</p>
+            <div class="flex gap-3"><button onclick="sendReply()" class="btn-yellow flex-1">Abrir Correo ↗</button><button onclick="closeModal('reply-modal')" class="btn-outline">Cancelar</button></div>
         </div>
     </div>
 </div>
 
-<!-- ══════════════════════════════════════════════════
-     PANEL ADMIN DASHBOARD
-══════════════════════════════════════════════════ -->
+<!-- ══ ADMIN DASHBOARD ══ -->
 <div id="admin-dashboard" class="hool-overlay">
     <div class="max-w-6xl mx-auto px-6 py-12">
-
-        <!-- Header -->
         <div class="flex items-center justify-between mb-12 border-b border-white/08 pb-8">
-            <div>
-                <h1 class="font-anton text-5xl tracking-widest">PANEL <span class="text-hoolGreen">HÓOL</span></h1>
-                <p id="admin-user-label" class="text-gray-600 text-xs uppercase tracking-[.2em] mt-1 font-arimo"></p>
-            </div>
-            <button onclick="adminLogout()" class="border border-hoolGreen text-hoolGreen px-6 py-2 font-arimo text-xs uppercase tracking-widest hover:bg-hoolGreen hover:text-black transition">
-                Cerrar Sesión
-            </button>
+            <div><h1 class="font-anton text-5xl tracking-widest">PANEL <span class="text-hoolGreen">HÓOL</span></h1><p id="admin-user-label" class="text-gray-600 text-xs uppercase tracking-[.2em] mt-1 font-arimo"></p></div>
+            <button onclick="adminLogout()" class="border border-hoolGreen text-hoolGreen px-6 py-2 font-arimo text-xs uppercase tracking-widest hover:bg-hoolGreen hover:text-black transition">Cerrar Sesión</button>
         </div>
-
-        <!-- Stats -->
         <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-12">
-            <div class="bg-zinc-900/60 p-5 border-l-2 border-hoolGreen">
-                <div id="stat-mensajes" class="font-anton text-4xl text-hoolGreen">—</div>
-                <div class="text-[10px] uppercase tracking-widest text-gray-600 mt-1 font-arimo">Mensajes</div>
-            </div>
-            <div class="bg-zinc-900/60 p-5 border-l-2 border-hoolYellow">
-                <div id="stat-proyectos" class="font-anton text-4xl text-hoolYellow">—</div>
-                <div class="text-[10px] uppercase tracking-widest text-gray-600 mt-1 font-arimo">Proyectos</div>
-            </div>
-            <div class="bg-zinc-900/60 p-5 border-l-2 border-white/30">
-                <div id="stat-labs" class="font-anton text-4xl">—</div>
-                <div class="text-[10px] uppercase tracking-widest text-gray-600 mt-1 font-arimo">Reservas Lab</div>
-            </div>
-            <div class="bg-zinc-900/60 p-5 border-l-2 border-hoolGreen/40">
-                <div id="stat-pending" class="font-anton text-4xl text-hoolYellow">—</div>
-                <div class="text-[10px] uppercase tracking-widest text-gray-600 mt-1 font-arimo">Pendientes</div>
-            </div>
+            <div class="bg-zinc-900/60 p-5 border-l-2 border-hoolGreen"><div id="stat-mensajes" class="font-anton text-4xl text-hoolGreen">—</div><div class="text-[10px] uppercase tracking-widest text-gray-600 mt-1 font-arimo">Mensajes</div></div>
+            <div class="bg-zinc-900/60 p-5 border-l-2 border-hoolYellow"><div id="stat-proyectos" class="font-anton text-4xl text-hoolYellow">—</div><div class="text-[10px] uppercase tracking-widest text-gray-600 mt-1 font-arimo">Proyectos</div></div>
+            <div class="bg-zinc-900/60 p-5 border-l-2 border-white/30"><div id="stat-labs" class="font-anton text-4xl">—</div><div class="text-[10px] uppercase tracking-widest text-gray-600 mt-1 font-arimo">Reservas Lab</div></div>
+            <div class="bg-zinc-900/60 p-5 border-l-2 border-hoolGreen/40"><div id="stat-pending" class="font-anton text-4xl text-hoolYellow">—</div><div class="text-[10px] uppercase tracking-widest text-gray-600 mt-1 font-arimo">Pendientes</div></div>
         </div>
-
-        <!-- Tabs -->
         <div class="border-b border-white/08 mb-8 flex gap-0 overflow-x-auto">
-            <button class="admin-tab active" onclick="switchTab('tab-mensajes', this)">✉ Mensajes</button>
-            <button class="admin-tab" onclick="switchTab('tab-proyectos', this)">◈ Proyectos</button>
-            <button class="admin-tab" onclick="switchTab('tab-labs', this)">⬡ Laboratorios</button>
+            <button class="admin-tab active" onclick="switchTab('tab-mensajes',this)">✉ Mensajes</button>
+            <button class="admin-tab" onclick="switchTab('tab-proyectos',this)">◈ Proyectos</button>
+            <button class="admin-tab" onclick="switchTab('tab-labs',this)">⬡ Laboratorios</button>
         </div>
-
-        <!-- TAB: Mensajes -->
         <div id="tab-mensajes" class="tab-panel active">
-            <div class="flex justify-between items-center mb-6">
-                <h2 class="font-anton text-xl tracking-widest uppercase">Mensajes de Contacto</h2>
-                <button onclick="loadAllData()" class="action-btn action-wait">↻ Actualizar</button>
-            </div>
-            <div id="mensajes-container">
-                <div class="empty-state">⟳ Cargando...</div>
-            </div>
+            <div class="flex justify-between items-center mb-6"><h2 class="font-anton text-xl tracking-widest uppercase">Mensajes de Contacto</h2><button onclick="loadAllData()" class="action-btn action-wait">↻ Actualizar</button></div>
+            <div id="mensajes-container"><div class="empty-state">⟳ Cargando...</div></div>
         </div>
-
-        <!-- TAB: Proyectos -->
         <div id="tab-proyectos" class="tab-panel">
             <div class="flex justify-between items-center mb-6">
                 <h2 class="font-anton text-xl tracking-widest uppercase">Proyectos Sometidos</h2>
                 <div class="flex gap-2">
-                    <button onclick="filterProyectos('todos')" class="action-btn action-wait" id="pfilter-todos">Todos</button>
-                    <button onclick="filterProyectos('pendiente')" class="action-btn action-approve" id="pfilter-pendiente">Pendientes</button>
-                    <button onclick="loadAllData()" class="action-btn action-wait">↻ Actualizar</button>
+                    <button onclick="filterProyectos('todos')"     class="action-btn action-wait">Todos</button>
+                    <button onclick="filterProyectos('pendiente')" class="action-btn action-approve">Pendientes</button>
+                    <button onclick="loadAllData()"                class="action-btn action-wait">↻ Actualizar</button>
                 </div>
             </div>
-            <div id="proyectos-container">
-                <div class="empty-state">⟳ Cargando...</div>
-            </div>
+            <div id="proyectos-container"><div class="empty-state">⟳ Cargando...</div></div>
         </div>
-
-        <!-- TAB: Labs -->
         <div id="tab-labs" class="tab-panel">
-            <div class="flex justify-between items-center mb-6">
-                <h2 class="font-anton text-xl tracking-widest uppercase">Reservas de Laboratorio</h2>
-                <button onclick="loadAllData()" class="action-btn action-wait">↻ Actualizar</button>
-            </div>
-            <div id="labs-container">
-                <div class="empty-state">⟳ Cargando...</div>
-            </div>
+            <div class="flex justify-between items-center mb-6"><h2 class="font-anton text-xl tracking-widest uppercase">Reservas de Laboratorio</h2><button onclick="loadAllData()" class="action-btn action-wait">↻ Actualizar</button></div>
+            <div id="labs-container"><div class="empty-state">⟳ Cargando...</div></div>
         </div>
-
     </div>
 </div>
 
-
-<!-- ══════════════════════════════════════════════════
+<!-- ══════════════════════════════════════════
      SCRIPTS
-══════════════════════════════════════════════════ -->
+══════════════════════════════════════════ -->
 <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
 
 <script type="module">
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import { initializeApp }            from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
 import { getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
 import { getDatabase, ref, push, get, update, remove } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
 
-// ══════════ REEMPLAZA CON TU CONFIG ══════════
 const firebaseConfig = {
     apiKey:            "AIzaSyDYlskuWYe4fAZgBbuA9NWUKOFC1Aeg1ME",
     authDomain:        "hooldatabase.firebaseapp.com",
@@ -1093,55 +972,131 @@ const firebaseConfig = {
     appId:             "1:134683027486:web:b84fbf6bc2b4105128660f",
     databaseURL:       "https://hooldatabase-default-rtdb.firebaseio.com"
 };
-// ═════════════════════════════════════════════
 
 const app  = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db   = getDatabase(app);
 
+// ══════════════════════════════════════════
+// SISTEMA DE ALERTAS CUSTOM HÓOL
+// ══════════════════════════════════════════
+function hoolAlert({ title, msg, type = 'ok', confirmText = 'Aceptar', cancelText = null, onConfirm = null }) {
+    const overlay    = document.getElementById('hool-alert-overlay');
+    const box        = document.getElementById('hool-alert-box');
+    const accentBar  = document.getElementById('alert-accent-bar');
+    const iconWrap   = document.getElementById('alert-icon-wrap');
+    const iconEl     = document.getElementById('alert-icon');
+    const titleEl    = document.getElementById('alert-title');
+    const msgEl      = document.getElementById('alert-msg');
+    const okBtn      = document.getElementById('alert-ok-btn');
+    const cancelBtn  = document.getElementById('alert-cancel-btn');
+
+    const configs = {
+        ok:      { bar:'alert-accent-green',  icon:'alert-icon-green',  iconChar:'✓', btnClass:'green',  titleColor:'#7ed957' },
+        warn:    { bar:'alert-accent-yellow', icon:'alert-icon-yellow', iconChar:'⚠', btnClass:'yellow', titleColor:'#fed852' },
+        error:   { bar:'alert-accent-red',    icon:'alert-icon-red',    iconChar:'✕', btnClass:'red',    titleColor:'#ff4444' },
+        info:    { bar:'alert-accent-white',  icon:'alert-icon-white',  iconChar:'◈', btnClass:'white',  titleColor:'#ffffff' },
+        confirm: { bar:'alert-accent-red',    icon:'alert-icon-red',    iconChar:'!', btnClass:'red',    titleColor:'#ff4444' },
+    };
+    const cfg = configs[type] || configs.ok;
+
+    // Reset classes
+    accentBar.className = `alert-accent-bar ${cfg.bar}`;
+    iconWrap.className  = `alert-icon-wrap ${cfg.icon}`;
+    iconEl.textContent  = cfg.iconChar;
+    titleEl.textContent = title;
+    titleEl.style.color = cfg.titleColor;
+    msgEl.textContent   = msg;
+    okBtn.className     = `alert-btn-primary ${cfg.btnClass}`;
+    okBtn.textContent   = confirmText;
+
+    if (cancelText) {
+        cancelBtn.textContent = cancelText;
+        cancelBtn.style.display = 'block';
+    } else {
+        cancelBtn.style.display = 'none';
+    }
+
+    // Animate box
+    box.style.animation = 'none';
+    box.offsetHeight; // reflow
+    box.style.animation = '';
+
+    overlay.classList.add('show');
+    document.body.style.overflow = 'hidden';
+
+    const close = () => {
+        overlay.classList.remove('show');
+        document.body.style.overflow = '';
+    };
+
+    okBtn.onclick = () => { close(); if (onConfirm) onConfirm(); };
+    cancelBtn.onclick = close;
+    overlay.onclick = (e) => { if (e.target === overlay) close(); };
+}
+
+// Hacer global
+window.hoolAlert = hoolAlert;
+
 // ── UTILS ──────────────────────────────────
 function showToast(msg, type = 'ok') {
     const t = document.getElementById('toast');
     t.textContent = msg;
-    t.className = 'show' + (type === 'err' ? ' error' : type === 'warn' ? ' warn' : '');
+    t.className = 'show' + (type==='err' ? ' error' : type==='warn' ? ' warn' : '');
     setTimeout(() => { t.className = ''; }, 3500);
 }
 
-function escHtml(s = '') {
+function escHtml(s='') {
     return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 }
-
 function fmtDate(ts) {
     if (!ts) return '—';
-    return new Date(ts).toLocaleString('es-MX', { day:'2-digit', month:'short', year:'numeric', hour:'2-digit', minute:'2-digit' });
+    return new Date(ts).toLocaleString('es-MX',{day:'2-digit',month:'short',year:'numeric',hour:'2-digit',minute:'2-digit'});
 }
-
 function badge(status) {
-    const map = {
-        pendiente:  '<span class="badge badge-pending">Pendiente</span>',
-        aprobado:   '<span class="badge badge-approved">Aprobado</span>',
-        espera:     '<span class="badge badge-wait">En espera</span>',
-        rechazado:  '<span class="badge badge-rejected">Rechazado</span>',
-        confirmado: '<span class="badge badge-approved">Confirmado</span>',
-    };
-    return map[status] || `<span class="badge badge-pending">${status}</span>`;
+    const map = { pendiente:`<span class="badge badge-pending">Pendiente</span>`, aprobado:`<span class="badge badge-approved">Aprobado</span>`, espera:`<span class="badge badge-wait">En espera</span>`, rechazado:`<span class="badge badge-rejected">Rechazado</span>`, confirmado:`<span class="badge badge-approved">Confirmado</span>` };
+    return map[status]||`<span class="badge badge-pending">${status}</span>`;
 }
 
-// ── MODAL CONTROL ──────────────────────────
+// ── MODALES ────────────────────────────────
 window.toggleModal = (id) => document.getElementById(id).classList.toggle('hidden');
-window.openModal  = (id) => { document.getElementById(id).classList.add('open'); document.body.style.overflow='hidden'; };
-window.closeModal = (id) => { document.getElementById(id).classList.remove('open'); document.body.style.overflow=''; };
+window.openModal   = (id) => { document.getElementById(id).classList.add('open'); document.body.style.overflow='hidden'; };
+window.closeModal  = (id) => { document.getElementById(id).classList.remove('open'); document.body.style.overflow=''; };
+
+// ══════════════════════════════════════════
+// AUTOFILL EMAIL ASOCIADO
+// ══════════════════════════════════════════
+// Guarda el email del asociado activo globalmente
+let asociadoEmail = null;
+
+function applyAsociadoEmail() {
+    const emailFields = [
+        { inputId: 'cf-email',  badgeId: 'cf-email-badge'  },
+        { inputId: 'pf-email',  badgeId: 'pf-email-badge'  },
+        { inputId: 'lf-email',  badgeId: 'lf-email-badge'  },
+    ];
+    emailFields.forEach(({ inputId, badgeId }) => {
+        const input = document.getElementById(inputId);
+        const badge = document.getElementById(badgeId);
+        if (!input || !badge) return;
+        if (asociadoEmail) {
+            input.value = asociadoEmail;
+            badge.classList.remove('hidden');
+            // Aún permite editar — solo pre-rellena
+        } else {
+            // Si no hay asociado, limpiar solo si tiene el valor previo
+            if (input.value === (asociadoEmail || '')) input.value = '';
+            badge.classList.add('hidden');
+        }
+    });
+}
 
 // ── ADMIN KEY COMBO ─────────────────────────
 document.addEventListener('keydown', (e) => {
-    if (e.ctrlKey && e.shiftKey && e.key === 'H') {
+    if (e.ctrlKey && e.shiftKey && e.key==='H') {
         e.preventDefault();
-        if (auth.currentUser) {
-            document.getElementById('admin-dashboard').classList.add('visible');
-        } else {
-            const m = document.getElementById('admin-modal');
-            m.classList.remove('hidden'); m.classList.add('flex');
-        }
+        if (auth.currentUser) { document.getElementById('admin-dashboard').classList.add('visible'); }
+        else { const m=document.getElementById('admin-modal'); m.classList.remove('hidden'); m.classList.add('flex'); }
     }
 });
 
@@ -1151,21 +1106,20 @@ window.adminLogin = async () => {
     const pass  = document.getElementById('admin-pass').value;
     const btn   = document.getElementById('admin-login-btn');
     const errEl = document.getElementById('admin-error');
-    if (!email || !pass) { errEl.textContent='Completa ambos campos'; errEl.classList.remove('hidden'); return; }
-    btn.innerHTML = '<span class="spinner"></span>Verificando...'; btn.disabled=true; errEl.classList.add('hidden');
+    if (!email||!pass) { errEl.textContent='Completa ambos campos'; errEl.classList.remove('hidden'); return; }
+    btn.innerHTML='<span class="spinner"></span>Verificando...'; btn.disabled=true; errEl.classList.add('hidden');
     try {
-        await signInWithEmailAndPassword(auth, email, pass);
+        await signInWithEmailAndPassword(auth,email,pass);
     } catch(err) {
-        const msgs = {'auth/user-not-found':'Usuario no encontrado','auth/wrong-password':'Contraseña incorrecta','auth/invalid-credential':'Credenciales inválidas','auth/too-many-requests':'Demasiados intentos'};
-        errEl.textContent = msgs[err.code]||'Error al iniciar sesión'; errEl.classList.remove('hidden');
+        const msgs={'auth/user-not-found':'Usuario no encontrado','auth/wrong-password':'Contraseña incorrecta','auth/invalid-credential':'Credenciales inválidas','auth/too-many-requests':'Demasiados intentos'};
+        errEl.textContent=msgs[err.code]||'Error al iniciar sesión'; errEl.classList.remove('hidden');
         btn.innerHTML='Ingresar'; btn.disabled=false;
     }
 };
 
-onAuthStateChanged(auth, (user) => {
-    if (user) {
-        const m = document.getElementById('admin-modal');
-        m.classList.add('hidden'); m.classList.remove('flex');
+onAuthStateChanged(auth,(user)=>{
+    if(user){
+        const m=document.getElementById('admin-modal'); m.classList.add('hidden'); m.classList.remove('flex');
         document.getElementById('admin-email').value=''; document.getElementById('admin-pass').value='';
         document.getElementById('admin-login-btn').innerHTML='Ingresar'; document.getElementById('admin-login-btn').disabled=false;
         document.getElementById('admin-user-label').textContent=`Sesión · ${user.email}`;
@@ -1179,446 +1133,466 @@ onAuthStateChanged(auth, (user) => {
 window.adminLogout = async () => { await signOut(auth); showToast('Sesión cerrada'); };
 
 // ── TABS ────────────────────────────────────
-window.switchTab = (tabId, btn) => {
-    document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
-    document.querySelectorAll('.admin-tab').forEach(b => b.classList.remove('active'));
-    document.getElementById(tabId).classList.add('active');
-    btn.classList.add('active');
+window.switchTab = (tabId,btn) => {
+    document.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));
+    document.querySelectorAll('.admin-tab').forEach(b=>b.classList.remove('active'));
+    document.getElementById(tabId).classList.add('active'); btn.classList.add('active');
 };
 
-// ══════════════════════════════════════════════
-// CARGA DE DATOS (todas las colecciones)
-// ══════════════════════════════════════════════
-window.loadAllData = async () => {
-    await Promise.all([loadMensajes(), loadProyectos(), loadLabs()]);
-};
+// ══════════════════════════════════════════
+// CARGA DE DATOS
+// ══════════════════════════════════════════
+window.loadAllData = async () => { await Promise.all([loadMensajes(),loadProyectos(),loadLabs()]); };
 
-// ── MENSAJES ────────────────────────────────
 async function loadMensajes() {
-    const c = document.getElementById('mensajes-container');
-    c.innerHTML = '<div class="empty-state">⟳ Cargando...</div>';
+    const c=document.getElementById('mensajes-container');
+    c.innerHTML='<div class="empty-state">⟳ Cargando...</div>';
     try {
-        const snap = await get(ref(db,'contactos'));
-        if (!snap.exists()) { c.innerHTML='<div class="empty-state">✉ Sin mensajes aún</div>'; document.getElementById('stat-mensajes').textContent='0'; return; }
-        const items = []; snap.forEach(ch => items.push({id:ch.key,...ch.val()}));
+        const snap=await get(ref(db,'contactos'));
+        if(!snap.exists()){c.innerHTML='<div class="empty-state">✉ Sin mensajes aún</div>';document.getElementById('stat-mensajes').textContent='0';return;}
+        const items=[]; snap.forEach(ch=>items.push({id:ch.key,...ch.val()}));
         items.sort((a,b)=>(b.fecha||0)-(a.fecha||0));
-        document.getElementById('stat-mensajes').textContent = items.length;
-        c.innerHTML = items.map(m => `
+        document.getElementById('stat-mensajes').textContent=items.length;
+        c.innerHTML=items.map(m=>`
         <div class="msg-card" id="mc-${m.id}">
             <div class="flex flex-wrap items-start justify-between gap-3">
-                <div>
-                    <div class="msg-name">${escHtml(m.nombre)}</div>
-                    <div class="msg-email">${escHtml(m.email)}</div>
-                </div>
-                <div class="flex items-center gap-2">
-                    <div class="msg-date">${fmtDate(m.fecha)}</div>
-                    ${badge(m.status||'pendiente')}
-                </div>
+                <div><div class="msg-name">${escHtml(m.nombre)}</div><div class="msg-email">${escHtml(m.email)}</div></div>
+                <div class="flex items-center gap-2"><div class="msg-date">${fmtDate(m.fecha)}</div>${badge(m.status||'pendiente')}</div>
             </div>
             <div class="msg-body mt-2">${escHtml(m.mensaje)}</div>
             <div class="flex flex-wrap gap-2 mt-4">
-                <button class="action-btn action-reply" onclick="openReply('${m.id}','${escHtml(m.email)}','${escHtml(m.nombre)}','contacto')">✉ Responder</button>
+                <button class="action-btn action-reply"   onclick="openReply('${m.id}','${escHtml(m.email)}','${escHtml(m.nombre)}','contacto')">✉ Responder</button>
                 <button class="action-btn action-approve" onclick="updateStatus('contactos','${m.id}','aprobado','mc-${m.id}')">✓ Marcar leído</button>
-                <button class="action-btn action-delete" onclick="deleteItem('contactos','${m.id}','mc-${m.id}')">✕ Eliminar</button>
+                <button class="action-btn action-delete"  onclick="confirmDelete('contactos','${m.id}','mc-${m.id}')">✕ Eliminar</button>
             </div>
         </div>`).join('');
-    } catch(e) { console.error(e); c.innerHTML='<div class="empty-state text-red-400">Error al cargar mensajes</div>'; }
+    } catch(e){console.error(e);c.innerHTML='<div class="empty-state text-red-400">Error al cargar mensajes</div>';}
 }
 
-// ── PROYECTOS ───────────────────────────────
-let todosProyectos = [];
+let todosProyectos=[];
 async function loadProyectos() {
-    const c = document.getElementById('proyectos-container');
-    c.innerHTML = '<div class="empty-state">⟳ Cargando...</div>';
+    const c=document.getElementById('proyectos-container');
+    c.innerHTML='<div class="empty-state">⟳ Cargando...</div>';
     try {
-        const snap = await get(ref(db,'proyectos'));
-        if (!snap.exists()) { c.innerHTML='<div class="empty-state">◈ Sin proyectos aún</div>'; document.getElementById('stat-proyectos').textContent='0'; return; }
-        todosProyectos = []; snap.forEach(ch => todosProyectos.push({id:ch.key,...ch.val()}));
+        const snap=await get(ref(db,'proyectos'));
+        if(!snap.exists()){c.innerHTML='<div class="empty-state">◈ Sin proyectos aún</div>';document.getElementById('stat-proyectos').textContent='0';return;}
+        todosProyectos=[]; snap.forEach(ch=>todosProyectos.push({id:ch.key,...ch.val()}));
         todosProyectos.sort((a,b)=>(b.fecha||0)-(a.fecha||0));
-        document.getElementById('stat-proyectos').textContent = todosProyectos.length;
-        const pending = todosProyectos.filter(p=>!p.status||p.status==='pendiente').length;
-        document.getElementById('stat-pending').textContent = pending;
+        document.getElementById('stat-proyectos').textContent=todosProyectos.length;
+        document.getElementById('stat-pending').textContent=todosProyectos.filter(p=>!p.status||p.status==='pendiente').length;
         renderProyectos(todosProyectos);
-    } catch(e) { console.error(e); c.innerHTML='<div class="empty-state text-red-400">Error al cargar proyectos</div>'; }
+    } catch(e){console.error(e);c.innerHTML='<div class="empty-state text-red-400">Error al cargar proyectos</div>';}
 }
 
 function renderProyectos(items) {
-    const c = document.getElementById('proyectos-container');
-    if (!items.length) { c.innerHTML='<div class="empty-state">◈ Sin resultados</div>'; return; }
-    c.innerHTML = items.map(p => `
-    <div class="msg-card" id="pc-${p.id}" style="border-left-color: var(--yellow);">
+    const c=document.getElementById('proyectos-container');
+    if(!items.length){c.innerHTML='<div class="empty-state">◈ Sin resultados</div>';return;}
+    c.innerHTML=items.map(p=>`
+    <div class="msg-card" id="pc-${p.id}" style="border-left-color:var(--yellow);">
         <div class="flex flex-wrap items-start justify-between gap-3">
-            <div>
-                <div class="msg-name">${escHtml(p.nombre_proyecto||'Sin nombre')}</div>
-                <div class="msg-email">${escHtml(p.categoria||'—')} · ${escHtml(p.etapa||'—')}</div>
-                <div class="msg-date mt-1">${escHtml(p.contacto_nombre||'')} · ${escHtml(p.email||'')}</div>
-            </div>
-            <div class="flex flex-col items-end gap-2">
-                <div class="msg-date">${fmtDate(p.fecha)}</div>
-                ${badge(p.status||'pendiente')}
-            </div>
+            <div><div class="msg-name">${escHtml(p.nombre_proyecto||'Sin nombre')}</div><div class="msg-email">${escHtml(p.categoria||'—')} · ${escHtml(p.etapa||'—')}</div><div class="msg-date mt-1">${escHtml(p.contacto_nombre||'')} · ${escHtml(p.email||'')}</div></div>
+            <div class="flex flex-col items-end gap-2"><div class="msg-date">${fmtDate(p.fecha)}</div>${badge(p.status||'pendiente')}</div>
         </div>
         <div class="msg-body mt-2">${escHtml(p.descripcion||'')}</div>
-        ${p.necesidad ? `<div class="text-xs text-gray-500 mt-1 font-arimo"><span class="text-gray-600 uppercase tracking-widest">Necesita: </span>${escHtml(p.necesidad)}</div>` : ''}
-        ${p.link ? `<div class="mt-1"><a href="${escHtml(p.link)}" target="_blank" class="text-xs text-hoolGreen font-arimo underline">${escHtml(p.link)}</a></div>` : ''}
+        ${p.necesidad?`<div class="text-xs text-gray-500 mt-1 font-arimo"><span class="text-gray-600 uppercase tracking-widest">Necesita: </span>${escHtml(p.necesidad)}</div>`:''}
+        ${p.link?`<div class="mt-1"><a href="${escHtml(p.link)}" target="_blank" class="text-xs text-hoolGreen font-arimo underline">${escHtml(p.link)}</a></div>`:''}
         <div class="flex flex-wrap gap-2 mt-4">
             <button class="action-btn action-approve" onclick="updateStatus('proyectos','${p.id}','aprobado','pc-${p.id}')">✓ Aprobar</button>
             <button class="action-btn action-wait"    onclick="updateStatus('proyectos','${p.id}','espera','pc-${p.id}')">⏸ En espera</button>
             <button class="action-btn action-reject"  onclick="updateStatus('proyectos','${p.id}','rechazado','pc-${p.id}')">✕ Rechazar</button>
             <button class="action-btn action-reply"   onclick="openReply('${p.id}','${escHtml(p.email||'')}','${escHtml(p.contacto_nombre||'')}','proyecto')">✉ Responder</button>
-            <button class="action-btn action-delete"  onclick="deleteItem('proyectos','${p.id}','pc-${p.id}')">🗑 Eliminar</button>
+            <button class="action-btn action-delete"  onclick="confirmDelete('proyectos','${p.id}','pc-${p.id}')">🗑 Eliminar</button>
         </div>
     </div>`).join('');
 }
+window.filterProyectos=(f)=>{if(f==='todos')renderProyectos(todosProyectos);else renderProyectos(todosProyectos.filter(p=>(p.status||'pendiente')===f));};
 
-window.filterProyectos = (f) => {
-    if (f === 'todos') renderProyectos(todosProyectos);
-    else renderProyectos(todosProyectos.filter(p=>(p.status||'pendiente')===f));
-};
-
-// ── LABS ────────────────────────────────────
 async function loadLabs() {
-    const c = document.getElementById('labs-container');
-    c.innerHTML = '<div class="empty-state">⟳ Cargando...</div>';
+    const c=document.getElementById('labs-container');
+    c.innerHTML='<div class="empty-state">⟳ Cargando...</div>';
     try {
-        const snap = await get(ref(db,'laboratorios'));
-        if (!snap.exists()) { c.innerHTML='<div class="empty-state">⬡ Sin reservas aún</div>'; document.getElementById('stat-labs').textContent='0'; return; }
-        const items = []; snap.forEach(ch => items.push({id:ch.key,...ch.val()}));
+        const snap=await get(ref(db,'laboratorios'));
+        if(!snap.exists()){c.innerHTML='<div class="empty-state">⬡ Sin reservas aún</div>';document.getElementById('stat-labs').textContent='0';return;}
+        const items=[]; snap.forEach(ch=>items.push({id:ch.key,...ch.val()}));
         items.sort((a,b)=>(b.fecha_registro||0)-(a.fecha_registro||0));
-        document.getElementById('stat-labs').textContent = items.length;
-        c.innerHTML = items.map(l => `
-        <div class="msg-card" id="lc-${l.id}" style="border-left-color: #fff;">
+        document.getElementById('stat-labs').textContent=items.length;
+        c.innerHTML=items.map(l=>`
+        <div class="msg-card" id="lc-${l.id}" style="border-left-color:#fff;">
             <div class="flex flex-wrap items-start justify-between gap-3">
-                <div>
-                    <div class="msg-name">${escHtml(l.nombre||'—')}</div>
-                    <div class="msg-email">${escHtml(l.email||'—')} ${l.tel ? '· '+escHtml(l.tel) : ''}</div>
-                    <div class="msg-date mt-1">Lab: <strong class="text-white">${escHtml(l.tipo||'—')}</strong> · Sede: ${escHtml(l.sede||'—')}</div>
-                </div>
-                <div class="flex flex-col items-end gap-2">
-                    <div class="font-anton text-hoolYellow">${escHtml(l.fecha_reserva||'—')}</div>
-                    <div class="msg-date">${escHtml(l.horario||'—')}</div>
-                    ${badge(l.status||'pendiente')}
-                </div>
+                <div><div class="msg-name">${escHtml(l.nombre||'—')}</div><div class="msg-email">${escHtml(l.email||'—')} ${l.tel?'· '+escHtml(l.tel):''}</div><div class="msg-date mt-1">Lab: <strong class="text-white">${escHtml(l.tipo||'—')}</strong> · Sede: ${escHtml(l.sede||'—')}</div></div>
+                <div class="flex flex-col items-end gap-2"><div class="font-anton text-hoolYellow">${escHtml(l.fecha_reserva||'—')}</div><div class="msg-date">${escHtml(l.horario||'—')}</div>${badge(l.status||'pendiente')}</div>
             </div>
-            ${l.proposito ? `<div class="msg-body mt-2">${escHtml(l.proposito)}</div>` : ''}
+            ${l.proposito?`<div class="msg-body mt-2">${escHtml(l.proposito)}</div>`:''}
             <div class="flex flex-wrap gap-2 mt-4">
                 <button class="action-btn action-approve" onclick="updateStatus('laboratorios','${l.id}','confirmado','lc-${l.id}')">✓ Confirmar</button>
                 <button class="action-btn action-wait"    onclick="updateStatus('laboratorios','${l.id}','espera','lc-${l.id}')">⏸ En espera</button>
                 <button class="action-btn action-reply"   onclick="openReply('${l.id}','${escHtml(l.email||'')}','${escHtml(l.nombre||'')}','lab')">✉ Responder</button>
-                <button class="action-btn action-delete"  onclick="deleteItem('laboratorios','${l.id}','lc-${l.id}')">🗑 Eliminar</button>
+                <button class="action-btn action-delete"  onclick="confirmDelete('laboratorios','${l.id}','lc-${l.id}')">🗑 Eliminar</button>
             </div>
         </div>`).join('');
-    } catch(e) { console.error(e); c.innerHTML='<div class="empty-state text-red-400">Error al cargar labs</div>'; }
+    } catch(e){console.error(e);c.innerHTML='<div class="empty-state text-red-400">Error al cargar labs</div>';}
 }
 
 // ── ACCIONES ADMIN ──────────────────────────
-window.updateStatus = async (collection, id, status, cardId) => {
+window.updateStatus = async (collection,id,status,cardId) => {
     try {
-        await update(ref(db, `${collection}/${id}`), { status });
-        const card = document.getElementById(cardId);
-        if (card) {
-            const badgeEl = card.querySelector('.badge');
-            if (badgeEl) badgeEl.outerHTML = badge(status);
+        await update(ref(db,`${collection}/${id}`),{status});
+        const card=document.getElementById(cardId);
+        if(card){const b=card.querySelector('.badge');if(b)b.outerHTML=badge(status);}
+        showToast(`Estado → ${status}`);
+    } catch(e){showToast('Error al actualizar','err');}
+};
+
+// Eliminar con alerta custom
+window.confirmDelete = (collection,id,cardId) => {
+    hoolAlert({
+        title: 'Eliminar Registro',
+        msg:   '¿Estás seguro? Esta acción no se puede deshacer y el registro se borrará permanentemente de Firebase.',
+        type:  'confirm',
+        confirmText: 'Sí, eliminar',
+        cancelText:  'Cancelar',
+        onConfirm: async () => {
+            try {
+                await remove(ref(db,`${collection}/${id}`));
+                const card=document.getElementById(cardId);
+                if(card){card.style.opacity='0';card.style.transform='translateX(-20px)';card.style.transition='all .3s';setTimeout(()=>card.remove(),300);}
+                showToast('Eliminado correctamente');
+                setTimeout(loadAllData,400);
+            } catch(e){showToast('Error al eliminar','err');}
         }
-        showToast(`Estado → ${status}`, 'ok');
-    } catch(e) { showToast('Error al actualizar', 'err'); }
+    });
 };
 
-window.deleteItem = async (collection, id, cardId) => {
-    if (!confirm('¿Eliminar este registro? Esta acción no se puede deshacer.')) return;
-    try {
-        await remove(ref(db, `${collection}/${id}`));
-        const card = document.getElementById(cardId);
-        if (card) { card.style.opacity='0'; card.style.transform='translateX(-20px)'; card.style.transition='all .3s'; setTimeout(()=>card.remove(), 300); }
-        showToast('Eliminado correctamente');
-        loadAllData();
-    } catch(e) { showToast('Error al eliminar','err'); }
-};
-
-// ── REPLY ───────────────────────────────────
-window.openReply = (id, email, nombre, tipo) => {
-    document.getElementById('reply-email').value   = email;
-    document.getElementById('reply-to-label').textContent = `Para: ${nombre}`;
-    const subjects = { contacto:'Re: Tu mensaje en HÓOL', proyecto:'Re: Tu proyecto en HÓOL', lab:'Confirmación de reserva · HÓOL' };
-    document.getElementById('reply-subject').value = subjects[tipo]||'Respuesta de HÓOL';
-    document.getElementById('reply-body').value = '';
-    window._replyData = { email, nombre, tipo };
+window.openReply = (id,email,nombre,tipo) => {
+    document.getElementById('reply-email').value=email;
+    document.getElementById('reply-to-label').textContent=`Para: ${nombre}`;
+    const subjects={contacto:'Re: Tu mensaje en HÓOL',proyecto:'Re: Tu proyecto en HÓOL',lab:'Confirmación de reserva · HÓOL'};
+    document.getElementById('reply-subject').value=subjects[tipo]||'Respuesta de HÓOL';
+    document.getElementById('reply-body').value='';
     openModal('reply-modal');
 };
-
 window.sendReply = () => {
-    const email   = document.getElementById('reply-email').value;
-    const subject = document.getElementById('reply-subject').value;
-    const body    = document.getElementById('reply-body').value;
-    if (!body.trim()) { showToast('Escribe un mensaje primero','warn'); return; }
-    const mailto = `mailto:${email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-    window.open(mailto);
-    closeModal('reply-modal');
-    showToast('Abriendo cliente de correo...','ok');
+    const email=document.getElementById('reply-email').value;
+    const subject=document.getElementById('reply-subject').value;
+    const body=document.getElementById('reply-body').value;
+    if(!body.trim()){showToast('Escribe un mensaje primero','warn');return;}
+    window.open(`mailto:${email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`);
+    closeModal('reply-modal'); showToast('Abriendo cliente de correo...');
 };
 
-// ══════════════════════════════════════════════
-// FORMULARIO CONTACTO → Firebase
-// ══════════════════════════════════════════════
-document.getElementById('contact-form').addEventListener('submit', async (e) => {
+// ══════════════════════════════════════════
+// FORMULARIO CONTACTO
+// ══════════════════════════════════════════
+document.getElementById('contact-form').addEventListener('submit',async(e)=>{
     e.preventDefault();
-    const btn    = document.getElementById('cf-submit');
-    const nombre = document.getElementById('cf-nombre').value.trim();
-    const email  = document.getElementById('cf-email').value.trim();
-    const msg    = document.getElementById('cf-mensaje').value.trim();
-    if (!nombre||!email||!msg) return;
+    const btn=document.getElementById('cf-submit');
+    const nombre=document.getElementById('cf-nombre').value.trim();
+    const email=document.getElementById('cf-email').value.trim();
+    const msg=document.getElementById('cf-mensaje').value.trim();
+    if(!nombre||!email||!msg) return;
     btn.innerHTML='<span class="spinner spinner-white"></span>Enviando...'; btn.disabled=true;
     try {
-        await push(ref(db,'contactos'), { nombre, email, mensaje:msg, fecha:Date.now(), status:'pendiente' });
+        await push(ref(db,'contactos'),{nombre,email,mensaje:msg,fecha:Date.now(),status:'pendiente'});
         document.getElementById('cf-nombre').value='';
-        document.getElementById('cf-email').value='';
         document.getElementById('cf-mensaje').value='';
-        showToast('✓ Mensaje recibido en HÓOL');
-    } catch(e) { showToast('Error al enviar. Intenta de nuevo.','err'); }
-    finally { btn.innerHTML='ENVIAR A HÓOL'; btn.disabled=false; }
+        // Mantener email si es asociado
+        if(!asociadoEmail) document.getElementById('cf-email').value='';
+        hoolAlert({title:'Mensaje Enviado',msg:'Tu mensaje fue recibido en HÓOL. Nuestro equipo lo revisará pronto.',type:'ok',confirmText:'Perfecto'});
+    } catch(e){
+        hoolAlert({title:'Error de Envío',msg:'No pudimos enviar tu mensaje. Verifica tu conexión e intenta de nuevo.',type:'error',confirmText:'Entendido'});
+    }
+    finally{btn.innerHTML='ENVIAR A HÓOL';btn.disabled=false;}
 });
 
-// ══════════════════════════════════════════════
+// ══════════════════════════════════════════
 // FORMULARIO PROYECTO — multi-step
-// ══════════════════════════════════════════════
-window.proyectoNext = (step) => {
-    const validations = {
-        1: () => {
-            const n = document.getElementById('pf-nombre').value.trim();
-            const c = document.getElementById('pf-categoria').value;
-            const d = document.getElementById('pf-descripcion').value.trim();
-            if (!n||!c||!d) { showToast('Completa todos los campos requeridos','warn'); return false; }
+// ══════════════════════════════════════════
+window.proyectoNext=(step)=>{
+    const v={
+        1:()=>{
+            const n=document.getElementById('pf-nombre').value.trim();
+            const c=document.getElementById('pf-categoria').value;
+            const d=document.getElementById('pf-descripcion').value.trim();
+            if(!n||!c||!d){hoolAlert({title:'Campos Requeridos',msg:'Completa el nombre, categoría y descripción del proyecto para continuar.',type:'warn',confirmText:'Entendido'});return false;}
             return true;
         },
-        2: () => {
-            const e = document.getElementById('pf-etapa').value;
-            if (!e) { showToast('Selecciona la etapa del proyecto','warn'); return false; }
+        2:()=>{
+            if(!document.getElementById('pf-etapa').value){hoolAlert({title:'Etapa Requerida',msg:'Selecciona la etapa actual de tu proyecto para continuar.',type:'warn',confirmText:'Ok'});return false;}
             return true;
         }
     };
-    if (validations[step] && !validations[step]()) return;
+    if(v[step]&&!v[step]()) return;
     document.getElementById(`pstep-${step}`).classList.add('hidden');
     document.getElementById(`pstep-${step+1}`).classList.remove('hidden');
     document.getElementById(`pdot-${step}`).classList.remove('active'); document.getElementById(`pdot-${step}`).classList.add('done');
     document.getElementById(`pdot-${step+1}`).classList.add('active');
-    if (step === 2) {
-        document.getElementById('pf-resumen').innerHTML = `
+    if(step===2){
+        document.getElementById('pf-resumen').innerHTML=`
             <div>📌 ${escHtml(document.getElementById('pf-nombre').value)}</div>
             <div>📂 ${escHtml(document.getElementById('pf-categoria').value)} · ${escHtml(document.getElementById('pf-etapa').value)}</div>
             <div>🔧 ${escHtml(document.getElementById('pf-tech').value)||'No especificado'}</div>`;
+        // Autofill email asociado en paso 3
+        applyAsociadoEmail();
     }
 };
-window.proyectoBack = (step) => {
+window.proyectoBack=(step)=>{
     document.getElementById(`pstep-${step}`).classList.add('hidden');
     document.getElementById(`pstep-${step-1}`).classList.remove('hidden');
     document.getElementById(`pdot-${step}`).classList.remove('active');
     document.getElementById(`pdot-${step-1}`).classList.remove('done'); document.getElementById(`pdot-${step-1}`).classList.add('active');
 };
 
-document.getElementById('proyecto-form').addEventListener('submit', async (e) => {
+document.getElementById('proyecto-form').addEventListener('submit',async(e)=>{
     e.preventDefault();
-    const nombre = document.getElementById('pf-contacto-nombre').value.trim();
-    const email  = document.getElementById('pf-email').value.trim();
-    if (!nombre||!email) { showToast('Nombre y email son requeridos','warn'); return; }
-    const btn = document.getElementById('pf-submit');
+    const nombre=document.getElementById('pf-contacto-nombre').value.trim();
+    const email=document.getElementById('pf-email').value.trim();
+    if(!nombre||!email){hoolAlert({title:'Datos Requeridos',msg:'Tu nombre completo y correo electrónico son necesarios para enviarte nuestra evaluación.',type:'warn',confirmText:'Completar'});return;}
+    const btn=document.getElementById('pf-submit');
     btn.innerHTML='<span class="spinner"></span>Enviando...'; btn.disabled=true;
     try {
-        await push(ref(db,'proyectos'), {
-            nombre_proyecto: document.getElementById('pf-nombre').value.trim(),
-            categoria:       document.getElementById('pf-categoria').value,
-            descripcion:     document.getElementById('pf-descripcion').value.trim(),
-            tech:            document.getElementById('pf-tech').value.trim(),
-            etapa:           document.getElementById('pf-etapa').value,
-            necesidad:       document.getElementById('pf-necesidad').value.trim(),
-            link:            document.getElementById('pf-link').value.trim(),
-            contacto_nombre: nombre,
-            email, edad: document.getElementById('pf-edad').value,
-            tel:             document.getElementById('pf-tel').value.trim(),
-            ciudad:          document.getElementById('pf-ciudad').value.trim(),
-            fecha:           Date.now(),
-            status:          'pendiente'
+        await push(ref(db,'proyectos'),{
+            nombre_proyecto:document.getElementById('pf-nombre').value.trim(),
+            categoria:document.getElementById('pf-categoria').value,
+            descripcion:document.getElementById('pf-descripcion').value.trim(),
+            tech:document.getElementById('pf-tech').value.trim(),
+            etapa:document.getElementById('pf-etapa').value,
+            necesidad:document.getElementById('pf-necesidad').value.trim(),
+            link:document.getElementById('pf-link').value.trim(),
+            contacto_nombre:nombre, email,
+            edad:document.getElementById('pf-edad').value,
+            tel:document.getElementById('pf-tel').value.trim(),
+            ciudad:document.getElementById('pf-ciudad').value.trim(),
+            fecha:Date.now(), status:'pendiente'
         });
         closeModal('proyecto-modal');
-        showToast('✓ Proyecto enviado — te contactamos en 72 hrs');
         document.getElementById('proyecto-form').reset();
-        // Reset steps
-        ['pstep-1','pstep-2','pstep-3'].forEach((s,i)=>{ document.getElementById(s).classList.toggle('hidden',i!==0); });
-        ['pdot-1','pdot-2','pdot-3'].forEach((d,i)=>{ document.getElementById(d).className='step-dot'+(i===0?' active':''); });
-    } catch(err) { console.error(err); showToast('Error al enviar proyecto','err'); }
-    finally { btn.innerHTML='Enviar Proyecto ↗'; btn.disabled=false; }
+        ['pstep-1','pstep-2','pstep-3'].forEach((s,i)=>{document.getElementById(s).classList.toggle('hidden',i!==0);});
+        ['pdot-1','pdot-2','pdot-3'].forEach((d,i)=>{document.getElementById(d).className='step-dot'+(i===0?' active':'');});
+        hoolAlert({title:'Proyecto Enviado',msg:'Tu proyecto fue registrado exitosamente. Nuestro equipo lo evaluará y te contactará en las próximas 72 horas.',type:'ok',confirmText:'¡Listo!'});
+    } catch(err){
+        console.error(err);
+        hoolAlert({title:'Error al Registrar',msg:'No pudimos guardar tu proyecto. Verifica tu conexión a internet e intenta de nuevo. Si el problema persiste, contáctanos directamente.',type:'error',confirmText:'Entendido'});
+    }
+    finally{btn.innerHTML='Enviar Proyecto ↗';btn.disabled=false;}
 });
 
-// ══════════════════════════════════════════════
-// FORMULARIO LABORATORIO — multi-step + calendario
-// ══════════════════════════════════════════════
-window.selectLabType = (btn) => {
+// ══════════════════════════════════════════
+// FORMULARIO LABORATORIO
+// ══════════════════════════════════════════
+window.selectLabType=(btn)=>{
     document.querySelectorAll('.lab-type-btn').forEach(b=>b.classList.remove('selected'));
     btn.classList.add('selected');
-    document.getElementById('lf-tipo').value = btn.dataset.type;
+    document.getElementById('lf-tipo').value=btn.dataset.type;
 };
 
-window.labNext = (step) => {
-    const validations = {
-        1: () => {
-            if (!document.getElementById('lf-tipo').value) { showToast('Selecciona un tipo de laboratorio','warn'); return false; }
-            if (!document.getElementById('lf-sede').value) { showToast('Selecciona una sede','warn'); return false; }
+window.labNext=(step)=>{
+    const v={
+        1:()=>{
+            if(!document.getElementById('lf-tipo').value){hoolAlert({title:'Tipo Requerido',msg:'Selecciona el tipo de laboratorio al que deseas acceder.',type:'warn',confirmText:'Ok'});return false;}
+            if(!document.getElementById('lf-sede').value){hoolAlert({title:'Sede Requerida',msg:'Selecciona la sede a la que asistirás.',type:'warn',confirmText:'Ok'});return false;}
             return true;
         },
-        2: () => {
-            if (!document.getElementById('lf-fecha').value) { showToast('Selecciona una fecha','warn'); return false; }
-            if (!document.getElementById('lf-horario').value) { showToast('Selecciona un horario','warn'); return false; }
+        2:()=>{
+            if(!document.getElementById('lf-fecha').value){hoolAlert({title:'Fecha Requerida',msg:'Selecciona un día disponible en el calendario.',type:'warn',confirmText:'Ok'});return false;}
+            if(!document.getElementById('lf-horario').value){hoolAlert({title:'Horario Requerido',msg:'Selecciona el horario que prefieres para tu visita.',type:'warn',confirmText:'Ok'});return false;}
             return true;
         }
     };
-    if (!validations[step]()) return;
+    if(!v[step]()) return;
     document.getElementById(`lstep-${step}`).classList.add('hidden');
     document.getElementById(`lstep-${step+1}`).classList.remove('hidden');
     document.getElementById(`ldot-${step}`).classList.remove('active'); document.getElementById(`ldot-${step}`).classList.add('done');
     document.getElementById(`ldot-${step+1}`).classList.add('active');
-    if (step === 2) {
-        document.getElementById('lf-resumen').innerHTML = `
+    if(step===2){
+        document.getElementById('lf-resumen').innerHTML=`
             <div>⬡ Lab: ${escHtml(document.getElementById('lf-tipo').value.toUpperCase())}</div>
             <div>📍 Sede: ${escHtml(document.getElementById('lf-sede').value)}</div>
             <div>📅 Fecha: ${escHtml(document.getElementById('lf-fecha').value)}</div>
             <div>🕐 Horario: ${escHtml(document.getElementById('lf-horario').value)}</div>`;
+        // Autofill email asociado
+        applyAsociadoEmail();
     }
 };
-window.labBack = (step) => {
+window.labBack=(step)=>{
     document.getElementById(`lstep-${step}`).classList.add('hidden');
     document.getElementById(`lstep-${step-1}`).classList.remove('hidden');
     document.getElementById(`ldot-${step}`).classList.remove('active');
     document.getElementById(`ldot-${step-1}`).classList.remove('done'); document.getElementById(`ldot-${step-1}`).classList.add('active');
 };
 
-document.getElementById('lab-form').addEventListener('submit', async (e) => {
+document.getElementById('lab-form').addEventListener('submit',async(e)=>{
     e.preventDefault();
-    const nombre = document.getElementById('lf-nombre').value.trim();
-    const email  = document.getElementById('lf-email').value.trim();
-    if (!nombre||!email) { showToast('Nombre y email requeridos','warn'); return; }
-    const btn = document.getElementById('lf-submit');
+    const nombre=document.getElementById('lf-nombre').value.trim();
+    const email=document.getElementById('lf-email').value.trim();
+    if(!nombre||!email){hoolAlert({title:'Datos Requeridos',msg:'Tu nombre y correo son necesarios para confirmar la reserva y enviarte la confirmación.',type:'warn',confirmText:'Completar'});return;}
+    const btn=document.getElementById('lf-submit');
     btn.innerHTML='<span class="spinner"></span>Confirmando...'; btn.disabled=true;
     try {
-        await push(ref(db,'laboratorios'), {
-            tipo:         document.getElementById('lf-tipo').value,
-            sede:         document.getElementById('lf-sede').value,
-            proposito:    document.getElementById('lf-proposito').value.trim(),
+        await push(ref(db,'laboratorios'),{
+            tipo:document.getElementById('lf-tipo').value,
+            sede:document.getElementById('lf-sede').value,
+            proposito:document.getElementById('lf-proposito').value.trim(),
             fecha_reserva:document.getElementById('lf-fecha').value,
-            horario:      document.getElementById('lf-horario').value,
-            nombre, email, edad: document.getElementById('lf-edad').value,
-            tel:          document.getElementById('lf-tel').value.trim(),
-            fecha_registro: Date.now(),
-            status:       'pendiente'
+            horario:document.getElementById('lf-horario').value,
+            nombre, email,
+            edad:document.getElementById('lf-edad').value,
+            tel:document.getElementById('lf-tel').value.trim(),
+            fecha_registro:Date.now(), status:'pendiente'
         });
         closeModal('lab-modal');
-        showToast('✓ Reserva confirmada — te esperamos ese día');
         document.getElementById('lab-form').reset();
         document.querySelectorAll('.lab-type-btn').forEach(b=>b.classList.remove('selected'));
-        ['lstep-1','lstep-2','lstep-3'].forEach((s,i)=>{ document.getElementById(s).classList.toggle('hidden',i!==0); });
-        ['ldot-1','ldot-2','ldot-3'].forEach((d,i)=>{ document.getElementById(d).className='step-dot'+(i===0?' active':''); });
+        ['lstep-1','lstep-2','lstep-3'].forEach((s,i)=>{document.getElementById(s).classList.toggle('hidden',i!==0);});
+        ['ldot-1','ldot-2','ldot-3'].forEach((d,i)=>{document.getElementById(d).className='step-dot'+(i===0?' active':'');});
         renderCalendar();
-    } catch(err) { console.error(err); showToast('Error al reservar','err'); }
-    finally { btn.innerHTML='Confirmar Reserva ✓'; btn.disabled=false; }
+        hoolAlert({title:'Reserva Confirmada',msg:`Tu lugar en el laboratorio quedó registrado. Te esperamos el día que seleccionaste. Trae tu visión y ganas de construir.`,type:'ok',confirmText:'¡Nos vemos!'});
+    } catch(err){
+        console.error(err);
+        hoolAlert({title:'Error al Reservar',msg:'No pudimos registrar tu reserva. Verifica tu conexión e intenta de nuevo.',type:'error',confirmText:'Entendido'});
+    }
+    finally{btn.innerHTML='Confirmar Reserva ✓';btn.disabled=false;}
 });
 
-// ══════════════════════════════════════════════
+// ══════════════════════════════════════════
 // CALENDARIO
-// ══════════════════════════════════════════════
-let calYear, calMonth;
-
-function initCal() {
-    const now = new Date();
-    calYear  = now.getFullYear();
-    calMonth = now.getMonth();
-    renderCalendar();
-}
-
-window.renderCalendar = function() {
-    const months = ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
-    document.getElementById('cal-month-label').textContent = `${months[calMonth]} ${calYear}`;
-    const grid  = document.getElementById('cal-grid');
-    const today = new Date(); today.setHours(0,0,0,0);
-    const first = new Date(calYear, calMonth, 1);
-    let dow = first.getDay(); // 0=Sun
-    dow = dow===0 ? 6 : dow-1; // Convert to Mon=0
-    const daysInMonth = new Date(calYear, calMonth+1, 0).getDate();
-    let html = '';
-    for (let i=0; i<dow; i++) html += `<div class="cal-day empty"></div>`;
-    for (let d=1; d<=daysInMonth; d++) {
-        const date = new Date(calYear, calMonth, d);
-        const isPast = date < today;
-        const isToday = date.getTime()===today.getTime();
-        const isWeekend = date.getDay()===0||date.getDay()===6;
-        let cls = 'cal-day';
-        if (isPast||isWeekend) cls += ' disabled';
-        else if (isToday) cls += ' today';
-        const dateStr = `${d.toString().padStart(2,'0')} ${['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'][calMonth]} ${calYear}`;
-        const onclick = (!isPast&&!isWeekend) ? `onclick="selectCalDay(this,'${dateStr}')"` : '';
-        html += `<div class="${cls}" ${onclick}>${d}</div>`;
+// ══════════════════════════════════════════
+let calYear,calMonth;
+function initCal(){const now=new Date();calYear=now.getFullYear();calMonth=now.getMonth();renderCalendar();}
+window.renderCalendar=function(){
+    const months=['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
+    document.getElementById('cal-month-label').textContent=`${months[calMonth]} ${calYear}`;
+    const grid=document.getElementById('cal-grid');
+    const today=new Date();today.setHours(0,0,0,0);
+    const first=new Date(calYear,calMonth,1);
+    let dow=first.getDay();dow=dow===0?6:dow-1;
+    const daysInMonth=new Date(calYear,calMonth+1,0).getDate();
+    let html='';
+    for(let i=0;i<dow;i++) html+=`<div class="cal-day empty"></div>`;
+    for(let d=1;d<=daysInMonth;d++){
+        const date=new Date(calYear,calMonth,d);
+        const isPast=date<today;
+        const isToday=date.getTime()===today.getTime();
+        const isWeekend=date.getDay()===0||date.getDay()===6;
+        let cls='cal-day';
+        if(isPast||isWeekend) cls+=' disabled';
+        else if(isToday) cls+=' today';
+        const dateStr=`${d.toString().padStart(2,'0')} ${['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'][calMonth]} ${calYear}`;
+        const onclick=(!isPast&&!isWeekend)?`onclick="selectCalDay(this,'${dateStr}')"` :'';
+        html+=`<div class="${cls}" ${onclick}>${d}</div>`;
     }
-    grid.innerHTML = html;
+    grid.innerHTML=html;
 };
-
-window.calPrev = () => { calMonth--; if(calMonth<0){calMonth=11;calYear--;} renderCalendar(); };
-window.calNext = () => { calMonth++; if(calMonth>11){calMonth=0;calYear++;} renderCalendar(); };
-window.selectCalDay = (el, dateStr) => {
+window.calPrev=()=>{calMonth--;if(calMonth<0){calMonth=11;calYear--;}renderCalendar();};
+window.calNext=()=>{calMonth++;if(calMonth>11){calMonth=0;calYear++;}renderCalendar();};
+window.selectCalDay=(el,dateStr)=>{
     document.querySelectorAll('#cal-grid .cal-day').forEach(d=>d.classList.remove('selected'));
     el.classList.add('selected');
-    document.getElementById('lf-fecha').value = dateStr;
-    const disp = document.getElementById('cal-selected-display');
-    disp.textContent = `📅 Seleccionado: ${dateStr}`; disp.classList.remove('hidden');
+    document.getElementById('lf-fecha').value=dateStr;
+    const disp=document.getElementById('cal-selected-display');
+    disp.textContent=`📅 Seleccionado: ${dateStr}`; disp.classList.remove('hidden');
 };
-
 initCal();
 
-// ── SOCIOS (localStorage original) ─────────
-window.handleAuth = (type) => {
-    const user = document.getElementById('user-input').value;
-    const pass = document.getElementById('pass-input').value;
-    if (!user||!pass) return alert("Completa los campos.");
-    let users = JSON.parse(localStorage.getItem('hool_users'))||[];
-    if (type==='register') {
-        if (users.find(u=>u.username===user)) return alert("Usuario existente.");
+// ══════════════════════════════════════════
+// SOCIOS — localStorage + autofill email
+// ══════════════════════════════════════════
+window.handleAuth=(type)=>{
+    const user=document.getElementById('user-input').value.trim();
+    const pass=document.getElementById('pass-input').value;
+    if(!user||!pass){
+        hoolAlert({title:'Campos Vacíos',msg:'Ingresa tu usuario y contraseña para continuar.',type:'warn',confirmText:'Ok'});
+        return;
+    }
+    let users=JSON.parse(localStorage.getItem('hool_users'))||[];
+
+    if(type==='register'){
+        if(users.find(u=>u.username===user)){
+            hoolAlert({title:'Usuario Existente',msg:`El usuario "${user}" ya está registrado. Intenta con otro nombre de usuario o inicia sesión.`,type:'warn',confirmText:'Entendido'});
+            return;
+        }
         users.push({username:user,password:pass});
         localStorage.setItem('hool_users',JSON.stringify(users));
-        alert("Mente vinculada.");
+        hoolAlert({title:'Mente Vinculada',msg:`Bienvenido al ecosistema HÓOL, ${user}. Tu cuenta de asociado fue creada exitosamente.`,type:'ok',confirmText:'¡Listo!'});
     } else {
-        const valid = users.find(u=>u.username===user&&u.password===pass);
-        if (valid) { sessionStorage.setItem('active_hool_user',user); location.reload(); }
-        else alert("Credenciales inválidas.");
+        const valid=users.find(u=>u.username===user&&u.password===pass);
+        if(valid){
+            sessionStorage.setItem('active_hool_user',user);
+            // El email del asociado lo almacenamos igual que el username (si quieres guardarlo puedes pedirlo en el registro)
+            // Usamos el username como identificador visible; para email usamos lo guardado si existe
+            const emailGuardado = valid.email || null;
+            sessionStorage.setItem('active_hool_email', emailGuardado || '');
+            location.reload();
+        } else {
+            hoolAlert({title:'Acceso Denegado',msg:'Las credenciales no coinciden con ningún asociado registrado. Verifica tu usuario y contraseña.',type:'error',confirmText:'Reintentar'});
+        }
     }
 };
 
-window.onload = () => {
-    const user = sessionStorage.getItem('active_hool_user');
-    if (user) document.getElementById('auth-section').innerHTML=`<span class="text-hoolGreen text-[10px] font-bold uppercase tracking-widest">${user} (ASOCIADO)</span>`;
+window.onload=()=>{
+    const user=sessionStorage.getItem('active_hool_user');
+    const emailSesion=sessionStorage.getItem('active_hool_email');
+
+    if(user){
+        document.getElementById('auth-section').innerHTML=
+            `<div class="flex items-center gap-3">
+                <span class="text-hoolGreen text-[10px] font-bold uppercase tracking-widest">${user} <span class="text-gray-600">·</span> Asociado</span>
+                <button onclick="cerrarSesionAsociado()" class="text-[9px] font-arimo uppercase tracking-widest text-gray-600 hover:text-red-400 transition">Salir</button>
+            </div>`;
+
+        // Guardar email para autofill — si hay email en sesión úsalo, si no usa el username como fallback solo si parece email
+        if(emailSesion && emailSesion.includes('@')){
+            asociadoEmail = emailSesion;
+        } else {
+            // Sin email guardado — no autorellenar (privacidad)
+            asociadoEmail = null;
+        }
+        // Aplicar autofill a los campos visibles
+        applyAsociadoEmail();
+    }
+
+    toggleModal('login-modal'); // asegura estado correcto
+};
+
+window.cerrarSesionAsociado=()=>{
+    hoolAlert({
+        title:'Cerrar Sesión',
+        msg:'¿Deseas cerrar tu sesión de asociado?',
+        type:'confirm',
+        confirmText:'Sí, salir',
+        cancelText:'Cancelar',
+        onConfirm:()=>{
+            sessionStorage.removeItem('active_hool_user');
+            sessionStorage.removeItem('active_hool_email');
+            location.reload();
+        }
+    });
 };
 
 </script>
 
 <!-- Scripts regulares -->
 <script>
-    AOS.init({ duration: 1000, once: true, offset: 80 });
+    AOS.init({ duration:1000, once:true, offset:80 });
     gsap.registerPlugin(ScrollTrigger);
 
     const introTl = gsap.timeline();
-    introTl.from(".layer", { scale: 1.5, duration: 5, ease: "expo.out", stagger: 0.1 });
-    introTl.to("#scroll-hint", { opacity: 1, duration: 1 }, "-=1");
+    introTl.from(".layer",{scale:1.5,duration:5,ease:"expo.out",stagger:0.1});
+    introTl.to("#scroll-hint",{opacity:1,duration:1},"-=1");
 
-    setTimeout(() => {
-        const nav = document.getElementById('main-nav');
-        if (nav) { nav.style.opacity='1'; nav.style.pointerEvents='auto'; }
-    }, 5000);
+    setTimeout(()=>{
+        const nav=document.getElementById('main-nav');
+        if(nav){nav.style.opacity='1';nav.style.pointerEvents='auto';}
+    },5000);
 
-    gsap.to(".layer", {
-        scrollTrigger: { trigger:"#intro-viewport", start:"top top", end:"bottom top", scrub:true },
-        y: (i) => i * 70, scale: (i) => 1 + (i*0.04), ease:"none"
+    gsap.to(".layer",{
+        scrollTrigger:{trigger:"#intro-viewport",start:"top top",end:"bottom top",scrub:true},
+        y:(i)=>i*70, scale:(i)=>1+(i*0.04), ease:"none"
     });
 
-    gsap.to("#plane-trigger", {
+    gsap.to("#plane-trigger",{
         width:"300px",
-        scrollTrigger: { trigger:"#plane-trigger", start:"top 85%", toggleActions:"play none none reverse" }
+        scrollTrigger:{trigger:"#plane-trigger",start:"top 85%",toggleActions:"play none none reverse"}
     });
-
 </script>
 </body>
 </html>
